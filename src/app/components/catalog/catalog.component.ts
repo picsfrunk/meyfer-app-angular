@@ -4,8 +4,11 @@ import { Component } from '@angular/core';
   selector: 'app-catalog',
   imports: [],
   templateUrl: './catalog.component.html',
-  styleUrl: './catalog.component.css'
+  standalone: true,
+  styleUrl: './catalog.component.scss'
 })
 export class CatalogComponent {
+
+
 
 }
