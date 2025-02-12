@@ -9,55 +9,15 @@
     </tr>
     </thead>
     <tbody>
-    <tr>
-      <td>592</td>
-      <td>ABRAZADERA T/U 1/2"</td>
-      <td>$317.6</td>
-    </tr>
-    <tr>
-      <td>556</td>
-      <td>ABRAZADERA T/U 3/4"</td>
-      <td>$317.6</td>
-    </tr>
-    <tr>
-      <td>593</td>
-      <td>ABRAZADERA T/U 1 1/4"</td>
-      <td>$363.8</td>
-    </tr>
-    <tr>
-      <td>594</td>
-      <td>ABRAZADERA T/U 1 1/2"</td>
-      <td>$366.3</td>
-    </tr>
-    <tr>
-      <td>595</td>
-      <td>ABRAZADERA T/U 2"</td>
-      <td>$442.5</td>
-    </tr>
-    <tr>
-      <td>596</td>
-      <td>ABRAZADERA T/U 2 1/2"</td>
-      <td>$475.0</td>
-    </tr>
-    <tr>
-      <td>597</td>
-      <td>ABRAZADERA T/U 3"</td>
-      <td>$533.3</td>
-    </tr>
-    <tr>
-      <td>598</td>
-      <td>ABRAZADERA T/U 4"</td>
-      <td>$614.8</td>
-    </tr>
-    <tr>
-      <td>983</td>
-      <td>ABRAZADERA T/U 6"</td>
-      <td>$876.0</td>
+    <tr *ngFor="let producto of productos">
+      <td>{{ producto.codigo }}</td>
+      <td>{{ producto.descripcion }}</td>
+      <td>${{ producto.precio.toFixed(2) }}</td>
     </tr>
     </tbody>
   </table>
   <div class="catalog-footer">
-    <img src="imagen.png" alt="Abrazadera Tipo U">
+    <img ngSrc="assets/images/abrazadera.png" alt="Abrazadera Tipo U" height="200" width="200">
     <span class="brand">RH COMERCIAL</span>
   </div>
 </div>
