@@ -1,8 +1,8 @@
-<div class="product">
-  <h3>{{ product.name }}</h3>
+<div class="product-container">
+  <h3 class="product-title">{{ product.name }}</h3>
   <img [src]="product.image" [alt]="product.name">
 
-  <table>
+  <table class="product-table">
     <thead>
     <tr>
       <th>Código</th>
@@ -14,7 +14,7 @@
     <tr *ngFor="let item of product.items">
       <td>{{ item.code }}</td>
       <td>{{ item.description }}</td>
-      <td>${{ item.price | number:'1.2-2' }}</td>
+      <td class="product-price">${{ item.price | number:'1.2-2' }}</td>
     </tr>
     </tbody>
   </table>

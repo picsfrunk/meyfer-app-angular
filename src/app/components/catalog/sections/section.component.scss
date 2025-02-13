@@ -1,10 +1,12 @@
-.section {
-  border: 1px solid #ddd;
-  padding: 15px;
-  margin-bottom: 20px;
-  img {
-    width: 100px;
-    height: auto;
-    display: block;
+.section-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-medium);
+  width: 100%;
+  padding: var(--spacing-large) 0;
+  border-bottom: 2px dashed var(--color-outline); // Separador entre secciones
+
+  &:last-child {
+    border-bottom: none; // Elimina el separador en la última sección
   }
 }
