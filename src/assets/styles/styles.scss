@@ -1,80 +1,35 @@
 @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@200;400;700;800;900&family=Roboto:wght@300;400;500;600;700;900&display=swap');
-//@import url('./styles/layout.scss');
-//@import url('./styles/inputs.scss');
-//@import url('./styles/typeface.scss');
-//@import url('./styles/shadow.scss');
-//@import url('./styles/animated.scss');
-//@import url('./styles/button.scss');
-//@import url('./styles/checkbox.scss');
-
 
 :root {
-  --main-font: 'Mulish', 'Open Sans', 'Verdana', 'sans-serif';
-  --typeface-alt: 'Roboto', 'Open Sans', 'Verdana', 'sans-serif';
+  --main-font: 'Mulish', 'Open Sans', 'Verdana', sans-serif;
+  --typeface-alt: 'Roboto', 'Open Sans', 'Verdana', sans-serif;
   --font-small: 1rem;
   --font-medium: 1.5rem;
   --font-large: 3rem;
-  --border-radius: 1rem;
-  --border-small: 1px;
-  --border-medium: 2px;
-  --border-large: 4px;
-  --border-xlarge: 10px;
-
-  // Default Size for elements
-  --header-height: 6rem;
-  --search-height: 5rem;
-  --footer-height: 4rem;
-  --element-height: 3rem;
-
-  // Padding | Margin | Gap
-  --spacing-small: 0.8rem;
-  --spacing: 1.6rem;
-  --spacing-medium: 2rem;
-  --spacing-large: 2.4rem;
-
-  /* Border Radius */
   --border-radius-sm: 0.3rem;
-  --border-radius: 0.5rem;
   --border-radius-md: 1rem;
   --border-radius-xl: 1.5rem;
-
-  /* First option color palette */
-  // Font
-  --typeface-color: hsla(206, 100%, 10%, 1);
-  --typeface-color-light: hsla(206, 20%, 70%, 1);
-
-  // High Contrast
-  --color-dark: black;
-  --color-white: white;
-
-  // Gradients
-  --gradient-vertical: linear-gradient(to bottom, hsla(0, 0, 0, 1) 0%, var(--color-white) 10%);
-
-  // Rest
-  --color-primary: hsla(206, 100%, 38%, 1);
-  --color-primary-hover: hsla(206, 100%, 45%, 1);
-  --color-secondary: hsl(206, 100%, 55%, 1);
-  --color-secondary-hover: hsla(206, 100%, 65%, 1);
+  --spacing-small: 0.8rem;
+  --spacing-medium: 2rem;
+  --spacing-large: 2.4rem;
+  --color-primary: hsl(206, 100%, 38%);
+  --color-secondary: hsl(206, 100%, 55%);
   --color-background: #ededed;
-  --color-on-background: #201a19;
-  --color-surface: #d3d3d3;
-  --color-on-surface: #201a19;
   --color-outline: #c6b3b0;
-
-  --color-important: rgb(230, 0, 0);
-  --color-important-hover: rgb(194, 0, 0);
-  --color-warning: rgb(230, 180, 0);
-  --color-warning-hover: rgb(205, 154, 0);
-
-  /* Poin of Interest Color */
-  --color-focus: rgb(255, 166, 0);
-  --color-hot: hsla(0, 80%, 50%, 1);
-  --color-error: rgb(160, 0, 0);
-
-  /* Animations */
   --transition-fast: 0.5s;
   --transition-slow: 1s;
-  --translateY: -8%;
+}
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin grid-layout {
+  display: grid;
+  width: 100%;
+  min-height: 100vh;
 }
 
 * {
@@ -86,23 +41,16 @@
   font-size: inherit;
 }
 
-*::selection {
-  background-color: var(--color-secondary);
-  color: var(--color-on-secondary);
-}
-
 html {
   font-family: var(--main-font);
-  font-size: var(--font-small);
+  font-size: 80%;
   background-color: var(--color-background);
   color: var(--color-on-background);
   scroll-behavior: smooth;
 }
 
 .centered {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include flex-center;
 }
 
 .incolumn {
@@ -111,48 +59,31 @@ html {
 }
 
 .screen {
-  display: grid;
-  width: 100%;
-  min-height: 100vh;
+  @include grid-layout;
 }
 
 .black_word {
   font-weight: 900;
-}
 
-.black_word > span {
-  font-weight: normal;
+  span {
+    font-weight: normal;
+  }
 }
-
-.app-header {
-  grid-area: header;
-}
-.app-search {
-  grid-area: search;
-}
-.app-aside {
-  grid-area: aside;
-}
-.app-footer {
-  grid-area: footer;
-}
-
 
 .btn {
-  color: var(--color-secondary-font);
-  background-color: var(--color-primary) ;
+  color: var(--color-white);
+  background-color: var(--color-primary);
   border-radius: 7px;
-  border: 0ch;
-  /* padding: 0.5em 1em; */
   font-family: var(--main-font);
   font-weight: 300;
   font-size: 1em;
   border: 2px solid var(--color-primary);
-  padding: var(--spacing-small) var(--spacing-small);
-}
+  padding: var(--spacing-small);
 
-.btn:hover {
-  cursor: pointer;
-  background-color: var(--color-secondary);
-  border-color: var(--color-secondary);
+  &:hover {
+    cursor: pointer;
+    background-color: var(--color-secondary);
+    border-color: var(--color-secondary);
+    transition: var(--transition-fast);
+  }
 }

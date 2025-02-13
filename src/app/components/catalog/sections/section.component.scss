@@ -2,11 +2,17 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: var(--spacing-medium);
-  width: 100%;
+  width: max-content;
   padding: var(--spacing-large) 0;
-  border-bottom: 2px dashed var(--color-outline); // Separador entre secciones
+  border-bottom: 2px dashed var(--color-outline);
 
   &:last-child {
-    border-bottom: none; // Elimina el separador en la última sección
+    border-bottom: none;
   }
+}
+
+img {
+  max-width: 4em;
+  height: auto;
+  margin-bottom: var(--spacing-small);
 }
