@@ -1,23 +1,7 @@
-<div class="catalog-table">
-  <h2 class="table-title">ABRAZADERAS TIPO "U"</h2>
-  <div class="catalog-table-header">
-    <img ngSrc="assets/images/ubolt.jpg" alt="Abrazadera Tipo U" height="351" width="351">
-    <span class="brand">MEIFER DISTRIBUIDORA</span>
+<div class="catalog-container">
+  <h1>Catálogo de Productos</h1>
+
+  <div *ngFor="let section of sections">
+    <app-section [section]="section"></app-section>
   </div>
-  <table>
-    <thead>
-    <tr>
-      <th>Código</th>
-      <th>Descripción</th>
-      <th>Precio</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let producto of productos">
-      <td>{{ producto.codigo }}</td>
-      <td>{{ producto.descripcion }}</td>
-      <td>${{ producto.precio.toFixed(2) }}</td>
-    </tr>
-    </tbody>
-  </table>
 </div>
