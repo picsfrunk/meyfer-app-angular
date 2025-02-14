@@ -3,19 +3,20 @@
 :root {
   --main-font: 'Mulish', 'Open Sans', 'Verdana', sans-serif;
   --typeface-alt: 'Roboto', 'Open Sans', 'Verdana', sans-serif;
-  --font-small: 1rem;
+  --font-small: 0.7rem;
   --font-medium: 1.5rem;
-  --font-large: 3rem;
+  --font-large: 2.5rem;
+  --font-extra-large: 4rem;
   --border-radius-sm: 0.3rem;
   --border-radius-md: 1rem;
   --border-radius-xl: 1.5rem;
-  --spacing-small: 0.8rem;
-  --spacing-medium: 2rem;
+  --spacing-small: 0.5rem;
+  --spacing-medium: 1rem;
   --spacing-large: 2.4rem;
   --color-primary: hsl(206, 100%, 38%);
   --color-secondary: hsl(206, 100%, 55%);
   --color-background: #ededed;
-  --color-outline: #c6b3b0;
+  --color-outline: beige;
   --transition-fast: 0.5s;
   --transition-slow: 1s;
 }
@@ -43,7 +44,7 @@
 
 html {
   font-family: var(--main-font);
-  font-size: 80%;
+  font-size: 70%;
   background-color: var(--color-background);
   color: var(--color-on-background);
   scroll-behavior: smooth;
