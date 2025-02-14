@@ -1,0 +1,25 @@
+.section-container {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(300px, 1fr));  gap: var(--spacing-medium);
+  width: 100%;
+  max-width: 1200px;
+  padding: var(--spacing-large) 0;
+  border-bottom: 2px dashed var(--color-outline);
+  //align-items: start;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+img {
+  width: 100%;
+  max-width: 4em;
+  height: auto;
+  object-fit: contain;
+  margin-bottom: var(--spacing-small);
+}
+
+h2 {
+  font-size: var(--font-large);
+}
