@@ -88,3 +88,21 @@ html {
     transition: var(--transition-fast);
   }
 }
+
+@media print {
+  .catalog-title {
+    break-after: avoid; // Evita que el título quede solo en una página
+    page-break-after: avoid;
+  }
+
+  .section-container {
+    break-before: page; // Cada sección nueva empieza en una nueva página
+    break-inside: avoid; // Evita cortes dentro de una misma sección
+    page-break-before: always;
+  }
+
+  .section-container:first-child {
+    break-before: auto; // La primera sección no debe generar un salto de página
+    page-break-before: auto;
+  }
+}

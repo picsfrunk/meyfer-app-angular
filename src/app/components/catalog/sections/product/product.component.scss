@@ -10,6 +10,8 @@
   align-items: stretch;
   width: 100%;
   flex-grow: 2;
+  page-break-inside: avoid;
+  break-inside: avoid;
 
   img {
     max-width: 2em;
