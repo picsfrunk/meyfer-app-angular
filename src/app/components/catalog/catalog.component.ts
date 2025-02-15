@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {NgForOf} from '@angular/common';
 import { Section } from '../../../models/interfaces.model';
 import { MOCK_SECTIONS } from '../../../data/mock.data';
-import { SectionComponent } from './sections/section.component';
+import { SectionComponent } from '../sections/section.component';
 
 
 @Component({
