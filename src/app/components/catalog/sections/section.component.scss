@@ -22,3 +22,14 @@ img {
 h2 {
   font-size: var(--font-large);
 }
+
+@media print {
+  .section-container {
+    break-before: page; 
+    break-inside: avoid;
+  }
+
+  .section-container:first-child {
+    break-before: auto !important;
+  }
+}
