@@ -1,1 +1,20 @@
-<p>data-upload works!</p>
+<div class="upload-container">
+  <h3>Cargar Archivo de Productos</h3>
+
+  <div class="upload-box">
+    <label class="file-label">
+      <input type="file" (change)="onFileChange($event)" accept=".xlsx, .xls"  />
+      <button type="button" class="upload-btn">📂 Seleccionar Archivo</button>
+    </label>
+
+    <div *ngIf="fileName" class="file-info">
+      <p><strong>Archivo:</strong> {{ fileName }}</p>
+      <p><strong>Tamaño:</strong> {{ fileSize }} KB</p>
+    </div>
+
+    <div class="btn-group" *ngIf="fileName">
+      <button type="button" class="clear-btn" (click)="clearFile()">❌ Limpiar</button>
+      <button type="button" class="confirm-btn" (click)="confirmUpload()">✅ Aceptar</button>
+    </div>
+  </div>
+</div>
