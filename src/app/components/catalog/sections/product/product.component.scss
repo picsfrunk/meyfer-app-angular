@@ -53,3 +53,11 @@
     background-color: var(--color-outline);
   }
 }
+
+@media print {
+  .product-container {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+}
