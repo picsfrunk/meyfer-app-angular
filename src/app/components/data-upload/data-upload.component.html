@@ -1,20 +1,11 @@
 <div class="upload-container">
-  <h3>Cargar Archivo de Productos</h3>
+  <h2>Cargar Archivo Excel</h2>
 
-  <div class="upload-box">
-    <label class="file-label">
-      <input type="file" (change)="onFileChange($event)" accept=".xlsx, .xls"  />
-      <button type="button" class="upload-btn">📂 Seleccionar Archivo</button>
-    </label>
+  <input type="file" (change)="onFileChange($event)" accept=".xlsx, .xls" />
 
-    <div *ngIf="fileName" class="file-info">
-      <p><strong>Archivo:</strong> {{ fileName }}</p>
-      <p><strong>Tamaño:</strong> {{ fileSize }} KB</p>
-    </div>
+  <button class="btn" (click)="confirmUpload()" [disabled]="!isFileLoaded">
+    Confirmar Carga
+  </button>
 
-    <div class="btn-group" *ngIf="fileName">
-      <button type="button" class="clear-btn" (click)="clearFile()">❌ Limpiar</button>
-      <button type="button" class="confirm-btn" (click)="confirmUpload()">✅ Aceptar</button>
-    </div>
-  </div>
+  <p *ngIf="uploadMessage">{{ uploadMessage }}</p>
 </div>

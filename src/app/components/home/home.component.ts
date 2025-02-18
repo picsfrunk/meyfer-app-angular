@@ -8,7 +8,7 @@ import {RouterLink} from '@angular/router';
   ],
   templateUrl: './home.component.html',
   standalone: true,
-  styleUrl: './home.component.css'
+  styleUrl: './home.component.scss'
 })
 export class HomeComponent {
 

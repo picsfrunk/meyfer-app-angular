@@ -1,50 +1,128 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import * as XLSX from 'xlsx';
+import { Router } from '@angular/router';
+import {Item, Product, Section} from '../../../models/interfaces.model';
+import {CommonModule} from '@angular/common';
 
 @Component({
   selector: 'app-data-upload',
   imports: [CommonModule],
-  templateUrl: './data-upload.component.html',
   standalone: true,
-  styleUrl: './data-upload.component.scss'
+  templateUrl: './data-upload.component.html',
+  styleUrls: ['./data-upload.component.scss']
 })
 export class DataUploadComponent {
-  data: any[] = [];
-  fileName: string | null = null;
-  fileSize: number | null = null;
+  sections: Section[] = [];
+  isFileLoaded = false;
+  uploadMessage = '';
 
-  onFileChange(event: any) {
-    const target: DataTransfer = <DataTransfer>event.target;
-    if (target.files.length !== 1) return;
+  constructor(private router: Router) {}
 
-    const reader: FileReader = new FileReader();
+  onFileChange(event: any): void {
+    const file = event.target.files[0];
+
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.readAsBinaryString(file);
+
     reader.onload = (e: any) => {
-      const binaryString: string = e.target.result;
-      const workbook = XLSX.read(binaryString, { type: 'binary' });
+      const binaryData = e.target.result;
+      const workbook = XLSX.read(binaryData, { type: 'binary' });
+      const sheetName = workbook.SheetNames[0];
+      const sheet = workbook.Sheets[sheetName];
 
-      const sheetName: string = workbook.SheetNames[0]; // Tomar la primera hoja
-      const worksheet = workbook.Sheets[sheetName];
+      const data: any[] = XLSX.utils.sheet_to_json(sheet, { header: 1 });
 
-      this.data = XLSX.utils.sheet_to_json(worksheet); // Convierte a JSON
-      console.log(this.data); // Aquí puedes ver los datos en consola
+      if (data.length < 2) {
+        this.uploadMessage = 'El archivo no tiene datos válidos.';
+        return;
+      }
 
-      localStorage.setItem('products', JSON.stringify(this.data)); // Guardar en localStorage
+      this.processData(data);
+      this.isFileLoaded = true;
     };
-
-    reader.readAsArrayBuffer(target.files[0]);
   }
 
+  processData(data: any[]): void {
+    const headers = data[0].map((h: any) => h.toString().trim().toUpperCase());
+    const items: Item[] = [];
 
-  clearFile() {
-    this.fileName = null;
-    this.fileSize = null;
-  }
+    localStorage.clear()
 
-  confirmUpload() {
-    if (this.fileName) {
-      alert(`Archivo ${this.fileName} confirmado para carga.`);
+    for (let i = 1; i < data.length; i++) {
+      const row = data[i];
+
+      const item: Item = {
+        id: Number(row[headers.indexOf('CODIGO')]) || 0,
+        code: String(row[headers.indexOf('CODIGO')] || '').trim(), // Asegura que sea string
+        description: String(row[headers.indexOf('DESCRIPCIÓN')] || '').trim(), // Asegura que sea string
+        price: this.parsePrice(row[headers.indexOf('PRECIO')]) // Convierte precio correctamente
+      };
+
+      if (item.id) {
+        items.push(item);
+      }
     }
+
+    this.sections = this.groupBySection(items);
+    localStorage.setItem('catalogData', JSON.stringify(this.sections));
   }
 
+  parsePrice(priceStr: any): number {
+    if (typeof priceStr === 'number') {
+      return priceStr; // Si ya es un número, no hay que convertir nada.
+    }
+    if (typeof priceStr !== 'string') {
+      return 0; // Manejo de error si no es ni string ni número.
+    }
+
+    return Number(priceStr.replace(/[$,]/g, '').trim()) || 0;
+  }
+
+  mapSection(rubro: string): string {
+    const rubroMap: { [key: string]: string } = {
+      'S': 'Sanitarios'
+      // Se pueden agregar más rubros aquí si es necesario
+    };
+    return rubroMap[rubro.toUpperCase()] || 'Otros';
+  }
+
+  groupBySection(items: Item[]): Section[] {
+    const groupedSections: { [key: string]: Product[] } = {};
+
+    items.forEach(item => {
+      const sectionTitle = this.mapSection(item.code[0]); // Suponiendo que el código comienza con la letra del rubro
+      if (!groupedSections[sectionTitle]) {
+        groupedSections[sectionTitle] = [];
+      }
+
+      const existingProduct = groupedSections[sectionTitle].find(p => p.name === item.description);
+      if (existingProduct) {
+        existingProduct.items.push(item);
+      } else {
+        groupedSections[sectionTitle].push({
+          id: item.id,
+          name: item.description,
+          image: '', // Puedes asignar una imagen predeterminada aquí
+          items: [item]
+        });
+      }
+    });
+
+    return Object.keys(groupedSections).map((sectionTitle, index) => ({
+      id: index + 1,
+      title: sectionTitle,
+      image: '', // Imagen general de la sección (puedes cambiar esto según la lógica de negocio)
+      products: groupedSections[sectionTitle]
+    }));
+  }
+
+  confirmUpload(): void {
+    this.uploadMessage = 'Archivo cargado exitosamente. Redirigiendo...';
+
+    setTimeout(() => {
+      this.router.navigate(['/catalog']);
+    }, 3000);
+  }
 }
