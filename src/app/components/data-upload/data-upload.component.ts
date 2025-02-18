@@ -60,6 +60,8 @@ export class DataUploadComponent {
         price: this.parsePrice(row[headers.indexOf('PRECIO')]) // Convierte precio correctamente
       };
 
+      console.log(item);
+
       if (item.id) {
         items.push(item);
       }

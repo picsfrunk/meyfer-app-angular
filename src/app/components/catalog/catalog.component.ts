@@ -21,7 +21,7 @@ export class CatalogComponent implements OnInit {
   sections: any[] = [];
 
   ngOnInit() {
-    const storedData = localStorage.getItem('products');
+    const storedData = localStorage.getItem('catalogData');
     if (storedData) {
       const products = JSON.parse(storedData);
       this.organizeBySections(products);
