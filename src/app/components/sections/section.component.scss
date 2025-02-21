@@ -5,7 +5,6 @@
   max-width: 1200px;
   padding: var(--spacing-large) 0;
   border-bottom: 2px dashed var(--color-outline);
-  //align-items: start;
 
   &:last-child {
     border-bottom: none;
@@ -22,4 +21,15 @@ img {
 
 h2 {
   font-size: var(--font-large);
+}
+
+@media print {
+  .section-container {
+    break-before: page; 
+    break-inside: avoid;
+  }
+
+  .section-container:first-child {
+    break-before: auto !important;
+  }
 }

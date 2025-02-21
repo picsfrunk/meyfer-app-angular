@@ -1,0 +1,20 @@
+<div class="upload-container">
+  <h2>Cargar Archivo Excel</h2>
+
+    <div>
+        <input type="file" (change)="onFileChange($event)" accept=".xlsx, .xls">
+    </div>
+
+    <p *ngIf="uploadMessage">{{ uploadMessage }}</p>
+
+    <div *ngIf="sheetData">
+        <button class="btn" (click)="confirmUpload()" [disabled]="!isFileLoaded">
+          Confirmar Carga
+        </button>
+        <h3>Uploaded Data:</h3>
+        <pre>{{ sheetData | json }}</pre>
+    </div>
+
+</div>
+
+
