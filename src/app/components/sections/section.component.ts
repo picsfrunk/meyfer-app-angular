@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Section } from '../../../../models/interfaces.model';
-import { ProductComponent } from './product/product.component';
+import { Section } from '../../../models/interfaces.model';
+import { ProductComponent } from '../product/product.component';
 
 @Component({
   selector: 'app-section',
