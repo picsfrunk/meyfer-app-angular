@@ -15,13 +15,13 @@ export const sectionsData: Section[] = [
   },
   {
     id: 2,
-    title: 'Zingueria',
+    title: 'Zinguería',
     image: 'zingeria.jpg',
     products: []
   },
   {
     id: 3,
-    title: 'Ferreteria',
+    title: 'Ferretería',
     image: 'ferreteria.jpg',
     products: []
   },

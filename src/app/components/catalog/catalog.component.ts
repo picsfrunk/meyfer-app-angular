@@ -1,8 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {NgForOf} from '@angular/common';
-import { Section } from '../../../models/interfaces.model';
+import {Product, Section} from '../../../models/interfaces.model';
 import { MOCK_SECTIONS } from '../../../data/mock.data';
+import { STORE_CATALOG_KEY } from '../../../data/constants'
 import { SectionComponent } from '../sections/section.component';
+import {SheetData} from '../../../data/sheet.data';
+import {sectionsData} from '../../../data/sections.data';
 
 
 @Component({
@@ -18,28 +21,26 @@ import { SectionComponent } from '../sections/section.component';
 export class CatalogComponent implements OnInit {
   // sections: Section[] = MOCK_SECTIONS
 
-  sections: any[] = [];
+  sections: Section[] = JSON.parse(JSON.stringify(sectionsData)); // Clonamos para evitar mutaciones accidentales
 
   ngOnInit() {
-    const storedData = localStorage.getItem('catalogData');
-    if (storedData) {
-      const products = JSON.parse(storedData);
-      this.organizeBySections(products);
-    }
-    console.log(storedData)
+    this.loadData();
   }
 
-  organizeBySections(products: any[]) {
-    const sectionsMap = new Map();
+  loadData() {
+    const storedData = localStorage.getItem(STORE_CATALOG_KEY);
+    if (storedData) {
+      const sheetData: SheetData[] = JSON.parse(storedData);
+      console.log(sheetData)
 
-    products.forEach(product => {
-      const sectionName = product['Sección']; // Suponiendo que la columna del Excel se llama "Sección"
-      if (!sectionsMap.has(sectionName)) {
-        sectionsMap.set(sectionName, []);
-      }
-      sectionsMap.get(sectionName).push(product);
-    });
+      this.organizeBySections(sheetData);
+      this.sections = JSON.parse(storedData);
+      console.log("sections: " + JSON.stringify(this.sections));
+    }
+  }
 
-    this.sections = Array.from(sectionsMap, ([name, products]) => ({ name, products }));
+  organizeBySections(productsSheet: SheetData[]) {
+    //TODO: como convertir el objeto a tablas
+    // basicamente tiene que convertir SheetData a Sections
   }
 }
