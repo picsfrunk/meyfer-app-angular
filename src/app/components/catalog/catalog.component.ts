@@ -21,7 +21,7 @@ import {sectionsData} from '../../../data/sections.data';
 export class CatalogComponent implements OnInit {
   // sections: Section[] = MOCK_SECTIONS
 
-  sections: Section[] = JSON.parse(JSON.stringify(sectionsData)); // Clonamos para evitar mutaciones accidentales
+  sections: Section[] = JSON.parse(JSON.stringify(sectionsData));
 
   ngOnInit() {
     this.loadData();
@@ -34,13 +34,12 @@ export class CatalogComponent implements OnInit {
       console.log(sheetData)
 
       this.organizeBySections(sheetData);
-      this.sections = JSON.parse(storedData);
       console.log("sections: " + JSON.stringify(this.sections));
     }
   }
 
   organizeBySections(productsSheet: SheetData[]) {
     //TODO: como convertir el objeto a tablas
-    // basicamente tiene que convertir SheetData a Sections
+    // basicamente tiene que convertir y rellenar SheetData a Sections
   }
 }

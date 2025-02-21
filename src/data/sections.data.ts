@@ -4,37 +4,37 @@ export const sectionsData: Section[] = [
   {
     id: 0,
     title: 'Abrazaderas',
-    image: 'abrazaderas.jpg',
+    image: 'assets/images/abrazadera.png',
     products: []
   },
   {
     id: 1,
     title: 'Sanitarios',
-    image: 'sanitarios.jpg',
+    image: 'assets/images/abrazadera.png',
     products: []
   },
   {
     id: 2,
     title: 'Zinguería',
-    image: 'zingeria.jpg',
+    image: 'assets/images/abrazadera.png',
     products: []
   },
   {
     id: 3,
     title: 'Ferretería',
-    image: 'ferreteria.jpg',
+    image: 'assets/images/abrazadera.png',
     products: []
   },
   {
     id: 4,
     title: 'Electricidad',
-    image: 'electricidad.jpg',
+    image: 'assets/images/abrazadera.png',
     products: []
   },
   {
     id: 5,
     title: 'Rural',
-    image: 'rural.jpg',
+    image: 'assets/images/abrazadera.png',
     products: []
   },
 

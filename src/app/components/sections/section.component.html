@@ -1,6 +1,6 @@
 <div class="section-container">
   <h2> {{ section.title }} </h2>
-  <img src="section.image" [alt]="section.title">
+  <img [src]="section.image" [alt]="section.title">
 
   <div *ngFor="let product of section.products">
     <app-product [product]="product"></app-product>
