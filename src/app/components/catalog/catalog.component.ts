@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {NgForOf} from '@angular/common';
 import {Product, Section} from '../../../models/interfaces.model';
 import { MOCK_SECTIONS } from '../../../data/mock.data';
-import { STORE_CATALOG_KEY } from '../../../data/constants'
+import { CATALOG_DB } from '../../../data/constants'
 import { SectionComponent } from '../sections/section.component';
 import {SheetData} from '../../../data/sheet.data';
 import {sectionsData} from '../../../data/sections.data';
@@ -28,7 +28,7 @@ export class CatalogComponent implements OnInit {
   }
 
   loadData() {
-    const storedData = localStorage.getItem(STORE_CATALOG_KEY);
+    const storedData = localStorage.getItem(CATALOG_DB);
     if (storedData) {
       const sheetData: SheetData[] = JSON.parse(storedData);
       console.log(sheetData)

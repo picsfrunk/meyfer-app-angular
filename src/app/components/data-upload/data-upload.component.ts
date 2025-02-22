@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import * as XLSX from 'xlsx';
 import { Router } from '@angular/router';
 import {CommonModule} from '@angular/common';
-import { STORE_CATALOG_KEY } from '../../../data/constants';
+import { CATALOG_DB } from '../../../data/constants';
 import { SheetData } from '../../../data/sheet.data';
+import { DexieDbService } from '../../services/dexie-db.service';
 
 @Component({
   selector: 'app-data-upload',
@@ -17,7 +18,7 @@ export class DataUploadComponent {
   isFileLoaded = false;
   uploadMessage = '';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private db: DexieDbService) {}
 
   onFileChange(event: any) {
     const file = event.target.files[0];
@@ -34,8 +35,7 @@ export class DataUploadComponent {
       console.log('Excel data:', this.sheetData);
       console.log('JSON data:', jsonSheetData);
 
-      localStorage.removeItem(STORE_CATALOG_KEY)
-      localStorage.setItem(STORE_CATALOG_KEY, jsonSheetData);
+      this.saveData(jsonSheetData);
 
     };
 
@@ -44,7 +44,14 @@ export class DataUploadComponent {
 
   }
 
-  confirmUpload() {
+  private saveData(jsonSheetData: string) {
+    // localStorage.removeItem(CATALOG_DB)
+    // localStorage.setItem(CATALOG_DB, jsonSheetData);
+
+    this.db.table('sections')
+  }
+
+  private confirmUpload() {
     this.uploadMessage = 'Datos cargados correctamente. Redirigiendo...';
     setTimeout(() => {
       this.router.navigate(['/catalog']);

@@ -1,1 +1,1 @@
-export const STORE_CATALOG_KEY = 'catalog'
+export const CATALOG_DB = 'catalog'
