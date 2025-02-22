@@ -5,6 +5,7 @@ import {CommonModule} from '@angular/common';
 import { CATALOG_DB } from '../../../data/constants';
 import { SheetData } from '../../../data/sheet.data';
 import { DexieDbService } from '../../services/dexie-db.service';
+import js from '@eslint/js';
 
 @Component({
   selector: 'app-data-upload',
@@ -30,12 +31,15 @@ export class DataUploadComponent {
       const worksheet = workbook.Sheets[firstSheetName];
 
       this.sheetData = XLSX.utils.sheet_to_json(worksheet, { raw: true });
+      this.savoOnDB(this.sheetData)
+
+
       const jsonSheetData = JSON.stringify(this.sheetData);
 
       console.log('Excel data:', this.sheetData);
       console.log('JSON data:', jsonSheetData);
 
-      this.saveData(jsonSheetData);
+      // this.saveData(jsonSheetData);
 
     };
 
@@ -45,13 +49,17 @@ export class DataUploadComponent {
   }
 
   private saveData(jsonSheetData: string) {
-    // localStorage.removeItem(CATALOG_DB)
-    // localStorage.setItem(CATALOG_DB, jsonSheetData);
+    localStorage.removeItem(CATALOG_DB)
+    localStorage.setItem(CATALOG_DB, jsonSheetData);
 
-    this.db.table('sections')
+
   }
 
-  private confirmUpload() {
+  private savoOnDB(data: SheetData[]) {
+    data.forEach((item) => {this.db.addSheetData(item)})
+  }
+
+  confirmUpload() {
     this.uploadMessage = 'Datos cargados correctamente. Redirigiendo...';
     setTimeout(() => {
       this.router.navigate(['/catalog']);
