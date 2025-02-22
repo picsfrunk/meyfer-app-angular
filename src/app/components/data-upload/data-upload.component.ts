@@ -32,13 +32,10 @@ export class DataUploadComponent {
 
       this.sheetData = XLSX.utils.sheet_to_json(worksheet, { raw: true });
       this.savoOnDB(this.sheetData)
-
-
-      const jsonSheetData = JSON.stringify(this.sheetData);
-
       console.log('Excel data:', this.sheetData);
-      console.log('JSON data:', jsonSheetData);
 
+      // const jsonSheetData = JSON.stringify(this.sheetData);
+      // console.log('JSON data:', jsonSheetData);
       // this.saveData(jsonSheetData);
 
     };

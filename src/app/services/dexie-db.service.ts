@@ -16,7 +16,7 @@ export class DexieDbService extends Dexie {
   constructor() {
     super('SheetData');
     this.version(1).stores({
-      dataItem: '++id, CODIGO'
+      dataItem: '++id'
     })
 
     this.open()
