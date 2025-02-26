@@ -1,4 +1,4 @@
-export interface SheetData {
+export interface SheetDataItem {
   CODIGO: number;
   DESCRIPCIÓN: string;
   RUBRO: string;
