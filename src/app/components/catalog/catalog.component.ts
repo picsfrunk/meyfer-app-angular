@@ -2,12 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {NgForOf} from '@angular/common';
 import {Product, Section} from '../../../models/interfaces.model';
 import { MOCK_SECTIONS } from '../../../data/mock.data';
-import { CATALOG_DB } from '../../../data/constants'
 import { SectionComponent } from '../sections/section.component';
 import {SheetDataItem} from '../../../data/sheetDataItem';
 import {sectionsData} from '../../../data/sections.data';
 import {ProductCatalogService} from '../../services/product-catalog.service';
-import {elementAt} from 'rxjs';
 
 
 @Component({
@@ -34,10 +32,14 @@ export class CatalogComponent implements OnInit {
   }
 
   loadData() {
-    this.productCatalogService.getAllSheetData().then((sheetData) => {
-      this.sheetData = sheetData;
-    }).finally( () => {
-      console.log("Datos obtenidos desde service: \n", JSON.stringify(this.sheetData))
+    this.productCatalogService.getAllSheetData()
+      .then((sheetData) => {
+        this.sheetData = sheetData})
+      .catch( e => {
+        console.error("Error al cargar datos: ", e);
+      })
+      .finally( () => {
+        console.log("Datos obtenidos desde service: \n", JSON.stringify(this.sheetData))
     });
 
   }

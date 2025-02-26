@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import * as XLSX from 'xlsx';
 import { Router } from '@angular/router';
 import {CommonModule} from '@angular/common';
-import { CATALOG_DB } from '../../../data/constants';
 import { SheetDataItem } from '../../../data/sheetDataItem';
 import {ProductCatalogService} from '../../services/product-catalog.service';
 
