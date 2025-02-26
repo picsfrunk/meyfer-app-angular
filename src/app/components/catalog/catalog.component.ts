@@ -2,10 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {NgForOf} from '@angular/common';
 import {Product, Section} from '../../../models/interfaces.model';
 import { MOCK_SECTIONS } from '../../../data/mock.data';
-import { STORE_CATALOG_KEY } from '../../../data/constants'
 import { SectionComponent } from '../sections/section.component';
-import {SheetData} from '../../../data/sheet.data';
+import {SheetDataItem} from '../../../data/sheetDataItem';
 import {sectionsData} from '../../../data/sections.data';
+import {ProductCatalogService} from '../../services/product-catalog.service';
 
 
 @Component({
@@ -19,26 +19,32 @@ import {sectionsData} from '../../../data/sections.data';
   styleUrls: ['./catalog.component.scss']
 })
 export class CatalogComponent implements OnInit {
-  // sections: Section[] = MOCK_SECTIONS
+  // sections: Section[] = MOCK_SECTIONS;
+  sections!: Section[];
+  sheetData!: SheetDataItem[];
 
-  sections: Section[] = JSON.parse(JSON.stringify(sectionsData));
+  constructor(private productCatalogService: ProductCatalogService,) {};
 
   ngOnInit() {
+    this.sections = sectionsData;
     this.loadData();
+
   }
 
   loadData() {
-    const storedData = localStorage.getItem(STORE_CATALOG_KEY);
-    if (storedData) {
-      const sheetData: SheetData[] = JSON.parse(storedData);
-      console.log(sheetData)
+    this.productCatalogService.getAllSheetData()
+      .then((sheetData) => {
+        this.sheetData = sheetData})
+      .catch( e => {
+        console.error("Error al cargar datos: ", e);
+      })
+      .finally( () => {
+        console.log("Datos obtenidos desde service: \n", JSON.stringify(this.sheetData))
+    });
 
-      this.organizeBySections(sheetData);
-      console.log("sections: " + JSON.stringify(this.sections));
-    }
   }
 
-  organizeBySections(productsSheet: SheetData[]) {
+  organizeBySections(productsSheet: SheetDataItem[]) {
     //TODO: como convertir el objeto a tablas
     // basicamente tiene que convertir y rellenar SheetData a Sections
   }
