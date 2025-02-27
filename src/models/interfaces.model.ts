@@ -14,6 +14,7 @@ export interface Product {
 
 export interface Item {
   id?: number;
+  parentId?: number;
   code: string;
   description: string;
   price: number;
