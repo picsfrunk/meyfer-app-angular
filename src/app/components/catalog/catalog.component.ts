@@ -21,33 +21,21 @@ import {ProductCatalogService} from '../../services/product-catalog.service';
 export class CatalogComponent implements OnInit {
   // sections: Section[] = MOCK_SECTIONS;
   sections!: Section[];
-  sheetData!: SheetItem[];
 
-  constructor(private productCatalogService: ProductCatalogService,) {};
+  constructor(private productCatalogService: ProductCatalogService) {  };
 
   ngOnInit() {
-    // this.sections = sectionsData;
-    // this.loadSheetData();
     this.loadProducts();
 
   }
 
-  loadSheetData() {
-    this.productCatalogService.getAllSheetData()
-      .then((sheetData) => {
-        this.sheetData = sheetData})
-      .catch( e => {
-        console.error("Error al cargar datos: ", e);
+  async loadProducts() {
+    await this.productCatalogService.processSheetData()
+    await this.productCatalogService.getAllFromDB()
+      .then( result => {
+        this.sections = result
+        console.log("Datos obtenidos en catalogComponent")
       })
-      .finally( () => {
-        console.log("Datos obtenidos desde service: \n", JSON.stringify(this.sheetData))
-    });
-
-  }
-
-  private loadProducts() {
-    this.productCatalogService.getAllSections()
-      .then(result => this.sections = result )
-      .catch( err => console.error("Error al cargar los datos:", err));
+      .catch( e => console.error(e))
   }
 }

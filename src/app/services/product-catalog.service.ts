@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import {DexieDbService} from './dexie-db.service';
-import {SheetItem} from '../../data/sheetItem';
-import {Section} from '../../models/interfaces.model';
+import {getProductPrefix, getProductPrefix1word, SheetItem} from '../../data/sheetItem';
+import {Item, Product, Section} from '../../models/interfaces.model';
+import {sectionsData} from '../../data/sections.data';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,16 @@ import {Section} from '../../models/interfaces.model';
 export class ProductCatalogService {
   private sections!: Section[];
 
-  constructor(private dexieDbService: DexieDbService) { }
+  constructor(private dexieDbService: DexieDbService) {  }
+
+  async getAllFromDB() {
+    return this.dexieDbService.getAllSections()
+      .then(r => {
+        console.log("Datos procesados en getAllFromDB:\n", r)
+        this.sections = r
+        return r
+      });
+  }
 
   async addSheetData(products: SheetItem[]) {
     // En el futuro aquí se decidirìa si guardar en IndexedDB o llamar a una API REST
@@ -24,11 +34,54 @@ export class ProductCatalogService {
     await this.dexieDbService.clearSheetData();
   }
 
+  async processSheetData() {
+    const productsSheet = await this.getAllSheetData();
 
-  async getAllSections() {
-    await this.dexieDbService.processSheetData()
-      .then( r => console.log("Datos Procesados en product-catalogue.service: \n", r));
-    return this.dexieDbService.getAllSections();
+    if (!productsSheet.length) return;
+
+    const sectionMap = new Map<string, Section>(
+      sectionsData.map(section => [section.title[0], { ...section, products: [] }])
+    );
+
+    const productMap = new Map<string, Product>();
+
+    for (const sheetItem of productsSheet) {
+      // console.log("Procesando producto en DexieDB.service: ", sheetItem);
+      const { CODIGO, DESCRIPCIÓN, RUBRO, PRECIO } = sheetItem;
+
+      // 🟢 Buscar la sección correspondiente
+      const section = sectionMap.get(RUBRO);
+      if (!section) continue; // Si el rubro no está en sectionsData, lo ignoramos
+
+      // 🟢 Obtener nombre base del producto
+      const productName = getProductPrefix(DESCRIPCIÓN);
+      // console.log("Separacion de nombre: ", productName);
+
+      // 🟢 Buscar o crear producto
+      if (!productMap.has(productName)) {
+        const newProduct: Product = {
+          name: productName,
+          image: '', // TODO: Se puede asignar una imagen específica después
+          items: []
+        };
+        productMap.set(productName, newProduct);
+        section.products.push(newProduct);
+      }
+
+      const product = productMap.get(productName)!;
+
+      // 🟢 Crear Item
+      const newItem: Item = {
+        code: CODIGO.toString(),
+        description: DESCRIPCIÓN,
+        price: PRECIO
+      };
+
+      product.items.push(newItem);
+    }
+
+    await this.dexieDbService.bulkPutSections(Array.from(sectionMap.values()));
   }
+
 
 }

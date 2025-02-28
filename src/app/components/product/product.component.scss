@@ -42,15 +42,19 @@
   }
 
   th {
-    background-color: var(--color-outline);
+    background-color: var(--color-table-header);
   }
   th, td {
     text-align: left;
     padding: var(--spacing-small);
   }
 
+  tr {
+    border-bottom: 1px dot-dot-dash var(--color-border);
+  }
+
   tr:nth-child(even) {
-    background-color: var(--color-outline);
+    background-color: var(--color-outline) !important;
   }
 }
 
