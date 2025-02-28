@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import * as XLSX from 'xlsx';
 import { Router } from '@angular/router';
 import {CommonModule} from '@angular/common';
-import { SheetDataItem } from '../../../data/sheetDataItem';
+import { SheetItem } from '../../../data/sheetItem';
 import {ProductCatalogService} from '../../services/product-catalog.service';
 
 @Component({
@@ -13,7 +13,7 @@ import {ProductCatalogService} from '../../services/product-catalog.service';
   styleUrls: ['./data-upload.component.scss']
 })
 export class DataUploadComponent {
-  sheetData!: SheetDataItem[];
+  sheetData!: SheetItem[];
   isFileLoaded = false;
   uploadMessage = '';
 
@@ -53,6 +53,8 @@ export class DataUploadComponent {
     } catch (error) {
       console.error('Error al guardar los datos:', error);
     }
+
+    await this.productCatalogService.processSheetData();
   }
 
   confirmUpload() {
