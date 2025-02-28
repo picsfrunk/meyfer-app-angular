@@ -25,16 +25,15 @@ export class CatalogComponent implements OnInit {
   constructor(private productCatalogService: ProductCatalogService) {  };
 
   ngOnInit() {
-    this.loadProducts();
+    this.loadProducts().then( () => console.log('Catalago cargado', this.sections));
 
   }
 
   async loadProducts() {
-    await this.productCatalogService.processSheetData()
     await this.productCatalogService.getAllFromDB()
       .then( result => {
         this.sections = result
-        console.log("Datos obtenidos en catalogComponent")
+        // console.log("Datos obtenidos en catalogComponent")
       })
       .catch( e => console.error(e))
   }

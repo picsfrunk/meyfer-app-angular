@@ -53,6 +53,8 @@ export class DataUploadComponent {
     } catch (error) {
       console.error('Error al guardar los datos:', error);
     }
+
+    await this.productCatalogService.processSheetData();
   }
 
   confirmUpload() {

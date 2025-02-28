@@ -27,8 +27,9 @@ export class DexieDbService extends Dexie {
       .then(() => console.log("DB Opened"))
       .catch(err => console.log(err.message))
 
-    this.bulkPutSections(sectionsData)
-      .catch( (err: Error) => console.log("Error guardando secciones precargadas: ", err))
+    // this.bulkPutSections(sectionsData)
+    //   .then( () => console.log("Secciones precargadas"))
+    //   .catch( (err: Error) => console.log("Error guardando secciones precargadas: ", err))
   }
 
   async bulkAddSheetData(elements: SheetItem[]) {
@@ -44,10 +45,6 @@ export class DexieDbService extends Dexie {
     return this.sheetItems.toArray();
   }
 
-  async clearSheetData() {
-    await this.sheetItems.clear()
-  }
-
   async bulkAddSections(sections: Section[]) {
     await this.sections.bulkAdd(sections)
   }
@@ -59,5 +56,11 @@ export class DexieDbService extends Dexie {
   async getAllSections() {
     return this.sections.toArray();
   }
+  async clearSheetData() {
+    await this.sheetItems.clear()
+  }
 
+  async clearSectionsData() {
+    await this.sections.clear()
+  }
 }

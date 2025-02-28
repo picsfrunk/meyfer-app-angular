@@ -8,16 +8,14 @@ import {sectionsData} from '../../data/sections.data';
   providedIn: 'root'
 })
 export class ProductCatalogService {
-  private sections!: Section[];
 
   constructor(private dexieDbService: DexieDbService) {  }
 
   async getAllFromDB() {
     return this.dexieDbService.getAllSections()
-      .then(r => {
-        console.log("Datos procesados en getAllFromDB:\n", r)
-        this.sections = r
-        return r
+      .then(catalog => {
+        // console.log("Datos procesados en getAllFromDB:\n", r)
+        return catalog
       });
   }
 
@@ -30,11 +28,10 @@ export class ProductCatalogService {
     return this.dexieDbService.getAllSheetData();
   }
 
-  async clearSheetData() {
-    await this.dexieDbService.clearSheetData();
-  }
+
 
   async processSheetData() {
+    // pido a la db los datos crudos
     const productsSheet = await this.getAllSheetData();
 
     if (!productsSheet.length) return;
@@ -81,7 +78,18 @@ export class ProductCatalogService {
     }
 
     await this.dexieDbService.bulkPutSections(Array.from(sectionMap.values()));
+    await this.clearSheetData()
+
   }
 
 
+  async clearCatalog() {
+    await this.dexieDbService.clearSectionsData()
+      .then( () => console.log("Catalogo Borrado"));
+  }
+
+  async clearSheetData() {
+    await this.dexieDbService.clearSheetData()
+      .then( () => console.log("SheetData Borrada"));
+  }
 }

@@ -15,6 +15,6 @@ export class HomeComponent {
   constructor(private productCatalogService: ProductCatalogService,) {};
 
   clearCatalog() {
-    this.productCatalogService.clearSheetData().finally(() => console.log('Cleared'));
+    this.productCatalogService.clearCatalog();
   }
 }
