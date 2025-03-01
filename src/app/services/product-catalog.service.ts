@@ -3,6 +3,7 @@ import {DexieDbService} from './dexie-db.service';
 import {getProductPrefix, getProductPrefix1word, SheetItem} from '../../data/sheetItem';
 import {Item, Product, Section} from '../../models/interfaces.model';
 import {sectionsData} from '../../data/sections.data';
+import JsBarcode from 'jsbarcode';
 
 @Injectable({
   providedIn: 'root'
@@ -71,8 +72,10 @@ export class ProductCatalogService {
       const newItem: Item = {
         code: CODIGO.toString(),
         description: DESCRIPCIÓN,
-        price: PRECIO
+        price: PRECIO,
+        barcode: this.generateBarcode(CODIGO.toString())
       };
+      // console.log(JSON.stringify(newItem));
 
       product.items.push(newItem);
     }
@@ -82,6 +85,15 @@ export class ProductCatalogService {
 
   }
 
+  private generateBarcode(productCode: string): string {
+    const canvas = document.createElement('canvas');
+    JsBarcode(canvas, this.padWithZeros(productCode), { format: 'CODE128' });
+    return canvas.toDataURL(); // Convierte a Base64
+  }
+
+  padWithZeros(code: string, length: number = 8): string {
+    return code.padStart(length, '0');
+  }
 
   async clearCatalog() {
     await this.dexieDbService.clearSectionsData()
