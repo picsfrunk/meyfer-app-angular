@@ -3,14 +3,16 @@ import {DexieDbService} from './dexie-db.service';
 import {getProductPrefix, getProductPrefix1word, SheetItem} from '../../data/sheetItem';
 import {Item, Product, Section} from '../../models/interfaces.model';
 import {sectionsData} from '../../data/sections.data';
-import JsBarcode from 'jsbarcode';
+import {BarcodeService} from './barcode.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductCatalogService {
 
-  constructor(private dexieDbService: DexieDbService) {  }
+  constructor(private dexieDbService: DexieDbService,
+              private barcodeService: BarcodeService
+  ) {}
 
   async getAllFromDB() {
     return this.dexieDbService.getAllSections()
@@ -73,9 +75,11 @@ export class ProductCatalogService {
         code: CODIGO.toString(),
         description: DESCRIPCIÓN,
         price: PRECIO,
-        barcode: this.generateBarcode(CODIGO.toString())
+        barcode: this.barcodeService.generateEAN13(CODIGO.toString())
       };
       // console.log(JSON.stringify(newItem));
+
+      await this.dexieDbService.addOrUpdateItem(newItem)
 
       product.items.push(newItem);
     }
@@ -83,16 +87,6 @@ export class ProductCatalogService {
     await this.dexieDbService.bulkPutSections(Array.from(sectionMap.values()));
     await this.clearSheetData()
 
-  }
-
-  private generateBarcode(productCode: string): string {
-    const canvas = document.createElement('canvas');
-    JsBarcode(canvas, this.padWithZeros(productCode), { format: 'CODE128' });
-    return canvas.toDataURL(); // Convierte a Base64
-  }
-
-  padWithZeros(code: string, length: number = 8): string {
-    return code.padStart(length, '0');
   }
 
   async clearCatalog() {

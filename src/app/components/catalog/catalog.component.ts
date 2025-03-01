@@ -6,6 +6,7 @@ import { SectionComponent } from '../sections/section.component';
 import {SheetItem} from '../../../data/sheetItem';
 import {sectionsData} from '../../../data/sections.data';
 import {ProductCatalogService} from '../../services/product-catalog.service';
+import {RouterLink} from '@angular/router';
 
 
 @Component({
@@ -14,7 +15,8 @@ import {ProductCatalogService} from '../../services/product-catalog.service';
   standalone: true,
   imports: [
     NgForOf,
-    SectionComponent
+    SectionComponent,
+    RouterLink
   ],
   styleUrls: ['./catalog.component.scss']
 })

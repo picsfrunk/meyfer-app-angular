@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import Dexie, { Table } from 'dexie';
 import {Item, Product, Section} from '../../models/interfaces.model';
 import {getProductPrefix, SheetItem} from '../../data/sheetItem';
-import {CATALOG_DB} from '../../data/constants';
+import {CATALOG_COLLECTION_NAME} from '../../data/constants';
 import {sectionsData} from '../../data/sections.data';
 
 @Injectable({
@@ -15,7 +15,7 @@ export class DexieDbService extends Dexie {
   sheetItems!: Table<SheetItem, number>;
 
   constructor() {
-    super(CATALOG_DB);
+    super(CATALOG_COLLECTION_NAME);
     this.version(1).stores({
       sheetItems: '++id',
       sections: '++id',
@@ -39,7 +39,9 @@ export class DexieDbService extends Dexie {
 
   async addProduct(product: Product) {}
 
-  async addItem(item: Item) {}
+  async addOrUpdateItem(item: Item) {
+    this.items.put(item);
+  }
 
   async getAllSheetData() {
     return this.sheetItems.toArray();
