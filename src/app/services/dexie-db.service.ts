@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import Dexie, { Table } from 'dexie';
 import {Item, Product, Section} from '../../models/interfaces.model';
-import {getProductPrefix, SheetItem} from '../../data/sheetItem';
-import {CATALOG_COLLECTION_NAME} from '../../data/constants';
-import {sectionsData} from '../../data/sections.data';
+import { SheetItem } from '../../data/sheetItem';
+import { CATALOG_COLLECTION_NAME } from '../../data/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -44,7 +43,12 @@ export class DexieDbService extends Dexie {
   }
 
   async getAllSheetData() {
+
     return this.sheetItems.toArray();
+  }
+
+  async getAllItems() {
+    return this.items.toArray()
   }
 
   async bulkAddSections(sections: Section[]) {
@@ -56,6 +60,9 @@ export class DexieDbService extends Dexie {
   }
 
   async getAllSections() {
+    await this.getAllItems().then((items) => {
+      console.log("Items:\n", items)
+    })
     return this.sections.toArray();
   }
   async clearSheetData() {
@@ -64,5 +71,12 @@ export class DexieDbService extends Dexie {
 
   async clearSectionsData() {
     await this.sections.clear()
+  }
+
+  async clearItems() {
+    await this.items.clear()
+  }
+  async catalogSize() {
+    return this.items.count()
   }
 }

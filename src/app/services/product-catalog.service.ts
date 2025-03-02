@@ -14,7 +14,7 @@ export class ProductCatalogService {
               private barcodeService: BarcodeService
   ) {}
 
-  async getAllFromDB() {
+  async getAllSections() {
     return this.dexieDbService.getAllSections()
       .then(catalog => {
         // console.log("Datos procesados en getAllFromDB:\n", r)
@@ -34,6 +34,7 @@ export class ProductCatalogService {
 
 
   async processSheetData() {
+    console.log("In processSheetData()");
     // pido a la db los datos crudos
     const productsSheet = await this.getAllSheetData();
 
@@ -92,10 +93,16 @@ export class ProductCatalogService {
   async clearCatalog() {
     await this.dexieDbService.clearSectionsData()
       .then( () => console.log("Catalogo Borrado"));
+    await this.dexieDbService.clearItems()
+      .then( () => console.log("Items Eliminados"));
   }
 
   async clearSheetData() {
     await this.dexieDbService.clearSheetData()
       .then( () => console.log("SheetData Borrada"));
+  }
+
+  async catalogSize() {
+    return this.dexieDbService.catalogSize()
   }
 }
