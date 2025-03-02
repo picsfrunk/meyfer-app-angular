@@ -1,5 +1,3 @@
-import {Item} from '../models/interfaces.model';
-
 export interface SheetItem {
   CODIGO: number;
   DESCRIPCIÓN: string;

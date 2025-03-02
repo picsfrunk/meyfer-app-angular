@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import * as XLSX from 'xlsx';
 import { Router } from '@angular/router';
-import {CommonModule} from '@angular/common';
-import { SheetItem } from '../../../data/sheetItem';
-import {ProductCatalogService} from '../../services/product-catalog.service';
+import { CommonModule } from '@angular/common';
+import * as XLSX from 'xlsx';
+import { SheetItem } from 'data/sheetItem';
+import { ProductCatalogService } from 'app/services/product-catalog.service';
 
 @Component({
   selector: 'app-data-upload',
-  imports: [CommonModule  ],
+  imports: [CommonModule],
   standalone: true,
   templateUrl: './data-upload.component.html',
   styleUrls: ['./data-upload.component.scss']
