@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForOf } from '@angular/common';
 import { Section } from 'models/interfaces.model';
-import { SectionComponent } from '../sections/section.component';
+import { SectionComponent } from './sections/section.component';
 import { ProductCatalogService } from 'app/services/product-catalog.service';
 import { RouterLink } from '@angular/router';
 
@@ -40,4 +40,6 @@ export class CatalogComponent implements OnInit {
   async getCatalogSize() {
     this.catalogSize = await this.productCatalogService.catalogSize();
   }
+
+  protected readonly window = window;
 }
