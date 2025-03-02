@@ -34,6 +34,7 @@ export class ProductCatalogService {
 
 
   async processSheetData() {
+    await this.clearCatalog()
     console.log("In processSheetData()");
     // pido a la db los datos crudos
     const productsSheet = await this.getAllSheetData();
