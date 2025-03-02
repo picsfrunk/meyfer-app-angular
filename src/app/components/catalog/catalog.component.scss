@@ -6,22 +6,11 @@
   max-width: 80vw;
   margin: auto;
   background-color: white;
-  gap: var(--spacing-medium);
-  width: 100%;
 }
 
 .catalog-title {
   font-size: var(--font-extra-large);
   font-weight: 800;
-}
-
-.catalog-header {
-  display: flex;
-  gap: 1em;
-}
-
-app-section {
-  width: 100%;
 }
 
 @media print {
@@ -30,9 +19,5 @@ app-section {
     page-break-after: avoid;
     padding-top: 1em;
     margin-top: -1em; // Evita espacio en blanco accidental
-  }
-
-  .catalog-header {
-    visibility: hidden;
   }
 }
