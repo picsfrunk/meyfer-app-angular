@@ -40,4 +40,6 @@ export class CatalogComponent implements OnInit {
   async getCatalogSize() {
     this.catalogSize = await this.productCatalogService.catalogSize();
   }
+
+  protected readonly window = window;
 }
