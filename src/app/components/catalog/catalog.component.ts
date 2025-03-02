@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForOf } from '@angular/common';
-import { Section } from '../../../models/interfaces.model';
+import { Section } from 'models/interfaces.model';
 import { SectionComponent } from '../sections/section.component';
-import { ProductCatalogService } from '../../services/product-catalog.service';
+import { ProductCatalogService } from 'app/services/product-catalog.service';
 import { RouterLink } from '@angular/router';
 
 

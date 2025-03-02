@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BARCODE_PAD, BARCODE_PREFIX } from '../../data/constants';
+import { BARCODE_PAD, BARCODE_PREFIX } from 'data/constants';
 
 @Injectable({
   providedIn: 'root',

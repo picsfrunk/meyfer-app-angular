@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import {DexieDbService} from './dexie-db.service';
-import {getProductPrefix, getProductPrefix1word, SheetItem} from '../../data/sheetItem';
-import {Item, Product, Section} from '../../models/interfaces.model';
-import {sectionsData} from '../../data/sections.data';
-import {BarcodeService} from './barcode.service';
+import { getProductPrefix, SheetItem } from 'data/sheetItem';
+import {Item, Product, Section} from 'models/interfaces.model';
+import {sectionsData} from 'data/sections.data';
+import {BarcodeService} from 'app/services/barcode.service';
 
 @Injectable({
   providedIn: 'root'
