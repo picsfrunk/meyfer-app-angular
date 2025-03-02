@@ -1,3 +1,5 @@
+import JsBarcode from 'jsbarcode';
+
 export interface Section {
   id?: number;
   title: string;
@@ -18,4 +20,5 @@ export interface Item {
   code: string;
   description: string;
   price: number;
+  barcode: string;
 }

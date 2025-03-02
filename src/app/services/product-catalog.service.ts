@@ -3,15 +3,18 @@ import {DexieDbService} from './dexie-db.service';
 import {getProductPrefix, getProductPrefix1word, SheetItem} from '../../data/sheetItem';
 import {Item, Product, Section} from '../../models/interfaces.model';
 import {sectionsData} from '../../data/sections.data';
+import {BarcodeService} from './barcode.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductCatalogService {
 
-  constructor(private dexieDbService: DexieDbService) {  }
+  constructor(private dexieDbService: DexieDbService,
+              private barcodeService: BarcodeService
+  ) {}
 
-  async getAllFromDB() {
+  async getAllSections() {
     return this.dexieDbService.getAllSections()
       .then(catalog => {
         // console.log("Datos procesados en getAllFromDB:\n", r)
@@ -31,6 +34,8 @@ export class ProductCatalogService {
 
 
   async processSheetData() {
+    await this.clearCatalog()
+    console.log("In processSheetData()");
     // pido a la db los datos crudos
     const productsSheet = await this.getAllSheetData();
 
@@ -71,8 +76,12 @@ export class ProductCatalogService {
       const newItem: Item = {
         code: CODIGO.toString(),
         description: DESCRIPCIÓN,
-        price: PRECIO
+        price: PRECIO,
+        barcode: this.barcodeService.generateEAN13(CODIGO.toString())
       };
+      // console.log(JSON.stringify(newItem));
+
+      await this.dexieDbService.addOrUpdateItem(newItem)
 
       product.items.push(newItem);
     }
@@ -82,14 +91,19 @@ export class ProductCatalogService {
 
   }
 
-
   async clearCatalog() {
     await this.dexieDbService.clearSectionsData()
       .then( () => console.log("Catalogo Borrado"));
+    await this.dexieDbService.clearItems()
+      .then( () => console.log("Items Eliminados"));
   }
 
   async clearSheetData() {
     await this.dexieDbService.clearSheetData()
       .then( () => console.log("SheetData Borrada"));
+  }
+
+  async catalogSize() {
+    return this.dexieDbService.catalogSize()
   }
 }
