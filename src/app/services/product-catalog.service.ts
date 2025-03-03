@@ -63,7 +63,7 @@ export class ProductCatalogService {
       if (!productMap.has(productName)) {
         const newProduct: Product = {
           name: productName,
-          image: '', // TODO: Se puede asignar una imagen específica después
+          image: 'assets/images/abrazadera.png', // TODO: Se puede asignar una imagen específica después
           items: []
         };
         productMap.set(productName, newProduct);

@@ -52,6 +52,12 @@ html {
   scroll-behavior: smooth;
 }
 
+@media print {
+  html {
+    background-color:white;
+  }
+}
+
 .centered {
   @include flex-center;
 }

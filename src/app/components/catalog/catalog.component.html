@@ -1,10 +1,10 @@
 <div class="catalog-container">
-  <div class="catalog-header">
+  <div class="catalog-header-buttons">
     <button class="btn" [routerLink]="'/'"><span>Home</span></button>
     <button class="btn" (click)="window.print()"><span>Imprimir</span></button>
 
   </div>
   <h1 class="catalog-title">Catálogo de Productos</h1>
   <p> {{ catalogSize  == 0 ? "NO HAY" : catalogSize}} ARTICULOS </p>
-  <app-section *ngFor="let section of sections" [section]="section"></app-section>
+  <app-section *ngFor="let section of sections" [section]="section" class="section-container"></app-section>
 </div>

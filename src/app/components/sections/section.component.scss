@@ -1,14 +1,8 @@
 .section-container {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(300px, 1fr));  gap: var(--spacing-medium);
+  column-count: 2;
+  column-gap: var(--spacing-medium);
   width: 100%;
-  max-width: 1200px;
-  padding: var(--spacing-large) 0;
-  border-bottom: 2px dashed var(--color-outline);
-
-  &:last-child {
-    border-bottom: none;
-  }
+  justify-content: center;
 }
 
 img {
@@ -23,9 +17,17 @@ h2 {
   font-size: var(--font-large);
 }
 
+.product-component {
+  display: inline-block; // Importante para que respete el flujo de columnas
+  width: 100%;
+  break-inside: avoid-column; // Evita cortes feos en las columnas
+  margin-bottom: var(--spacing-medium);
+}
+
+
 @media print {
   .section-container {
-    break-before: page; 
+    break-before: page;
     break-inside: avoid;
   }
 
