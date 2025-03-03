@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {DexieDbService} from './dexie-db.service';
-import { getProductPrefix, SheetItem } from 'data/sheetItem';
+import {getProductPrefix, getProductPrefix1word, SheetItem} from 'data/sheetItem';
 import {Item, Product, Section} from 'models/interfaces.model';
 import {sectionsData} from 'data/sections.data';
 import {BarcodeService} from 'app/services/barcode.service';
@@ -56,6 +56,7 @@ export class ProductCatalogService {
       if (!section) continue; // Si el rubro no está en sectionsData, lo ignoramos
 
       // 🟢 Obtener nombre base del producto
+      // const productName = getProductPrefix1word(DESCRIPCIÓN);
       const productName = getProductPrefix(DESCRIPCIÓN);
       // console.log("Separacion de nombre: ", productName);
 
@@ -63,7 +64,7 @@ export class ProductCatalogService {
       if (!productMap.has(productName)) {
         const newProduct: Product = {
           name: productName,
-          image: '', // TODO: Se puede asignar una imagen específica después
+          image: 'assets/images/abrazadera.jpg', // TODO: Se puede asignar una imagen específica después
           items: []
         };
         productMap.set(productName, newProduct);

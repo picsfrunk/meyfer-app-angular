@@ -1,8 +1,11 @@
 <div class="section-container">
-  <h2> {{ section.title }} </h2>
-  <img [src]="section.image" [alt]="section.title">
+  <div class="section-header">
+    <h2 class="section-title"> {{ section.title }} </h2>
 
-  <div *ngFor="let product of section.products">
-    <app-product [product]="product"></app-product>
+    <img class="section-image" [src]="section.image" [alt]="section.title">
+  </div>
+
+  <div class="products-container">
+    <app-product *ngFor="let product of section.products" class="product-component" [product]="product"/>
   </div>
 </div>
