@@ -5,8 +5,10 @@
       <button class="btn" [routerLink]="'/'"><span>Home</span></button>
       <button class="btn" (click)="window.print()"><span>Imprimir</span></button>
     </div>
-
-    <h1 class="catalog-title">Catálogo de Productos</h1>
+    <div class="logo-container">
+      <img src="assets/images/logos/logo-negro-tr.png">
+    </div>
+<!--    <h1 class="catalog-title">Catálogo de Productos</h1>-->
   </div>
 
   <app-section *ngFor="let section of sections" [section]="section" class="app-section-container"></app-section>
