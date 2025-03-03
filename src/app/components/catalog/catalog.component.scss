@@ -8,17 +8,20 @@
   background-color: white;
   gap: var(--spacing-large);
 
-  .catalog-header-buttons {
-    display: flex;
-    gap: var(--spacing-small);
+  .catalog-header {
+    .catalog-header-buttons {
+      display: flex;
+      gap: var(--spacing-small);
+       justify-content: center;
+    }
+
+    .catalog-title {
+      font-size: var(--font-extra-large);
+      font-weight: 800;
+    }
   }
 
-  .catalog-title {
-    font-size: var(--font-extra-large);
-    font-weight: 800;
-  }
-
-  .section-container {
+  .app-section-container {
     width: 100%;
   }
 }
