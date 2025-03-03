@@ -11,8 +11,8 @@
         <button class="btn" (click)="confirmUpload()" [disabled]="!isFileLoaded">
           Confirmar Carga
         </button>
-        <h3>Uploaded Data:</h3>
-        <pre>{{ sheetData | json }}</pre>
+        <h3>Datos guardados:</h3>
+        <p>Cantidad de productos: {{ sheetData.length }}</p>
     </div>
 
 </div>

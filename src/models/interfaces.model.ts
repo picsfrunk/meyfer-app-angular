@@ -1,20 +1,22 @@
 export interface Section {
-  id: number;
+  id?: number;
   title: string;
   image: string;
   products: Product[];
 }
 
 export interface Product {
-  id: number;
+  id?: number;
   name: string;
   image: string;
   items: Item[];
 }
 
 export interface Item {
-  id: number;
+  id?: number;
+  parentId?: number;
   code: string;
   description: string;
   price: number;
+  barcode: string;
 }

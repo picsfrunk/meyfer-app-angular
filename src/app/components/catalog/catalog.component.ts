@@ -1,11 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {NgForOf} from '@angular/common';
-import {Product, Section} from '../../../models/interfaces.model';
-import { MOCK_SECTIONS } from '../../../data/mock.data';
-import { STORE_CATALOG_KEY } from '../../../data/constants'
+import { Component, OnInit } from '@angular/core';
+import { NgForOf } from '@angular/common';
+import { Section } from 'models/interfaces.model';
 import { SectionComponent } from '../sections/section.component';
-import {SheetData} from '../../../data/sheet.data';
-import {sectionsData} from '../../../data/sections.data';
+import { ProductCatalogService } from 'app/services/product-catalog.service';
+import { RouterLink } from '@angular/router';
 
 
 @Component({
@@ -14,32 +12,34 @@ import {sectionsData} from '../../../data/sections.data';
   standalone: true,
   imports: [
     NgForOf,
-    SectionComponent
+    SectionComponent,
+    RouterLink
   ],
   styleUrls: ['./catalog.component.scss']
 })
 export class CatalogComponent implements OnInit {
-  // sections: Section[] = MOCK_SECTIONS
+  sections!: Section[];
+  catalogSize: number = 0;
 
-  sections: Section[] = JSON.parse(JSON.stringify(sectionsData));
+  constructor(private productCatalogService: ProductCatalogService) {  };
 
   ngOnInit() {
-    this.loadData();
+    this.loadProducts().then( () => console.log('Catalago cargado', this.sections));
+    this.getCatalogSize()
   }
 
-  loadData() {
-    const storedData = localStorage.getItem(STORE_CATALOG_KEY);
-    if (storedData) {
-      const sheetData: SheetData[] = JSON.parse(storedData);
-      console.log(sheetData)
-
-      this.organizeBySections(sheetData);
-      console.log("sections: " + JSON.stringify(this.sections));
-    }
+  async loadProducts() {
+    await this.productCatalogService.getAllSections()
+      .then( result => {
+        this.sections = result
+        // console.log("Datos obtenidos en catalogComponent")
+      })
+      .catch( e => console.error(e))
   }
 
-  organizeBySections(productsSheet: SheetData[]) {
-    //TODO: como convertir el objeto a tablas
-    // basicamente tiene que convertir y rellenar SheetData a Sections
+  async getCatalogSize() {
+    this.catalogSize = await this.productCatalogService.catalogSize();
   }
+
+  protected readonly window = window;
 }
