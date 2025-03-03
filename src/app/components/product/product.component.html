@@ -16,7 +16,7 @@
     <tr *ngFor="let item of product.items">
       <td>{{ item.code }}</td>
       <td>{{ item.description }}</td>
-      <td class="product-price">${{ item.price | number:'1.2-2' }}</td>
+      <td class="product-price">{{ item.price | currency:'ARS':'symbol':'1.2-2':'es-AR' }}</td>
     </tr>
     </tbody>
   </table>

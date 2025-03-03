@@ -9,7 +9,6 @@
   flex-direction: column;
   align-items: stretch;
   width: 100%;
-  flex-grow: 2;
 
   .product-header {
     display: flex;
@@ -18,9 +17,12 @@
     align-items: center;
     font-weight: 600;
     color: var(--typeface-color);
-    text-transform: uppercase;
     margin-bottom: var(--spacing-small);
     gap: var(--spacing-small);
+
+    .product-title {
+      font-size: var(--font-medium);
+    }
 
     .product-image {
       max-width: 2em;
@@ -42,23 +44,30 @@
   table {
     width: 100%;
     border-collapse: collapse;
+    //table-layout: fixed; /* 🔹 Fuerza que todas las tablas tengan las mismas proporciones */
+
+    th {
+      background-color: var(--color-table-header);
+    }
+
+    th, td {
+      text-align: left;
+      padding: 2px;
   }
 
-  th {
-    background-color: var(--color-table-header);
-  }
-  th, td {
-    text-align: left;
-    padding: var(--spacing-small);
+    th:last-child, td:last-child {
+      width: 12%;
+    }
+
+    tr {
+      border-bottom: 1px dot-dot-dash var(--color-border);
+    }
+
+    tr:nth-child(even) {
+      background-color: var(--color-outline) !important;
+    }
   }
 
-  tr {
-    border-bottom: 1px dot-dot-dash var(--color-border);
-  }
-
-  tr:nth-child(even) {
-    background-color: var(--color-outline) !important;
-  }
 }
 
 @media print {

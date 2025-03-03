@@ -13,8 +13,9 @@
       margin-bottom: var(--spacing-small);
     }
 
-    h2 {
+    .section-title {
       font-size: var(--font-large);
+      text-transform: uppercase;
     }
   }
 
@@ -36,12 +37,12 @@
 }
 
 @media print {
-  .products-container {
+  .section-container {
     break-before: page;
     break-inside: avoid;
   }
 
-  .products-container:first-child {
+  .section-container:first-child {
     break-before: auto !important;
   }
 }
