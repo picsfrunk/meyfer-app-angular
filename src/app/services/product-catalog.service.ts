@@ -4,6 +4,7 @@ import {getProductPrefix, getProductPrefix1word, SheetItem} from 'data/sheetItem
 import {Item, Product, Section} from 'models/interfaces.model';
 import {sectionsData} from 'data/sections.data';
 import {BarcodeService} from 'app/services/barcode.service';
+import {PRODUCT_SECTIONS_CORRECT_MAP} from '../../data/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +43,7 @@ export class ProductCatalogService {
     if (!productsSheet.length) return;
 
     const sectionMap = new Map<string, Section>(
+      // Aca se toma la primer inicial ya que en el catalogo de rh la columna rubro figura asi
       sectionsData.map(section => [section.title[0], { ...section, products: [] }])
     );
 
@@ -51,20 +53,35 @@ export class ProductCatalogService {
       // console.log("Procesando producto en DexieDB.service: ", sheetItem);
       const { CODIGO, DESCRIPCIÓN, RUBRO, PRECIO } = sheetItem;
 
-      // 🟢 Buscar la sección correspondiente
-      const section = sectionMap.get(RUBRO);
-      if (!section) continue; // Si el rubro no está en sectionsData, lo ignoramos
+      // Obtener la sección original del Excel
+      let section = sectionMap.get(RUBRO);
 
-      // 🟢 Obtener nombre base del producto
+      // Si no existe la sección, ignoramos el producto
+      if (!section) continue;
+
+      //  Verificar si hay una corrección de sección en el mapa
+      for (const [keyword, correctedSection] of PRODUCT_SECTIONS_CORRECT_MAP) {
+        console.log("inside 2nd for, para acomodar prodcuts",[keyword, correctedSection])
+        if (DESCRIPCIÓN.toLowerCase().includes(keyword)) {
+          section = sectionMap.get(correctedSection[0]); // Asignamos la sección corregida
+          console.log("inside form inside if",section);
+          break;
+        }
+      }
+
+      if (!section) continue;
+
+      //  Obtener nombre base del producto
       // const productName = getProductPrefix1word(DESCRIPCIÓN);
       const productName = getProductPrefix(DESCRIPCIÓN);
       // console.log("Separacion de nombre: ", productName);
 
-      // 🟢 Buscar o crear producto
+      //  Buscar o crear producto
       if (!productMap.has(productName)) {
         const newProduct: Product = {
           name: productName,
-          image: 'assets/images/abrazadera.jpg', // TODO: Se puede asignar una imagen específica después
+          // TODO: Ver como asignar una imagen para cada tipo de producto
+          image: '',
           items: []
         };
         productMap.set(productName, newProduct);
@@ -73,7 +90,7 @@ export class ProductCatalogService {
 
       const product = productMap.get(productName)!;
 
-      // 🟢 Crear Item
+      //  Crear Item
       const newItem: Item = {
         code: CODIGO.toString(),
         description: DESCRIPCIÓN,
@@ -82,8 +99,8 @@ export class ProductCatalogService {
       };
       // console.log(JSON.stringify(newItem));
 
+      // aca guardo aparte en la db como items para luego bajar en xls con los barcodes
       await this.dexieDbService.addOrUpdateItem(newItem)
-
       product.items.push(newItem);
     }
 

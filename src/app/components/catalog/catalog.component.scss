@@ -21,10 +21,9 @@
     }
 
     .logo-container {
+      display: flex;
       img {
-        max-width: 100%;
-        height: auto;
-        display: block; /* Evita el espacio extra debajo de la imagen */
+        height: 10rem;
       }
     }
   }
@@ -50,5 +49,6 @@
 
   .catalog-header-buttons {
     visibility: hidden;
+    display: none !important;
   }
 }
