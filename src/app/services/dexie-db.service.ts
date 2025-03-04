@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import Dexie, { Table } from 'dexie';
 import { Item, Product, Section } from 'models/interfaces.model';
-import { SheetItem } from 'data/sheetItem';
+import { SheetItem } from 'models/sheetItem';
 import { CATALOG_COLLECTION_NAME } from 'data/constants';
 
 @Injectable({

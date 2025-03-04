@@ -9,3 +9,8 @@ export const PRODUCT_SECTIONS_CORRECT_MAP = new Map<string, string>([
   ["anafe", "Rural"],
   ["luz", "Electricidad"]
 ]);
+
+export const PRODUCT_SECTIONS_CORRECT_REGEX = new RegExp(
+  `\\b(${Array.from(PRODUCT_SECTIONS_CORRECT_MAP.keys()).join("|")})\\b`,
+  "gi"
+);

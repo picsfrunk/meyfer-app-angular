@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import {DexieDbService} from './dexie-db.service';
-import {getProductPrefix, getProductPrefix1word, SheetItem} from 'data/sheetItem';
+import {SheetItem} from 'models/sheetItem';
 import {Item, Product, Section} from 'models/interfaces.model';
 import {sectionsData} from 'data/sections.data';
 import {BarcodeService} from 'app/services/barcode.service';
-import {PRODUCT_SECTIONS_CORRECT_MAP} from '../../data/constants';
+import {PRODUCT_SECTIONS_CORRECT_MAP, PRODUCT_SECTIONS_CORRECT_REGEX} from '../../data/constants';
+import {getProductPrefix, getProductPrefix1word} from '../../helpers/helpers';
 
 @Injectable({
   providedIn: 'root'
@@ -58,18 +59,22 @@ export class ProductCatalogService {
 
       // Si no existe la sección, ignoramos el producto
       if (!section) continue;
-
+      // START: CORRECCIONES SOBRE PRODUCTOS MAL CARGADOS EN EXCEL DE RH
       //  Verificar si hay una corrección de sección en el mapa
-      for (const [keyword, correctedSection] of PRODUCT_SECTIONS_CORRECT_MAP) {
-        console.log("inside 2nd for, para acomodar prodcuts",[keyword, correctedSection])
-        if (DESCRIPCIÓN.toLowerCase().includes(keyword)) {
+      const matches = [...DESCRIPCIÓN.matchAll(PRODUCT_SECTIONS_CORRECT_REGEX)];
+
+      if (matches.length > 0) {
+        // 🟢 Tomar la última coincidencia detectada en el string
+        const lastMatch = matches[matches.length - 1][0].toLowerCase();
+        const correctedSection = PRODUCT_SECTIONS_CORRECT_MAP.get(lastMatch);
+
+        if (correctedSection) {
           section = sectionMap.get(correctedSection[0]); // Asignamos la sección corregida
-          console.log("inside form inside if",section);
-          break;
         }
       }
 
       if (!section) continue;
+      // END: CORRECCIONES SOBRE PRODUCTOS MAL CARGADOS EN EXCEL DE RH
 
       //  Obtener nombre base del producto
       // const productName = getProductPrefix1word(DESCRIPCIÓN);

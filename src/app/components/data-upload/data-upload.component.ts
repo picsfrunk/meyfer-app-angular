@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import * as XLSX from 'xlsx';
-import { SheetItem } from 'data/sheetItem';
+import { SheetItem } from 'models/sheetItem';
 import { ProductCatalogService } from 'app/services/product-catalog.service';
 
 @Component({
