@@ -32,5 +32,6 @@ export const SPECIAL_NAME_CASES
   "CABO",
   "BALDE",
   "CANILLA",
-  "BASE DE TANQUE"
+  "BASE DE TANQUE",
+  "BOYA"
 ]
