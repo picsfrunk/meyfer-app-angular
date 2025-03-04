@@ -16,7 +16,8 @@ export const PRODUCT_SECTIONS_CORRECT_REGEX = new RegExp(
 );
 
 export const SPECIAL_NAME_CASES = [
-  "griferia",
-  "alambre",
-  "acople"
+  "GRIFERIA",
+  "ALAMBRE",
+  "ACOPLE",
+  "BARRAL"
 ]
