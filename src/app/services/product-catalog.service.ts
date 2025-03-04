@@ -17,16 +17,21 @@ export class ProductCatalogService {
   ) {}
 
   async getAllSections() {
-    return this.dexieDbService.getAllSections()
-      .then(catalog => {
-        // console.log("Datos procesados en getAllFromDB:\n", r)
-        return catalog
-      });
+    return this.dexieDbService.getAllSections();
+      // .then(catalog => {
+      //   // console.log("Datos procesados en getAllFromDB:\n", r)
+      //   return catalog
+      // });
   }
 
-  async addSheetData(products: SheetItem[]) {
+  async addSheetItems(products: SheetItem[]) {
     // En el futuro aquí se decidirìa si guardar en IndexedDB o llamar a una API REST
-    await this.dexieDbService.bulkAddSheetData(products);
+    await this.dexieDbService.bulkAddSheetItems(products);
+  }
+
+  async putSheetItems(products: SheetItem[]) {
+    // En el futuro aquí se decidirìa si guardar en IndexedDB o llamar a una API REST
+    await this.dexieDbService.bulkPutSheetItems(products);
   }
 
   async getAllSheetData(): Promise<SheetItem[]> {
@@ -65,7 +70,7 @@ export class ProductCatalogService {
 
       if (matches.length > 0) {
         // 🟢 Tomar la última coincidencia detectada en el string
-        const lastMatch = matches[matches.length - 1][0].toLowerCase();
+        const lastMatch = matches[matches.length - 1][0].toUpperCase();
         const correctedSection = PRODUCT_SECTIONS_CORRECT_MAP.get(lastMatch);
 
         if (correctedSection) {
@@ -117,7 +122,8 @@ export class ProductCatalogService {
     }
 
     await this.dexieDbService.bulkPutSections(Array.from(sectionMap.values()));
-    await this.clearSheetData()
+    // await this.clearSheetData()
+    console.log("End process spreadsheet data")
 
   }
 
@@ -135,5 +141,13 @@ export class ProductCatalogService {
 
   async catalogSize() {
     return this.dexieDbService.catalogSize()
+  }
+
+  async getSpreadSheetData(): Promise<SheetItem[]> {
+    return this.dexieDbService.getAllSheetData();
+  }
+
+  async getAllItems() {
+    return this.dexieDbService.getAllItems();
   }
 }

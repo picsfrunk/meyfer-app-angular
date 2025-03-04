@@ -3,7 +3,11 @@
   <div class="catalog-header">
     <div class="catalog-header-buttons">
       <button class="btn" [routerLink]="'/upload'"><span>Subir Datos en Excel</span></button>
+      <button class="btn" (click)="clearSpreadSheetData()"><span>Borrar Datos de Excel</span></button>
       <button class="btn" (click)="window.print()"><span>Imprimir</span></button>
+      <button class="btn" (click)="reprocessSpreadsheetData()"><span>Volver a procesar productos</span></button>
+      <button class="btn" (click)="clearCatalog()"><span>Borrar Catalogo</span></button>
+
     </div>
     <div class="logo-container">
       <img src="assets/images/logos/logo-negro-tr.png">

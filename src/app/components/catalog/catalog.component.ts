@@ -26,15 +26,39 @@ export class CatalogComponent implements OnInit {
   ngOnInit() {
     this.loadProducts()
       .then( () => console.log(`Catalago cargado con ${this.sections.length} secciones:`,this.sections));
+
+    //pruebas
+    // Esto es para poder bajar el json TODO: hacer boton y funcion para bajarlo en xls
+    this.productCatalogService.getAllItems()
+      .then((items) => console.log("Items:\n", items) )
+
+    //esto es para probar de reprocesar data de excel ya guardada
+    this.productCatalogService.getSpreadSheetData()
+      .then( data => console.log("Luego de iniciada la vista la sheetdata es: ", data ) )
   }
 
   async loadProducts() {
+    console.log("Cargando productos...")
     await this.productCatalogService.getAllSections()
       .then( result => {
         this.sections = result
-        // console.log("Datos obtenidos en catalogComponent")
+        console.log("Datos obtenidos en CatalogComponent")
       })
-      .catch( e => console.error(e))
+      .catch( e => console.error(e));
+  }
+
+  async reprocessSpreadsheetData() {
+    await this.productCatalogService.processSheetData();
+    await this.loadProducts();
+  }
+
+  async clearCatalog() {
+    await this.productCatalogService.clearCatalog();
+    await this.loadProducts();
+  }
+
+  async clearSpreadSheetData() {
+    await this.productCatalogService.clearSheetData();
   }
 
   protected readonly window = window;

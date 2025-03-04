@@ -47,12 +47,10 @@ export class DataUploadComponent {
   }
 
   async uploadData() {
-    try {
-      await this.productCatalogService.addSheetData(this.sheetData);
-      console.log('Datos guardados exitosamente');
-    } catch (error) {
-      console.error('Error al guardar los datos:', error);
-    }
+    await this.productCatalogService.clearSheetData();
+    await this.productCatalogService.putSheetItems(this.sheetData)
+      .then( () => console.log("Datos de excel guardados exitosamente"))
+      .catch( (error) => console.error('Error al guardar los datos del excel:', error));
 
     await this.productCatalogService.processSheetData();
   }
