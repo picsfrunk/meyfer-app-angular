@@ -4,7 +4,7 @@ import {SheetItem} from 'models/sheetItem';
 import {Item, Product, Section} from 'models/interfaces.model';
 import {sectionsData} from 'data/sections.data';
 import {BarcodeService} from 'app/services/barcode.service';
-import {PRODUCT_SECTIONS_CORRECT_MAP, PRODUCT_SECTIONS_CORRECT_REGEX} from '../../data/constants';
+import {PRODUCT_SECTIONS_CORRECT_MAP, PRODUCT_SECTIONS_CORRECT_REGEX, SPECIAL_NAME_CASES} from '../../data/constants';
 import {getProductPrefix, getProductPrefix1word} from '../../helpers/helpers';
 
 @Injectable({
@@ -78,7 +78,14 @@ export class ProductCatalogService {
 
       //  Obtener nombre base del producto
       // const productName = getProductPrefix1word(DESCRIPCIÓN);
-      const productName = getProductPrefix(DESCRIPCIÓN);
+      let productName!: string
+      const specialCase = SPECIAL_NAME_CASES.some(
+        word => DESCRIPCIÓN.toUpperCase().includes( word.toUpperCase() ) )
+      if (specialCase) {
+        productName = getProductPrefix1word(DESCRIPCIÓN)
+      } else {
+        productName = getProductPrefix(DESCRIPCIÓN);
+      }
       // console.log("Separacion de nombre: ", productName);
 
       //  Buscar o crear producto

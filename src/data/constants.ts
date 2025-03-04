@@ -7,10 +7,16 @@ export const PRODUCT_SECTIONS_CORRECT_MAP = new Map<string, string>([
   ["abrazadera", "Abrazaderas"],
   ["precintos", "Ferretería"],
   ["anafe", "Rural"],
-  ["luz", "Electricidad"]
+  ["luz", "Electricidad"],
 ]);
 
 export const PRODUCT_SECTIONS_CORRECT_REGEX = new RegExp(
   `\\b(${Array.from(PRODUCT_SECTIONS_CORRECT_MAP.keys()).join("|")})\\b`,
   "gi"
 );
+
+export const SPECIAL_NAME_CASES = [
+  "griferia",
+  "alambre",
+  "acople"
+]

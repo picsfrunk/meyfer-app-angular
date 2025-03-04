@@ -24,8 +24,8 @@ export class CatalogComponent implements OnInit {
   constructor(private productCatalogService: ProductCatalogService) {  };
 
   ngOnInit() {
-    this.loadProducts().then( () => console.log('Catalago cargado', this.sections));
-    this.getCatalogSize()
+    this.loadProducts()
+      .then( () => console.log(`Catalago cargado con ${this.sections.length} secciones:`,this.sections));
   }
 
   async loadProducts() {
@@ -35,10 +35,6 @@ export class CatalogComponent implements OnInit {
         // console.log("Datos obtenidos en catalogComponent")
       })
       .catch( e => console.error(e))
-  }
-
-  async getCatalogSize() {
-    this.catalogSize = await this.productCatalogService.catalogSize();
   }
 
   protected readonly window = window;
