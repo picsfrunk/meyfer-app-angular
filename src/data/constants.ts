@@ -33,5 +33,7 @@ export const SPECIAL_NAME_CASES
   "BALDE",
   "CANILLA",
   "BASE DE TANQUE",
-  "BOYA"
+  "BOYA",
+  "RODILLO",
+  "CAJA DE LUZ"
 ]

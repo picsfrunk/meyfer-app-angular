@@ -42,7 +42,7 @@ export class CatalogComponent implements OnInit {
     await this.productCatalogService.getAllSections()
       .then( result => {
         this.sections = result
-        console.log("Datos obtenidos en CatalogComponent")
+        console.log("Productos obtenidos en CatalogComponent")
       })
       .catch( e => console.error(e));
   }

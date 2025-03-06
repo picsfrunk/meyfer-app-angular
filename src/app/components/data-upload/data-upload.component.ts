@@ -37,12 +37,11 @@ export class DataUploadComponent {
   }
 
   private saveWithXLSX(e: any) {
-    //TODO: buscar alternativa a XLSX issue: #33
     const workbook = XLSX.read(e.target.result, {type: 'file'});
     const firstSheetName = workbook.SheetNames[0];
     const worksheet = workbook.Sheets[firstSheetName];
 
-    this.sheetData = XLSX.utils.sheet_to_json(worksheet, {raw: true});
+    this.sheetData = XLSX.utils.sheet_to_json(worksheet, {raw: true, range: 15});
     console.log('Excel data:', this.sheetData);
   }
 

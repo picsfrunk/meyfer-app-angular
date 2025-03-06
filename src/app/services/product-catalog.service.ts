@@ -18,10 +18,6 @@ export class ProductCatalogService {
 
   async getAllSections() {
     return this.dexieDbService.getAllSections();
-      // .then(catalog => {
-      //   // console.log("Datos procesados en getAllFromDB:\n", r)
-      //   return catalog
-      // });
   }
 
   async addSheetItems(products: SheetItem[]) {
@@ -109,7 +105,7 @@ export class ProductCatalogService {
 
       //  Crear Item
       const newItem: Item = {
-        code: CODIGO.toString(),
+        code: CODIGO,
         description: DESCRIPCIÓN,
         price: PRECIO,
         barcode: this.barcodeService.generateEAN13(CODIGO.toString())
@@ -119,6 +115,7 @@ export class ProductCatalogService {
       // aca guardo aparte en la db como items para luego bajar en xls con los barcodes
       await this.dexieDbService.addOrUpdateItem(newItem)
       product.items.push(newItem);
+      product.items.sort((a, b) => a.code - b.code);
     }
 
     await this.dexieDbService.bulkPutSections(Array.from(sectionMap.values()));
