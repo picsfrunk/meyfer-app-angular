@@ -22,6 +22,8 @@
 
     .logo-container {
       display: flex;
+      padding: var(--spacing-large);
+      justify-content: center;
       img {
         height: 10rem;
       }

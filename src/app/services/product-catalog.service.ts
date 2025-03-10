@@ -4,7 +4,12 @@ import {SheetItem} from 'models/sheetItem';
 import {Item, Product, Section} from 'models/interfaces.model';
 import {sectionsData} from 'data/sections.data';
 import {BarcodeService} from 'app/services/barcode.service';
-import {PRODUCT_SECTIONS_CORRECT_MAP, PRODUCT_SECTIONS_CORRECT_REGEX, SPECIAL_NAME_CASES} from '../../data/constants';
+import {
+  PRODUCT_SECTIONS_CORRECT_MAP,
+  PRODUCT_SECTIONS_CORRECT_REGEX,
+  PROFIT_GLOBAL,
+  SPECIAL_NAME_CASES
+} from '../../data/constants';
 import {getProductPrefix, getProductPrefix1word} from '../../helpers/helpers';
 
 @Injectable({
@@ -107,7 +112,7 @@ export class ProductCatalogService {
       const newItem: Item = {
         code: CODIGO,
         description: DESCRIPCIÓN,
-        price: PRECIO,
+        price: PRECIO * (1 + (PROFIT_GLOBAL / 100) ),
         barcode: this.barcodeService.generateEAN13(CODIGO.toString())
       };
       // console.log(JSON.stringify(newItem));

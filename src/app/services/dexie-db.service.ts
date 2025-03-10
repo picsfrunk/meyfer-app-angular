@@ -39,9 +39,13 @@ export class DexieDbService extends Dexie {
     await this.sheetItems.bulkPut(elements)
   }
 
-  async addSection(section: Section) {}
+  async addOrUpdateSection(section: Section) {
+    await this.sections.put(section)
+  }
 
-  async addProduct(product: Product) {}
+  async addOrUpdateProduct(product: Product) {
+    await this.products.put(product)
+  }
 
   async addOrUpdateItem(item: Item) {
     this.items.put(item);

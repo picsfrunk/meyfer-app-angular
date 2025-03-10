@@ -55,7 +55,6 @@ export class DataUploadComponent {
   }
 
   confirmUpload() {
-
     this.uploadData().finally(
       () => {
         this.uploadMessage = 'Datos cargados correctamente. Redirigiendo...';
