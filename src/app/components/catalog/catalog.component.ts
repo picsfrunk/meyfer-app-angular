@@ -35,6 +35,8 @@ export class CatalogComponent implements OnInit {
     //esto es para probar de reprocesar data de excel ya guardada
     this.productCatalogService.getSpreadSheetData()
       .then( data => console.log("Luego de iniciada la vista la sheetdata es: ", data ) )
+
+    this.getCatalogSize()
   }
 
   async loadProducts() {
@@ -59,6 +61,10 @@ export class CatalogComponent implements OnInit {
 
   async clearSpreadSheetData() {
     await this.productCatalogService.clearSheetData();
+  }
+
+  async getCatalogSize() {
+    this.catalogSize = await this.productCatalogService.catalogSize();
   }
 
   protected readonly window = window;
