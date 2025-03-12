@@ -37,5 +37,16 @@ export const SPECIAL_NAME_CASES
   "BASE DE TANQUE",
   "BOYA",
   "RODILLO",
-  "CAJA DE LUZ"
+  "CAJA DE LUZ",
+  "LLUVIA",
+  "ASIENTO",
+  "BASE",
+  "REGULADOR",
+  "REJILLA",
+  "CALEFON",
+  "SIFON",
+  "SOPORTE",
+  "GRIFO",
+  "VALVULA DESCARGA",
+  "VALVULA CANILLA",
 ]
