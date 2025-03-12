@@ -18,6 +18,7 @@ import { RouterLink } from '@angular/router';
   styleUrls: ['./catalog.component.scss']
 })
 export class CatalogComponent implements OnInit, AfterViewInit {
+  protected readonly window = window;
   sections!: Section[];
   catalogSize: number = 0;
 
@@ -70,10 +71,8 @@ export class CatalogComponent implements OnInit, AfterViewInit {
   private sectionMap: Map<number, HTMLElement> = new Map();
 
   ngAfterViewInit() {
-    console.log("sectionElements: ",this.sectionElements)
     // Llenar el mapa con referencias a las secciones
     this.sectionElements.forEach((el) => {
-      console.log("En forEach Elemento: ", el)
       const id = Number(el.nativeElement.id.replace('section-', ''));
       this.sectionMap.set(id, el.nativeElement);
     });
@@ -82,23 +81,17 @@ export class CatalogComponent implements OnInit, AfterViewInit {
   }
 
   scrollToSection(id: string) {
-    console.log(`📌 Intentando hacer scroll a la sección ID: ${id}`);
-
-    setTimeout(() => {  // Espera un ciclo de renderización
       const section = document.getElementById(id);
 
       if (section) {
         const topOffset = section.getBoundingClientRect().top + window.scrollY;
         window.scrollTo({
-          top: topOffset - 20, // Ajusta según necesites margen
-          behavior: 'smooth'
+          top: topOffset,
+          behavior: 'instant'
         });
       } else {
         console.warn(`⚠️ No se encontró la sección con ID: ${id}`);
       }
-    }, 100);
   }
 
-  protected readonly window = window;
-  protected readonly Number = Number;
 }

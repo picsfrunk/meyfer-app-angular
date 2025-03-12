@@ -65,11 +65,12 @@
       transition: transform 10.8s ease-out, box-shadow 0.2s ease;
 
       &:not(.header-row):hover {
-        border-bottom: 0.5px solid var(--color-primary);
+        background-color: var(--color-background);
+        font-weight: var(--weight-semibold);
       }
 
       &:nth-child(even) {
-      background-color: var(--color-outline) !important;
+        background-color: var(--color-outline);
       }
     }
 
