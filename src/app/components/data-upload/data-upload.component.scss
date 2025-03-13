@@ -4,21 +4,35 @@
   align-items: center;
   gap: 10px;
 
-  input {
-    margin-top: 10px;
+  .upload-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+    input {
+      margin-top: 10px;
+    }
+
+    button {
+      padding: 10px 15px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+
+      &:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+      }
+
+      *  {
+      display: flex;
+      flex-direction: column;
+    }
+
   }
 
-  button {
-    padding: 10px 15px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    cursor: pointer;
-
-    &:disabled {
-      background-color: #ccc;
-      cursor: not-allowed;
-    }
   }
 
   p {

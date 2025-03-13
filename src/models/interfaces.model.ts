@@ -15,8 +15,13 @@ export interface Product {
 export interface Item {
   id?: number;
   parentId?: number;
-  code: string;
+  code: number;
   description: string;
   price: number;
   barcode: string;
+}
+
+export interface ProfitData {
+  value: number;
+  dateUpdated: string;
 }

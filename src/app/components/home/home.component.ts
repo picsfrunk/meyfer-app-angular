@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { RouterLink} from '@angular/router';
-import { ProductCatalogService } from 'app/services/product-catalog.service';
 
 @Component({
   selector: 'app-home',
@@ -12,9 +11,6 @@ import { ProductCatalogService } from 'app/services/product-catalog.service';
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-  constructor(private productCatalogService: ProductCatalogService,) {};
+  constructor() {};
 
-  clearCatalog() {
-    this.productCatalogService.clearCatalog();
-  }
 }
