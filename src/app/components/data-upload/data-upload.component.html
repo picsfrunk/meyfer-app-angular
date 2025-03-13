@@ -1,20 +1,26 @@
-<div class="upload-container">
-  <h2>Cargar Archivo Excel</h2>
+<section class="upload-container">
+  <h2>Carga Archivo Excel RH</h2>
 
-    <div>
-        <input type="file" (change)="onFileChange($event)" accept=".xlsx, .xls">
+  <div class="upload-form">
+    <div class="flex-center-vertical flex-column-space-between">
+      <label for="fileInput">Seleccionar Archivo</label>
+      <input type="file" id="fileInput" (change)="onFileChange($event)" accept=".xlsx, .xls">
     </div>
 
-    <p *ngIf="uploadMessage">{{ uploadMessage }}</p>
-
-    <div *ngIf="sheetData">
-        <button class="btn" (click)="confirmUpload()" [disabled]="!isFileLoaded">
-          Confirmar Carga
-        </button>
-        <h3>Datos guardados:</h3>
-        <p>Cantidad de productos: {{ sheetData.length }}</p>
+    <div class="profit-box flex-center-vertical flex-column-space-between">
+      <label for="profitInput">Ingrese % de utilidad:</label>
+      <input [(ngModel)]="this.profitInput" type="number" id="profitInput" name="profit" min="0" max="100" />
     </div>
 
-</div>
+    <button type="button" class="btn" (click)="confirmUpload()" [disabled]="!isFileLoaded">
+      Confirmar Carga
+    </button>
+  </div>
+
+  <div class="upload-message-container">
+    <small class="upload-message" *ngIf="uploadMessage">{{ uploadMessage }}</small>
+  </div>
 
 
+
+</section>

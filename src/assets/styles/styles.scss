@@ -7,6 +7,7 @@
   --font-medium: 1.1rem;
   --font-large: 2.7rem;
   --font-extra-large: 4rem;
+  --weight-semibold: 800;
   --border-radius-sm: 0.3rem;
   --border-radius-md: 1rem;
   --border-radius-xl: 1.5rem;
@@ -95,4 +96,102 @@ html {
     border-color: var(--color-secondary);
     transition: var(--transition-fast);
   }
+}
+
+/* ----------------- CLASES PARA UTILIZAR ----------------- */
+.flex-space-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.flex-space-around {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.flex-center-vertical {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.flex-end {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.flex-start {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.flex-column-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.flex-column-space-between {
+  display: flex !important;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.flex-column-space-around {
+  display: flex !important;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.pointer:hover {
+  cursor: pointer;
+}
+
+.border-box {
+  box-sizing: border-box;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+}
+
+.float-right {
+  float: right;
+}
+
+.float-left {
+  float: left;
+}
+
+.cursor-normal:hover {
+  cursor: normal;
+}
+
+.cursor-pointer:hover {
+  cursor: pointer;
+}
+
+.cursor-not-allowed:hover {
+  cursor: not-allowed;
 }
