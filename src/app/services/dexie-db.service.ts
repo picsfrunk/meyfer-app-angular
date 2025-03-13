@@ -89,7 +89,7 @@ export class DexieDbService extends Dexie {
     return this.items.count()
   }
 
-  async getProfitData() {
+  async getLastProfitData() {
     return this.profitValue.orderBy('id').last();
   }
 

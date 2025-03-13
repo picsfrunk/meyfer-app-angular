@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import {DexieDbService} from './dexie-db.service';
 import {SheetItem} from 'models/sheetItem';
-import {Item, Product, Section} from 'models/interfaces.model';
+import {Item, Product, ProfitData, Section} from 'models/interfaces.model';
 import {sectionsData} from 'data/sections.data';
 import {BarcodeService} from 'app/services/barcode.service';
 import {
+  DEFAULT_PROFIT,
   PRODUCT_SECTIONS_CORRECT_MAP,
   PRODUCT_SECTIONS_CORRECT_REGEX,
-  PROFIT_GLOBAL,
   SPECIAL_NAME_CASES
 } from '../../data/constants';
 import {getProductPrefix, getProductPrefix1word} from '../../helpers/helpers';
@@ -16,6 +16,7 @@ import {getProductPrefix, getProductPrefix1word} from '../../helpers/helpers';
   providedIn: 'root'
 })
 export class ProductCatalogService {
+  profitData!: ProfitData;
 
   constructor(private dexieDbService: DexieDbService,
               private barcodeService: BarcodeService
@@ -42,12 +43,12 @@ export class ProductCatalogService {
 
 
   async processSheetData() {
-    await this.clearCatalog()
+    await this.getLastProfitData();
+    await this.clearCatalog();
     console.log("In processSheetData()");
     // pido a la db los datos crudos
     const productsSheet = await this.getAllSheetData();
-
-    if (!productsSheet.length) return;
+    if (!productsSheet.length) return; //TODO: mejorar esta logica
 
     const sectionMap = new Map<string, Section>(
       // Aca se toma la primer inicial ya que en el catalogo de rh la columna rubro figura asi
@@ -112,7 +113,7 @@ export class ProductCatalogService {
       const newItem: Item = {
         code: CODIGO,
         description: DESCRIPCIÓN,
-        price: PRECIO * (1 + (PROFIT_GLOBAL / 100) ),
+        price: PRECIO * (1 + (this.profitData.value / 100) ),
         barcode: this.barcodeService.generateEAN13(CODIGO.toString())
       };
       // console.log(JSON.stringify(newItem));
@@ -153,14 +154,27 @@ export class ProductCatalogService {
     return this.dexieDbService.getAllItems();
   }
 
-  async getProfitData() {
-    return this.dexieDbService.getProfitData();
+  async getLastProfitData() {
+    await this.dexieDbService.getLastProfitData()
+      .then( data => {
+        data ? this.profitData = data : this.setDefaultProfit()
+      })
+      .catch( err => console.error(err, "when get last Profit Data"))
+    return this.profitData;
   }
+
+  setDefaultProfit() {
+    this.profitData = {
+      dateUpdated: Date(),
+      value: DEFAULT_PROFIT
+    }
+}
 
   async saveProfit(newValue: number) {
     await this.dexieDbService.putProfitData({
       value: newValue,
       dateUpdated: Date()
     })
+
   }
 }

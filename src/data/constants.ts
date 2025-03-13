@@ -3,7 +3,7 @@ export const CATALOG_COLLECTION_NAME = 'catalog'
 export const BARCODE_PREFIX = '420'
 export const BARCODE_PAD = '0'
 
-export const PROFIT_GLOBAL = 10
+export const DEFAULT_PROFIT = 10
 
 // Map para asginar manualmente ciertos productos que contengan la palabra
 // de la clave 1 y lo asigne al rubro de la clave 2
