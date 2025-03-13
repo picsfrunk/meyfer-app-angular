@@ -52,8 +52,8 @@ export class DataUploadComponent implements OnInit {
   async uploadData() {
     await this.productCatalogService.clearSheetData();
     await this.productCatalogService.putSheetItems(this.sheetData);
-    await this.productCatalogService.processSheetData();
     await this.saveProfitData();
+    await this.productCatalogService.processSheetData();
   }
 
   confirmUpload() {
@@ -78,9 +78,9 @@ export class DataUploadComponent implements OnInit {
   }
 
   private loadProfitValue() {
-    this.productCatalogService.getProfitData()
+    this.productCatalogService.getLastProfitData()
       .then( (data) => {
-        data ? this.profitInput = data.value : console.error('No se encuentra el profito');
+        this.profitInput = data.value;
       })
   }
 

@@ -101,7 +101,7 @@ export class CatalogComponent implements OnInit, AfterViewInit {
   }
 
   private async getProfitData() {
-    await this.productCatalogService.getProfitData()
+    await this.productCatalogService.getLastProfitData()
       .then( result => {
         result ? this.profitData = result : console.log("No profito")
       })
