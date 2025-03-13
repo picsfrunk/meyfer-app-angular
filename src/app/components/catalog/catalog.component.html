@@ -11,8 +11,10 @@
     <div class="logo-container">
       <img src="assets/images/logos/logo-negro-tr.png">
     </div>
-    <div class="catalog-up-banner">
+    <div class="catalog-up-banner" *ngIf="sections">
       <p> {{ catalogSize  == 0 ? "NO HAY" : catalogSize}} ARTICULOS </p>
+      <p> Utilidad: {{profitData.value}}%</p>
+      <p> Actualización: {{profitData.dateUpdated | date:"dd/MM/yyyy 'a las' hh:mm a" }}</p>
     </div>
   </div>
   <nav class="table-of-contents">

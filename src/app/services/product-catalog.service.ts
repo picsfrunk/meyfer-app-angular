@@ -152,4 +152,15 @@ export class ProductCatalogService {
   async getAllItems() {
     return this.dexieDbService.getAllItems();
   }
+
+  async getProfitData() {
+    return this.dexieDbService.getProfitData();
+  }
+
+  async saveProfit(newValue: number) {
+    await this.dexieDbService.putProfitData({
+      value: newValue,
+      dateUpdated: Date()
+    })
+  }
 }

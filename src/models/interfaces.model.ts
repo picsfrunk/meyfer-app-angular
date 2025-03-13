@@ -20,3 +20,8 @@ export interface Item {
   price: number;
   barcode: string;
 }
+
+export interface ProfitData {
+  value: number;
+  dateUpdated: string;
+}

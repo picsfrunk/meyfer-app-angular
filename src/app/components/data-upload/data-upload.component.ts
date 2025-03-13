@@ -1,26 +1,30 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import * as XLSX from 'xlsx';
 import { SheetItem } from 'models/sheetItem';
 import { ProductCatalogService } from 'app/services/product-catalog.service';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-data-upload',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   standalone: true,
   templateUrl: './data-upload.component.html',
   styleUrls: ['./data-upload.component.scss']
 })
-export class DataUploadComponent {
+export class DataUploadComponent implements OnInit {
   sheetData!: SheetItem[];
   isFileLoaded = false;
   uploadMessage = '';
+  profitInput!: number;
 
   constructor(private productCatalogService: ProductCatalogService,
-              private router: Router,
-  ) {
+              private router: Router){};
+
+  ngOnInit() {
     this.loadSheetData();
+    this.loadProfitValue();
   }
 
   onFileChange(event: any) {
@@ -47,22 +51,22 @@ export class DataUploadComponent {
 
   async uploadData() {
     await this.productCatalogService.clearSheetData();
-    await this.productCatalogService.putSheetItems(this.sheetData)
-      .then( () => console.log("Datos de excel guardados exitosamente"))
-      .catch( (error) => console.error('Error al guardar los datos del excel:', error));
-
+    await this.productCatalogService.putSheetItems(this.sheetData);
     await this.productCatalogService.processSheetData();
+    await this.saveProfitData();
   }
 
   confirmUpload() {
-    this.uploadData().finally(
-      () => {
-        this.uploadMessage = 'Datos cargados correctamente. Redirigiendo...';
-        setTimeout(() => {
-          this.router.navigate(['/catalog']);
-        }, 3000);
-      }
-    )
+    console.log('Confirmado. Excel data:', this.sheetData);
+    this.uploadData()
+      .finally(() => { setTimeout(() => {
+          this.router.navigate(['/catalog'])
+            .then(r => { this.uploadMessage = 'Datos cargados correctamente. Redirigiendo...';
+          })
+            .catch( e  => console.error(e));
+        }, 3000)
+      })
+      .catch( e => console.error(e));
   }
 
   private loadSheetData() {
@@ -71,5 +75,16 @@ export class DataUploadComponent {
         this.sheetData = data
       }
     )
+  }
+
+  private loadProfitValue() {
+    this.productCatalogService.getProfitData()
+      .then( (data) => {
+        data ? this.profitInput = data.value : console.error('No se encuentra el profito');
+      })
+  }
+
+  private async saveProfitData() {
+    await this.productCatalogService.saveProfit(this.profitInput)
   }
 }

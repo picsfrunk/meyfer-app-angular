@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import Dexie, { Table } from 'dexie';
-import { Item, Product, Section } from 'models/interfaces.model';
+import {Item, Product, ProfitData, Section} from 'models/interfaces.model';
 import { SheetItem } from 'models/sheetItem';
 import { CATALOG_COLLECTION_NAME } from 'data/constants';
 
@@ -12,6 +12,7 @@ export class DexieDbService extends Dexie {
   products!: Table<Product, number>;
   items!: Table<Item, number>;
   sheetItems!: Table<SheetItem, number>;
+  profitValue!: Table<ProfitData, number>
 
   constructor() {
     super(CATALOG_COLLECTION_NAME);
@@ -19,7 +20,8 @@ export class DexieDbService extends Dexie {
       sheetItems: '++id',
       sections: '++id',
       products: '++id',
-      items: '++id'
+      items: '++id',
+      profitValue: '++id',
     })
 
     this.open()
@@ -87,4 +89,11 @@ export class DexieDbService extends Dexie {
     return this.items.count()
   }
 
+  async getProfitData() {
+    return this.profitValue.orderBy('id').last();
+  }
+
+  async putProfitData(data: ProfitData) {
+    await this.profitValue.put(data)
+  }
 }

@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
-import { NgForOf } from '@angular/common';
-import { Section } from 'models/interfaces.model';
+import {DatePipe, NgForOf, NgIf} from '@angular/common';
+import {ProfitData, Section} from 'models/interfaces.model';
 import { SectionComponent } from '../sections/section.component';
 import { ProductCatalogService } from 'app/services/product-catalog.service';
 import { RouterLink } from '@angular/router';
@@ -13,7 +13,9 @@ import { RouterLink } from '@angular/router';
   imports: [
     NgForOf,
     SectionComponent,
-    RouterLink
+    RouterLink,
+    DatePipe,
+    NgIf
   ],
   styleUrls: ['./catalog.component.scss']
 })
@@ -21,8 +23,12 @@ export class CatalogComponent implements OnInit, AfterViewInit {
   protected readonly window = window;
   sections!: Section[];
   catalogSize: number = 0;
+  profitData!: ProfitData;
 
-  constructor(private productCatalogService: ProductCatalogService) {  };
+  constructor(private productCatalogService: ProductCatalogService) {
+    this.getCatalogSize();
+    this.getProfitData();
+  };
 
   ngOnInit() {
     this.loadProducts()
@@ -34,9 +40,9 @@ export class CatalogComponent implements OnInit, AfterViewInit {
       .then((items) => console.log("Items:\n", items) )
 
     //esto es para probar de reprocesar data de excel ya guardada
-    this.productCatalogService.getSpreadSheetData()
+    this.productCatalogService.getSpreadSheetData();
 
-    this.getCatalogSize()
+
   }
 
   async loadProducts() {
@@ -94,4 +100,10 @@ export class CatalogComponent implements OnInit, AfterViewInit {
       }
   }
 
+  private async getProfitData() {
+    await this.productCatalogService.getProfitData()
+      .then( result => {
+        result ? this.profitData = result : console.log("No profito")
+      })
+  }
 }
