@@ -8,6 +8,14 @@
   background-color: white;
   gap: var(--spacing-large);
 
+  .go-top-button {
+    display: block;
+    position: fixed;
+    z-index: 1000;
+    right: var(--spacing-small);
+    top: var(--spacing-small);
+  }
+
   .catalog-header {
     .catalog-header-buttons {
       display: flex;

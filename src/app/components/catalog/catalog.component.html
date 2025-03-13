@@ -1,5 +1,18 @@
 <div class="catalog-container">
-
+  <div class="go-top-button">
+    <button class="btn" class="btn" (click)="window.scrollTo({
+          top: 0,
+          behavior: 'instant'})"> ^ </button></div>
+  <nav class="table-of-contents">
+    <h3>Índice</h3>
+    <ul>
+      <li *ngFor="let section of sections">
+        <button (click)="scrollToSection(section.id!.toString())">
+          {{ section.title }}
+        </button>
+      </li>
+    </ul>
+  </nav>
   <div class="catalog-header">
     <div class="catalog-header-buttons">
       <button class="btn" [routerLink]="'/upload'"><span>Subir Datos en Excel</span></button>
@@ -17,16 +30,7 @@
       <p> Actualización: {{profitData.dateUpdated | date:"dd/MM/yyyy 'a las' hh:mm a" }}</p>
     </div>
   </div>
-  <nav class="table-of-contents">
-    <h3>Índice</h3>
-    <ul>
-      <li *ngFor="let section of sections">
-        <button (click)="scrollToSection(section.id!.toString())">
-          {{ section.title }}
-        </button>
-      </li>
-    </ul>
-  </nav>
+
   <app-section *ngFor="let section of sections"
                [section]="section"
                class="app-section-container"
