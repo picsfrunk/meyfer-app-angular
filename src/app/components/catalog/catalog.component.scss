@@ -105,8 +105,8 @@
     margin-top: -1em; // Evita espacio en blanco accidental
   }
 
-  .catalog-header-buttons {
-    visibility: hidden;
+  .hidden-on-print {
+    visibility: hidden !important;
     display: none !important;
   }
 }
