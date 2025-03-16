@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "adn-catalog": {
+    "meyfer-catalog": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/adn-catalog",
+            "outputPath": "dist/meyfer-catalog",
             "baseHref": "/meyfer-app-angular/",
             "index": "src/index.html",
             "browser": "src/main.ts",
@@ -61,10 +61,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "adn-catalog:build:production"
+              "buildTarget": "meyfer-catalog:build:production"
             },
             "development": {
-              "buildTarget": "adn-catalog:build:development"
+              "buildTarget": "meyfer-catalog:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -101,6 +101,9 @@
               "src/**/*.html"
             ]
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy"
         }
       }
     }
