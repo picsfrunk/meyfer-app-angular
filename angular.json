@@ -13,8 +13,8 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/meyfer-catalog",
-            "baseHref": "/meyfer-app-angular/",
+            "outputPath": "dist/meyfer-catalog/browser",
+            "baseHref": "/meyfer-catalog/",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -47,8 +47,13 @@
                   "maximumError": "8kB"
                 }
               ],
-              "outputHashing": "all"
-            },
+              "outputHashing": "all",
+              "index": "src/index.html",
+              "baseHref": "/meyfer-catalog/",
+              "styles": [
+                "src/assets/styles/styles.scss"
+              ],
+              "scripts": []            },
             "development": {
               "optimization": false,
               "extractLicenses": false,
