@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/meyfer-catalog/",
+            "outputPath": "dist/meyfer-catalog",
             "baseHref": "/meyfer-catalog/",
             "index": "src/index.html",
             "browser": "src/main.ts",
@@ -49,6 +49,7 @@
               ],
               "outputHashing": "all",
               "index": "src/index.html",
+              "outputPath": "dist/meyfer-catalog",
               "baseHref": "/",
               "styles": [
                 "src/assets/styles/styles.scss"
