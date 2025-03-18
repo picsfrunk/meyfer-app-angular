@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/meyfer-catalog",
+    "public": "dist/meyfer/browser",
     "ignore": [
       "firebase.json",
       "**/.*",
