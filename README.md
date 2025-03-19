@@ -1,6 +1,6 @@
 # MeyFer App
 
-![MeyFer!](/assets/images/logos/logo-banner-blanco-azul.jpg "MeyFer")
+![MeyFer!](src/assets/images/logos/logo-banner-blanco-azul.jpg "MeyFer")
 
 # 🛠️ Catálogo Digital
 
