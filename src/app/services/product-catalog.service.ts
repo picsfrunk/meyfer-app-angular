@@ -29,8 +29,8 @@ export class ProductCatalogService {
 
 
   async fetchExcel() {
-    this.http.get( BASE_CATALOG_URL, { responseType: 'arraybuffer'}).subscribe(
-      async data => {
+    this.http.get<ArrayBuffer>( BASE_CATALOG_URL )
+      .subscribe(async data => {
         this.saveWithXLSX(data)
           .then( sheetDataFromURL => this.sheetData = sheetDataFromURL)
         await this.putSheetItems(this.sheetData)
