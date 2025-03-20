@@ -1,3 +1,4 @@
+export const BASE_CATALOG_URL = "https://rhcomercial.com.ar/lista/listadepreciosrh.xls"
 export const CATALOG_COLLECTION_NAME = 'catalog'
 
 export const BARCODE_PREFIX = '420'

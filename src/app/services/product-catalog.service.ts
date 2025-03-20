@@ -5,22 +5,53 @@ import {Item, Product, ProfitData, Section} from 'models/interfaces.model';
 import {sectionsData} from 'data/sections.data';
 import {BarcodeService} from 'app/services/barcode.service';
 import {
+  BASE_CATALOG_URL,
   DEFAULT_PROFIT,
   PRODUCT_SECTIONS_CORRECT_MAP,
   PRODUCT_SECTIONS_CORRECT_REGEX,
   SPECIAL_NAME_CASES
 } from '../../data/constants';
 import {getProductPrefix, getProductPrefix1word} from '../../helpers/helpers';
+import {HttpClient} from '@angular/common/http';
+import * as XLSX from 'xlsx';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductCatalogService {
   profitData!: ProfitData;
+  sheetData!: SheetItem[];
 
   constructor(private dexieDbService: DexieDbService,
-              private barcodeService: BarcodeService
+              private barcodeService: BarcodeService,
+              private http: HttpClient,
   ) {}
+
+
+  async fetchExcel() {
+    this.http.get( BASE_CATALOG_URL, { responseType: 'arraybuffer'}).subscribe(
+      async data => {
+        this.saveWithXLSX(data)
+          .then( sheetDataFromURL => this.sheetData = sheetDataFromURL)
+        await this.putSheetItems(this.sheetData)
+        console.log(`Data obtenida desde ${BASE_CATALOG_URL}`)
+      }
+    )
+
+  }
+
+  async saveWithXLSX(e: any): Promise<SheetItem[]> {
+    return new Promise(async (resolve, reject) => {
+      const workbook = XLSX.read(e.target.result, {type: 'file'});
+      const firstSheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[firstSheetName];
+
+      resolve(XLSX.utils.sheet_to_json(worksheet, {raw: true, range: 15}))
+      // this.sheetData = ;
+      // console.log('Excel data in ProductService:', this.sheetData);
+    })
+
+  }
 
   async getAllSections() {
     return this.dexieDbService.getAllSections();
@@ -177,4 +208,5 @@ export class ProductCatalogService {
     })
 
   }
+
 }
