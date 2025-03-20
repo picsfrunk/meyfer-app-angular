@@ -29,7 +29,7 @@ export class ProductCatalogService {
 
 
   async fetchExcel() {
-    this.http.get<ArrayBuffer>( BASE_CATALOG_URL )
+    this.http.get( '/api/lista/listadepreciosrh.xls', { responseType: 'arraybuffer' } )
       .subscribe(async data => {
         this.saveWithXLSX(data)
           .then( sheetDataFromURL => this.sheetData = sheetDataFromURL)
