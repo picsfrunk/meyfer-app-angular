@@ -55,14 +55,21 @@ export class CatalogComponent implements OnInit, AfterViewInit {
       .catch( e => console.error(e));
   }
 
+
+  async fetchAndProcessExcel() {
+    await this.productCatalogService.fetchExcel()
+      .then( async () => await this.reprocessSpreadsheetData() )
+  }
+
   async reprocessSpreadsheetData() {
-    await this.productCatalogService.processSheetData();
-    await this.loadProducts();
+    await this.productCatalogService.processSheetData()
+      .then( async () => await this.loadProducts() )
+
   }
 
   async clearCatalog() {
-    await this.productCatalogService.clearCatalog();
-    await this.loadProducts();
+    await this.productCatalogService.clearCatalog()
+      .then( async () => await this.loadProducts() )
   }
 
   async clearSpreadSheetData() {
