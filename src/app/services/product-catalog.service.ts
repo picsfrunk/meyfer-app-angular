@@ -30,25 +30,25 @@ export class ProductCatalogService {
 
   async fetchExcel() {
     await this.http.get( `${environment.apiUrl}/fetch-xls`, { responseType: 'arraybuffer'}).subscribe(
-      async data => {
-        await this.saveWithXLSX(data)
-          .then( sheetDataFromURL => this.sheetData = sheetDataFromURL)
-        await this.putSheetItems(this.sheetData)
+      data => {
+        
+        this.sheetData = this.saveWithXLSX(data)
+        this.putSheetItems(this.sheetData)
       }
     )
 
   }
 
-  async saveWithXLSX(e: any): Promise<SheetItem[]> {
-    return new Promise(async (resolve, reject) => {
-      const workbook = XLSX.read(e.target.result, {type: 'file'});
+  saveWithXLSX(file: any): SheetItem[] {
+      console.log(file)
+      const workbook = XLSX.read(file, {type: 'file'});
       const firstSheetName = workbook.SheetNames[0];
       const worksheet = workbook.Sheets[firstSheetName];
 
-      resolve(XLSX.utils.sheet_to_json(worksheet, {raw: true, range: 15}))
+      return XLSX.utils.sheet_to_json(worksheet, {raw: true, range: 15})
       // this.sheetData = ;
-      // console.log('Excel data in ProductService:', this.sheetData);
-    })
+      console.log('Excel data in ProductService:', this.sheetData);
+
 
   }
 

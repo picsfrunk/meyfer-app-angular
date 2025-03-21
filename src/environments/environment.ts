@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:3000' // Cambiar en producción
+  apiUrl: 'https://meyfer-backend-expressjs-production.up.railway.app' // Cambiar en producción
 };
