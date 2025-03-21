@@ -1,8 +1,12 @@
 {
-  "/api/lista": {
+  "/api/*": {
     "target": "https://rhcomercial.com.ar",
-    "secure": false,
+    "secure": true,
     "changeOrigin": true,
-    "logLevel": "debug"
+    "logLevel": "debug",
+    "Connection": "keep-alive",
+    "pathRewrite": {
+      "^/api" : "https://rhcomercial.com.ar"
+    }
   }
 }
