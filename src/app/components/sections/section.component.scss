@@ -17,7 +17,38 @@
       font-size: var(--font-large);
       text-transform: uppercase;
     }
+
+
+    .table-of-contents {
+      background: var(--color-background);
+      padding: 1em;
+      border-radius: 8px;
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      li {
+        margin: 5px 0;
+      }
+
+      a {
+        text-decoration: none;
+        color: var(--primary-color);
+        cursor: pointer;
+        border: none;
+        font-size: 1em;
+        transition: color 0.3s ease;
+
+        &:hover {
+          color: var(--accent-color);
+        }
+      }
+    }
   }
+
 
   .products-container {
     column-count: 2;

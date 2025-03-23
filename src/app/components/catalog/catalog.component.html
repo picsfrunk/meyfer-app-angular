@@ -5,16 +5,16 @@
           behavior: 'instant'})"> ^ </button>
   </div>
 
-  <nav class="table-of-contents">
-    <h3>Índice</h3>
-    <ul>
-      <li *ngFor="let section of sections" >
-        <a href="#{{ section.id }}" (click)="scrollToSection(section.id!.toString(), $event)">
-          {{ section.title }}
-        </a>
-      </li>
-    </ul>
-  </nav>
+<!--  <nav class="table-of-contents">-->
+<!--    <h3>Índice</h3>-->
+<!--    <ul>-->
+<!--      <li *ngFor="let section of sections" >-->
+<!--        <a href="#{{ section.id }}" (click)="scrollToSection(section.id!.toString(), $event)">-->
+<!--          {{ section.title }}-->
+<!--        </a>-->
+<!--      </li>-->
+<!--    </ul>-->
+<!--  </nav>-->
 
   <div class="catalog-header">
     <div class="catalog-header-buttons hidden-on-print">
@@ -39,6 +39,8 @@
                [section]="section"
                class="app-section-container"
                [attr.id]="section.id"
-               #sectionRefs/>
+               #sectionRefs
+               [allSections]="sections"
+  />
 
 </div>
