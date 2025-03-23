@@ -2,17 +2,20 @@
   <div class="go-top-button hidden-on-print">
     <button class="btn" class="btn" (click)="window.scrollTo({
           top: 0,
-          behavior: 'instant'})"> ^ </button></div>
-  <nav class="table-of-contents hidden-on-print">
+          behavior: 'instant'})"> ^ </button>
+  </div>
+
+  <nav class="table-of-contents">
     <h3>Índice</h3>
     <ul>
       <li *ngFor="let section of sections">
-        <button (click)="scrollToSection(section.id!.toString())">
+        <a href="#{{ section.id }}">
           {{ section.title }}
-        </button>
+        </a>
       </li>
     </ul>
   </nav>
+
   <div class="catalog-header">
     <div class="catalog-header-buttons hidden-on-print">
       <button class="btn" [routerLink]="'/upload'"><span>Subir Datos en Excel</span></button>
@@ -36,6 +39,7 @@
                [section]="section"
                class="app-section-container"
                [attr.id]="section.id"
+
                #sectionRefs/>
 
 </div>

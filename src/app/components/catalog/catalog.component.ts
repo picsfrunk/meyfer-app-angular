@@ -89,7 +89,7 @@ export class CatalogComponent implements OnInit, AfterViewInit {
       const id = Number(el.nativeElement.id.replace('section-', ''));
       this.sectionMap.set(id, el.nativeElement);
     });
-    console.log("sectionMap: ",this.sectionMap)
+    // console.log("sectionMap: ",this.sectionMap)
 
   }
 
