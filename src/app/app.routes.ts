@@ -4,7 +4,6 @@ import {CatalogComponent} from './components/catalog/catalog.component';
 import {DataUploadComponent} from './components/data-upload/data-upload.component';
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'catalog', component: CatalogComponent },
+  { path: '', component: CatalogComponent },
   { path: 'upload', component: DataUploadComponent },
 ];

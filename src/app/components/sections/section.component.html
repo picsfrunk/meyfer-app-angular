@@ -1,8 +1,20 @@
 <div class="section-container">
   <div class="section-header">
-    <h2 class="section-title"> {{ section.title }} </h2>
 
     <img class="section-image" [src]="section.image" [alt]="section.title">
+    <h2 class="section-title"> {{ section.title }} </h2>
+
+    <nav class="table-of-contents">
+      <ul>
+        <li *ngFor="let otherSection of otherSections">
+          <a href="#{{ otherSection.id }}" (click)="scrollToSection(otherSection.id!, $event)">
+            {{ otherSection.title }}
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+
   </div>
 
   <div class="products-container">

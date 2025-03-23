@@ -12,4 +12,20 @@ import { ProductComponent } from '../product/product.component';
 })
 export class SectionComponent {
   @Input() section!: Section;
+  @Input() allSections!: Section[];
+
+  get otherSections() {
+    return this.allSections.filter((s) => s.id !== this.section.id);
+  }
+
+  scrollToSection(id: number, event: Event) {
+    event.preventDefault();
+    const element = document.getElementById(id.toString());
+    if (element) {
+      element.scrollIntoView({
+        block: 'start',
+        behavior: 'instant',
+      });
+    }
+  }
 }

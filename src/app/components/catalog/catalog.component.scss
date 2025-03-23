@@ -39,54 +39,16 @@
 
     .catalog-up-banner {
       display: flex;
-      justify-content: flex-end;
-      font-weight: bolder;
+      flex-direction: column;
+      justify-content: center;
       width: 100%;
+      font-size: var(--font-small);
       gap: var(--spacing-small);
     }
   }
 
   .app-section-container {
     width: 100%;
-  }
-
-  .table-of-contents {
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    background: white;
-    padding: 1em;
-    border-radius: 8px;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-
-    h3 {
-      margin-bottom: 10px;
-      font-size: 1.2em;
-    }
-
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    li {
-      margin: 5px 0;
-    }
-
-    button {
-      text-decoration: none;
-      color: var(--primary-color);
-      cursor: pointer;
-      background: none;
-      border: none;
-      font-size: 1em;
-      transition: color 0.3s ease;
-
-      &:hover {
-        color: var(--accent-color);
-      }
-    }
   }
 
 }
