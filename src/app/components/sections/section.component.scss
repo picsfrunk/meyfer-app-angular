@@ -2,6 +2,7 @@
   .section-header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: var(--spacing-small);
 
 
@@ -20,7 +21,6 @@
 
 
     .table-of-contents {
-      background: var(--color-background);
       padding: 1em;
       border-radius: 8px;
       box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
@@ -51,6 +51,7 @@
 
 
   .products-container {
+    padding: var(--spacing-small);
     column-count: 2;
     column-gap: var(--spacing-medium);
     width: 100%;

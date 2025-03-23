@@ -7,7 +7,7 @@
     <nav class="table-of-contents">
       <ul>
         <li *ngFor="let otherSection of otherSections">
-          <a href="#{{ otherSection.id }}" (click)="scrollToSection(otherSection.id, $event)">
+          <a href="#{{ otherSection.id }}" (click)="scrollToSection(otherSection.id!, $event)">
             {{ otherSection.title }}
           </a>
         </li>
