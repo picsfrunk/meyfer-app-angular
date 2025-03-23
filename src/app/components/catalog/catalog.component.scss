@@ -39,9 +39,10 @@
 
     .catalog-up-banner {
       display: flex;
-      justify-content: flex-end;
-      font-weight: bolder;
+      flex-direction: column;
+      justify-content: center;
       width: 100%;
+      font-size: var(--font-small);
       gap: var(--spacing-small);
     }
   }
