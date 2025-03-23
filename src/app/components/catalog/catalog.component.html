@@ -8,8 +8,8 @@
   <nav class="table-of-contents">
     <h3>Índice</h3>
     <ul>
-      <li *ngFor="let section of sections">
-        <a href="#{{ section.id }}">
+      <li *ngFor="let section of sections" >
+        <a href="#{{ section.id }}" (click)="scrollToSection(section.id!.toString(), $event)">
           {{ section.title }}
         </a>
       </li>
@@ -39,7 +39,6 @@
                [section]="section"
                class="app-section-container"
                [attr.id]="section.id"
-
                #sectionRefs/>
 
 </div>

@@ -93,18 +93,12 @@ export class CatalogComponent implements OnInit, AfterViewInit {
 
   }
 
-  scrollToSection(id: string) {
-      const section = document.getElementById(id);
-
-      if (section) {
-        const topOffset = section.getBoundingClientRect().top + window.scrollY;
-        window.scrollTo({
-          top: topOffset,
-          behavior: 'instant'
-        });
-      } else {
-        console.warn(`⚠️ No se encontró la sección con ID: ${id}`);
-      }
+  scrollToSection(id: string, event: Event) {
+    event.preventDefault(); // Evita el comportamiento predeterminado del enlace
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'instant' }); // Desplazamiento inmediato
+    }
   }
 
   private async getProfitData() {
