@@ -6,7 +6,6 @@
     align-items: center;
     padding: var(--spacing-small);
 
-
     .section-image {
       width: 100%;
       max-width: 6em;
@@ -76,6 +75,14 @@
 
 @media (max-width: $breakpoint-mobile) {
   .section-container {
+    .section-header {
+      .section-title {
+        font-size: var(--font-medium-large);
+      }
+      .table-of-contents{
+        font-size: var(--font-small);
+      }
+    }
     .products-container {
       column-count: 1;
     }
