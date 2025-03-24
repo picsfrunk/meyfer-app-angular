@@ -1,6 +1,6 @@
-import {AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
-import {DatePipe, NgForOf, NgIf} from '@angular/common';
-import {ProfitData, Section} from 'models/interfaces.model';
+import { Component, OnInit } from '@angular/core';
+import { DatePipe, NgForOf, NgIf } from '@angular/common';
+import { ProfitData, Section } from 'models/interfaces.model';
 import { SectionComponent } from '../sections/section.component';
 import { ProductCatalogService } from 'app/services/product-catalog.service';
 import { RouterLink } from '@angular/router';
@@ -19,7 +19,7 @@ import { RouterLink } from '@angular/router';
   ],
   styleUrls: ['./catalog.component.scss']
 })
-export class CatalogComponent implements OnInit, AfterViewInit {
+export class CatalogComponent implements OnInit {
   protected readonly window = window;
   sections!: Section[];
   catalogSize: number = 0;
@@ -32,26 +32,18 @@ export class CatalogComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.loadProducts()
-      .then( () => console.log(`Catalago cargado con ${this.sections.length} secciones:`,this.sections));
 
     //pruebas
     // Esto es para poder bajar el json TODO: hacer boton y funcion para bajarlo en xls
     this.productCatalogService.getAllItems()
       .then((items) => console.log("Items:\n", items) )
 
-    //esto es para probar de reprocesar data de excel ya guardada
-    this.productCatalogService.getSpreadSheetData();
-
-
   }
 
-  async loadProducts() {
-    console.log("Cargando productos...")
-    await this.productCatalogService.getAllSections()
+  loadProducts() {
+    this.productCatalogService.getAllSections()
       .then( result => {
-        this.sections = result
-        console.log("Productos obtenidos en CatalogComponent")
-      })
+        this.sections = result  })
       .catch( e => console.error(e));
   }
 
@@ -64,7 +56,6 @@ export class CatalogComponent implements OnInit, AfterViewInit {
   async reprocessSpreadsheetData() {
     await this.productCatalogService.processSheetData()
       .then( async () => await this.loadProducts() )
-
   }
 
   async clearCatalog() {
@@ -78,27 +69,6 @@ export class CatalogComponent implements OnInit, AfterViewInit {
 
   async getCatalogSize() {
     this.catalogSize = await this.productCatalogService.catalogSize();
-  }
-
-  @ViewChildren('sectionRefs') sectionElements!: QueryList<ElementRef>;
-  private sectionMap: Map<number, HTMLElement> = new Map();
-
-  ngAfterViewInit() {
-    // Llenar el mapa con referencias a las secciones
-    this.sectionElements.forEach((el) => {
-      const id = Number(el.nativeElement.id.replace('section-', ''));
-      this.sectionMap.set(id, el.nativeElement);
-    });
-    // console.log("sectionMap: ",this.sectionMap)
-
-  }
-
-  scrollToSection(id: string, event: Event) {
-    event.preventDefault(); // Evita el comportamiento predeterminado del enlace
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'instant' }); // Desplazamiento inmediato
-    }
   }
 
   private async getProfitData() {
