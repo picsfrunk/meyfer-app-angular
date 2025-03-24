@@ -1,4 +1,4 @@
-@import "assets/styles/styles.scss";
+@use "assets/styles/styles.scss";
 .section-container {
   .section-header {
     display: flex;
@@ -73,7 +73,7 @@
 //
 //}
 
-@media (max-width: $breakpoint-mobile) {
+@media (max-width: styles.$breakpoint-mobile) {
   .section-container {
     .section-header {
       .section-title {
