@@ -1,3 +1,4 @@
+@import "assets/styles/styles.scss";
 .section-container {
   .section-header {
     display: flex;
@@ -68,13 +69,27 @@
 
 }
 
+//@media (max-width: $breakpoint-tablet) {
+//
+//
+//}
+
+@media (max-width: $breakpoint-mobile) {
+  .section-container {
+    .products-container {
+      column-count: 1;
+    }
+  }
+
+}
+
 @media print {
   .section-container {
     break-before: page;
     break-inside: avoid;
-  }
 
-  .section-container:first-child {
-    break-before: auto !important;
+    &:first-child {
+      break-before: auto !important;
+    }
   }
 }

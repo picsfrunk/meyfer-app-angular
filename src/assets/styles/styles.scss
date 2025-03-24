@@ -54,10 +54,13 @@ html {
 }
 
 @media print {
-  html {
+  body {
     background-color:white;
   }
 }
+
+$breakpoint-tablet: 1024px;
+$breakpoint-mobile: 667px;
 
 .centered {
   @include flex-center;
@@ -182,10 +185,6 @@ html {
 
 .float-left {
   float: left;
-}
-
-.cursor-normal:hover {
-  cursor: normal;
 }
 
 .cursor-pointer:hover {
