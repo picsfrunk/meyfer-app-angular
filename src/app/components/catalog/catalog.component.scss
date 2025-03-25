@@ -1,9 +1,10 @@
+@use "assets/styles/styles.scss";
 .catalog-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: var(--spacing-large);
-  width: 70vw;
+  width: 75vw;
   margin: auto;
   background-color: white;
   gap: var(--spacing-large);
@@ -20,12 +21,8 @@
     .catalog-header-buttons {
       display: flex;
       gap: var(--spacing-small);
-       justify-content: center;
-    }
-
-    .catalog-title {
-      font-size: var(--font-extra-large);
-      font-weight: 800;
+      justify-content: center;
+      justify-items: center;
     }
 
     .logo-container {
@@ -33,7 +30,7 @@
       padding: var(--spacing-large);
       justify-content: center;
       img {
-        height: 10rem;
+        height: 12rem;
       }
     }
 
@@ -53,22 +50,54 @@
 
 }
 
+@media (max-width: styles.$breakpoint-tablet) {
+  .catalog-container {
+    width: 85vw;
+    padding: var(--spacing-small);
+    gap: var(--spacing-small);
+
+    .logo-container img {
+      height: 10rem;
+    }
+  }
+}
+
+@media (max-width: styles.$breakpoint-mobile) {
+  .catalog-container {
+    width: 95vw;
+    padding: var(--spacing-small);
+
+    .catalog-header {
+      .logo-container {
+        padding: var(--spacing-small);
+        img {
+          height: 8rem;
+        }
+      }
+    }
+
+
+  }
+
+
+
+}
 
 
 @media print {
   .catalog-container {
     width: 100%;
-  }
 
-  .catalog-title {
-    break-after: avoid;
-    page-break-after: avoid;
-    padding-top: 1em;
-    margin-top: -1em; // Evita espacio en blanco accidental
-  }
+    .catalog-title {
+      break-after: avoid;
+      page-break-after: avoid;
+      padding-top: 1em;
+      margin-top: -5em; // Evita espacio en blanco accidental
+    }
 
-  .hidden-on-print {
-    visibility: hidden !important;
-    display: none !important;
+    .hidden-on-print {
+      visibility: hidden;
+      display: none;
+    }
   }
 }

@@ -73,16 +73,22 @@
         background-color: var(--color-outline);
       }
     }
-
-
-  }
-
+    }
 }
+
+//@media (max-width: $breakpoint-tablet) {
+//
+//
+//}
+//
+//@media (max-width: $breakpoint-mobile) {
+//
+//
+//}
 
 @media print {
   .product-container {
     break-inside: avoid;
     page-break-inside: avoid;
   }
-
 }
