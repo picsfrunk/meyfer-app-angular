@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@200;400;700;800;900');
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@200;400;500;600;700;800;900');
 
 :root {
   --main-font: 'Mulish', 'Open Sans', 'Verdana', sans-serif;
@@ -8,7 +8,8 @@
   --font-medium-large: 1.7rem;
   --font-large: 2.2rem;
   --font-extra-large: 4rem;
-  --weight-semibold: 800;
+  --weight-semibold: 500;
+  --weight-hyperbold: 800;
   --border-radius-sm: 0.3rem;
   --border-radius-md: 1rem;
   --border-radius-xl: 1.5rem;
@@ -20,6 +21,7 @@
   --color-background: #fafafa;
   --color-outline: beige;
   --color-table-header: #e0e0a7;
+  --color-highlight: #e3a229;
   --color-border: rgb(63, 57, 57);
   --transition-fast: 0.5s;
   --transition-slow: 1s;
@@ -48,7 +50,8 @@
 
 html {
   font-family: var(--main-font);
-  font-size: 70%;
+  font-size: 14px;
+  font-weight: var(--weight-semibold);
   background-color: var(--color-background);
   color: var(--color-on-background);
   scroll-behavior: smooth;
