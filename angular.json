@@ -31,6 +31,16 @@
             "styles": [
               "src/assets/styles/styles.scss"
             ],
+            "optimization": {
+              "scripts": true,
+              "styles": {
+                "minify": true,
+                "inlineCritical": true
+              },
+              "fonts": {
+                "inline": true
+              }
+            },
             "scripts": []
           },
           "configurations": {
@@ -44,13 +54,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "1MBkB",
-                  "maximumError": "1.5MB"
+                  "maximumWarning": "800kB",
+                  "maximumError": "1MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "50kB",
-                  "maximumError": "100kB"
+                  "maximumWarning": "6kB",
+                  "maximumError": "10kB"
                 }
               ],
               "outputHashing": "all",

@@ -1,4 +1,35 @@
-@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@200;400;700;800;900');
+@font-face {
+  font-family: 'Mulish';
+  src: url('/assets/fonts/Mulish-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Mulish';
+  src: url('/assets/fonts/Mulish-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: inherit;
+  color: inherit;
+  font-size: inherit;
+}
+
+html {
+  font-family: var(--main-font);
+  font-size: 10px;
+  font-weight: var(--weight-semibold);
+  background-color: var(--color-background);
+  color: var(--color-on-background);
+  scroll-behavior: smooth;
+}
 
 :root {
   --main-font: 'Mulish', 'Open Sans', 'Verdana', sans-serif;
@@ -8,7 +39,8 @@
   --font-medium-large: 1.7rem;
   --font-large: 2.2rem;
   --font-extra-large: 4rem;
-  --weight-semibold: 800;
+  --weight-semibold: 500;
+  --weight-hyperbold: 800;
   --border-radius-sm: 0.3rem;
   --border-radius-md: 1rem;
   --border-radius-xl: 1.5rem;
@@ -20,6 +52,7 @@
   --color-background: #fafafa;
   --color-outline: beige;
   --color-table-header: #e0e0a7;
+  --color-highlight: #e3a229;
   --color-border: rgb(63, 57, 57);
   --transition-fast: 0.5s;
   --transition-slow: 1s;
@@ -37,22 +70,6 @@
   min-height: 100vh;
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-  font-family: inherit;
-  color: inherit;
-  font-size: inherit;
-}
-
-html {
-  font-family: var(--main-font);
-  font-size: 70%;
-  background-color: var(--color-background);
-  color: var(--color-on-background);
-  scroll-behavior: smooth;
-}
 
 @media print {
   body {

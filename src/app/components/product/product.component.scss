@@ -3,7 +3,7 @@
   background: white;
   border-radius: var(--border-radius-md);
   padding: var(--spacing-medium);
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -37,10 +37,7 @@
     margin-bottom: var(--spacing-small);
   }
 
-  .product-price {
-    font-weight: bold;
-    color: var(--color-primary);
-  }
+
 
   table {
     width: 100%;
@@ -53,7 +50,6 @@
     th, td {
       text-align: left;
       padding: var(--spacing-small);
-
     }
 
     th:last-child, td:last-child {
@@ -62,18 +58,26 @@
 
     tr {
       border-bottom: 1px dot-dot-dash var(--color-border);
-      transition: transform 10.8s ease-out, box-shadow 0.2s ease;
+
+      .product-price {
+        font-weight: var(--weight-hyperbold);
+        color: var(--color-primary);
+      }
 
       &:not(.header-row):hover {
-        background-color: var(--color-background);
-        font-weight: var(--weight-semibold);
+        background-color: var(--color-highlight);
+        td {
+          color: var(--color-outline) !important;
+        }
       }
 
       &:nth-child(even) {
         background-color: var(--color-outline);
       }
+
+
     }
-    }
+  }
 }
 
 //@media (max-width: $breakpoint-tablet) {
