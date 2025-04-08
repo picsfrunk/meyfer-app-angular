@@ -28,12 +28,13 @@ export class ProductCatalogService {
   ) {}
 
 
-  async fetchExcel() {
-    await this.http.get( `${environment.apiUrl}/fetch-xls`, { responseType: 'arraybuffer'}).subscribe(
-      data => {
-        
-        this.sheetData = this.saveWithXLSX(data)
-        this.putSheetItems(this.sheetData)
+  fetchExcel() {
+    this.http.get<SheetItem[]>( `${environment.apiUrl}/api/products/imported-from-xls`)
+      .subscribe(
+      productsFromXls => {
+        // this.sheetData = productsFromXls
+        this.putSheetItems(productsFromXls)
+        this.processSheetData()
       }
     )
 
@@ -46,10 +47,6 @@ export class ProductCatalogService {
       const worksheet = workbook.Sheets[firstSheetName];
 
       return XLSX.utils.sheet_to_json(worksheet, {raw: true, range: 15})
-      // this.sheetData = ;
-      console.log('Excel data in ProductService:', this.sheetData);
-
-
   }
 
   async getAllSections() {
