@@ -14,39 +14,27 @@ import {getProductPrefix, getProductPrefix1word} from '../../helpers/helpers';
 import {HttpClient} from '@angular/common/http';
 import * as XLSX from 'xlsx';
 import {environment} from '../../environments/environment';
+import {lastValueFrom, Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductCatalogService {
   profitData!: ProfitData;
-  sheetData!: SheetItem[];
 
   constructor(private dexieDbService: DexieDbService,
               private barcodeService: BarcodeService,
               private http: HttpClient,
   ) {}
 
-
-  fetchExcel() {
-    this.http.get<SheetItem[]>( `${environment.apiUrl}/api/products/imported-from-xls`)
-      .subscribe(
-      productsFromXls => {
-        // this.sheetData = productsFromXls
-        this.putSheetItems(productsFromXls)
-        this.processSheetData()
-      }
-    )
-
+  getSheetdataFromXLS(): Promise<SheetItem[]> {
+    return lastValueFrom(this.http.get<SheetItem[]>(`${environment.apiUrl}/api/products/imported-from-xls`));
   }
 
-  saveWithXLSX(file: any): SheetItem[] {
-      console.log(file)
-      const workbook = XLSX.read(file, {type: 'file'});
-      const firstSheetName = workbook.SheetNames[0];
-      const worksheet = workbook.Sheets[firstSheetName];
-
-      return XLSX.utils.sheet_to_json(worksheet, {raw: true, range: 15})
+  async updateFromXls() {
+    const sheetData = await this.getSheetdataFromXLS();
+    await this.putSheetItems(sheetData);
+    await this.processSheetData();
   }
 
   async getAllSections() {
@@ -152,7 +140,7 @@ export class ProductCatalogService {
     }
 
     await this.dexieDbService.bulkPutSections(Array.from(sectionMap.values()));
-    // await this.clearSheetData()
+    await this.clearSheetData()
     console.log("End process spreadsheet data")
 
   }
