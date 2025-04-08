@@ -26,11 +26,13 @@ export class CatalogComponent implements OnInit {
   profitData!: ProfitData;
 
   constructor(private productCatalogService: ProductCatalogService) {
-    this.getCatalogSize();
-    this.getProfitData();
+
   };
 
   ngOnInit() {
+    this.getCatalogSize();
+    this.getProfitData();
+
     this.loadProducts()
 
     //pruebas
@@ -42,37 +44,30 @@ export class CatalogComponent implements OnInit {
 
   loadProducts() {
     this.productCatalogService.getAllSections()
-      .then( result => {
-        this.sections = result  })
+      .then( sectionsFromDB => {
+        this.sections = sectionsFromDB
+      })
       .catch( e => console.error(e));
   }
 
 
-  async fetchAndProcessExcel() {
-    await this.productCatalogService.fetchExcel()
-      .then( async () => await this.reprocessSpreadsheetData() )
+  fetchAndProcessExcel() {
+    this.productCatalogService.updateFromXls()
+      .then( () => this.loadProducts() )
   }
 
-  async reprocessSpreadsheetData() {
-    await this.productCatalogService.processSheetData()
-      .then( async () => await this.loadProducts() )
+   clearCatalog() {
+     this.productCatalogService.clearCatalog()
+      .then( () => this.loadProducts() )
   }
 
-  async clearCatalog() {
-    await this.productCatalogService.clearCatalog()
-      .then( async () => await this.loadProducts() )
+   getCatalogSize() {
+    this.productCatalogService.catalogSize()
+      .then( catSizeResponse => this.catalogSize = catSizeResponse )
   }
 
-  async clearSpreadSheetData() {
-    await this.productCatalogService.clearSheetData();
-  }
-
-  async getCatalogSize() {
-    this.catalogSize = await this.productCatalogService.catalogSize();
-  }
-
-  private async getProfitData() {
-    await this.productCatalogService.getLastProfitData()
+  private  getProfitData() {
+     this.productCatalogService.getLastProfitData()
       .then( result => {
         result ? this.profitData = result : console.log("No profito")
       })
