@@ -75,12 +75,7 @@
         }
       }
     }
-
-
   }
-
-
-
 }
 
 
@@ -91,8 +86,8 @@
     .catalog-title {
       break-after: avoid;
       page-break-after: avoid;
-      padding-top: 1em;
-      margin-top: -5em; // Evita espacio en blanco accidental
+      padding-top: 1px;
+      margin-top: -1px; // Evita espacio en blanco accidental
     }
 
     .hidden-on-print {
