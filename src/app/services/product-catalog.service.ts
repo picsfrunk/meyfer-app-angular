@@ -31,6 +31,19 @@ export class ProductCatalogService {
     return lastValueFrom(this.http.get<SheetItem[]>(`${environment.apiUrl}/api/products/imported-from-xls`));
   }
 
+  getAllParsedProducts(): Observable<Section[]> {
+    return this.http.get<Section[]>(`${environment.apiUrl}/api/products/parsed`)
+  }
+
+  async getAndSaveParsedProducts() {
+    this.getAllParsedProducts().subscribe({
+      next: (data) => {
+        this.dexieDbService.bulkPutSections(data)
+      },
+      error: (err) => { console.error('Error al cargar secciones', err); },
+    })
+  }
+
   async updateFromXls() {
     const sheetData = await this.getSheetdataFromXLS();
     await this.putSheetItems(sheetData);

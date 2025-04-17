@@ -30,15 +30,16 @@ export class CatalogComponent implements OnInit {
   };
 
   ngOnInit() {
+    this.loadProducts()
+    // this.loadProductsFromBackend();
     this.getCatalogSize();
     this.getProfitData();
 
-    this.loadProducts()
 
     //pruebas
     // Esto es para poder bajar el json TODO: hacer boton y funcion para bajarlo en xls
-    this.productCatalogService.getAllItems()
-      .then((items) => console.log("Items:\n", items) )
+    // this.productCatalogService.getAllItems()
+    //   .then((items) => console.log("Items:\n", items) )
 
   }
 
@@ -51,9 +52,11 @@ export class CatalogComponent implements OnInit {
   }
 
 
-  fetchAndProcessExcel() {
-    this.productCatalogService.updateFromXls()
-      .then( () => this.loadProducts() )
+  async fetchAndProcessExcel() {
+    await this.productCatalogService.getAndSaveParsedProducts().then(
+      () => this.loadProducts()
+    )
+
   }
 
    clearCatalog() {
@@ -66,10 +69,22 @@ export class CatalogComponent implements OnInit {
       .then( catSizeResponse => this.catalogSize = catSizeResponse )
   }
 
-  private  getProfitData() {
+  private getProfitData() {
      this.productCatalogService.getLastProfitData()
       .then( result => {
         result ? this.profitData = result : console.log("No profito")
       })
+  }
+
+  private loadProductsFromBackend() {
+    this.productCatalogService.getAllParsedProducts().subscribe({
+      next: (data) => {
+        this.sections = data
+        console.log('Secciones cargadas del backend', this.sections);
+      },
+      error: (err) => {
+        console.error('Error al cargar secciones', err);
+      }
+    })
   }
 }
