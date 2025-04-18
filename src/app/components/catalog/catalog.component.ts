@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe, NgForOf, NgIf } from '@angular/common';
-import { ProfitData, Section } from 'models/interfaces.model';
+import { Section } from 'models/interfaces.model';
 import { SectionComponent } from '../sections/section.component';
-import { ProductCatalogService } from 'app/services/product-catalog.service';
 import { RouterLink } from '@angular/router';
+import { ProductCatalogService } from '../../services/product-catalog.service';
 
 
 @Component({
@@ -23,7 +23,7 @@ export class CatalogComponent implements OnInit {
   protected readonly window = window;
   sections!: Section[];
   catalogSize: number = 0;
-  profitData!: ProfitData;
+  lastUpdate: string | null = null;
 
   constructor(private productCatalogService: ProductCatalogService) {
 
@@ -32,13 +32,13 @@ export class CatalogComponent implements OnInit {
   ngOnInit() {
     this.loadProducts()
     this.getCatalogSize();
-    // this.getProfitData();
+    this.loadLastUpdateDate();
 
 
     //pruebas
     // Esto es para poder bajar el json TODO: hacer boton y funcion para bajarlo en xls
-    // this.productCatalogService.getAllItems()
-    //   .then((items) => console.log("Items:\n", items) )
+    this.productCatalogService.getAllItems()
+      .then((items) => console.log("Items:\n", items) )
 
   }
 
@@ -56,8 +56,8 @@ export class CatalogComponent implements OnInit {
   }
 
   clearCatalog() {
-     this.productCatalogService.clearCatalog()
-      .then( () => this.loadProducts() )
+    this.productCatalogService.clearCatalog()
+    this.loadProducts()
   }
 
   getCatalogSize() {
@@ -65,22 +65,10 @@ export class CatalogComponent implements OnInit {
       .then( catSizeResponse => this.catalogSize = catSizeResponse )
   }
 
-  private getProfitData() {
-     this.productCatalogService.getLastProfitData()
-      .then( result => {
-        result ? this.profitData = result : console.log("No profito")
-      })
+  loadLastUpdateDate() {
+    this.productCatalogService.getLastUpdateDate().then(date => {
+      this.lastUpdate = date;
+    });
   }
 
-  private loadProductsFromBackend() {
-    this.productCatalogService.getAllParsedProducts().subscribe({
-      next: (data) => {
-        this.sections = data
-        console.log('Secciones cargadas del backend', this.sections);
-      },
-      error: (err) => {
-        console.error('Error al cargar secciones', err);
-      }
-    })
-  }
 }

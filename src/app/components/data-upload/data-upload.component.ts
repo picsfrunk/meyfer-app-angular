@@ -3,8 +3,9 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import * as XLSX from 'xlsx';
 import { SheetItem } from 'models/sheetItem';
-import { ProductCatalogService } from 'app/services/product-catalog.service';
 import {FormsModule} from '@angular/forms';
+import {DEFAULT_PROFIT} from '../../../data/constants';
+import {ProductCatalogService} from '../../services/product-catalog.service';
 
 @Component({
   selector: 'app-data-upload',
@@ -17,14 +18,13 @@ export class DataUploadComponent implements OnInit {
   sheetData!: SheetItem[];
   isFileLoaded = false;
   uploadMessage = '';
-  profitInput!: number;
+  profitInput: number = DEFAULT_PROFIT;
 
   constructor(private productCatalogService: ProductCatalogService,
               private router: Router){};
 
   ngOnInit() {
     this.loadSheetData();
-    this.loadProfitValue();
   }
 
   onFileChange(event: any) {
@@ -52,7 +52,6 @@ export class DataUploadComponent implements OnInit {
   async uploadData() {
     await this.productCatalogService.clearSheetData();
     await this.productCatalogService.putSheetItems(this.sheetData);
-    await this.saveProfitData();
     await this.productCatalogService.processSheetData();
   }
 
@@ -77,14 +76,4 @@ export class DataUploadComponent implements OnInit {
     )
   }
 
-  private loadProfitValue() {
-    this.productCatalogService.getLastProfitData()
-      .then( (data) => {
-        this.profitInput = data.value;
-      })
-  }
-
-  private async saveProfitData() {
-    await this.productCatalogService.saveProfit(this.profitInput)
-  }
 }
