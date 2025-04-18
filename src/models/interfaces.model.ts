@@ -25,3 +25,8 @@ export interface ProfitData {
   value: number;
   dateUpdated: string;
 }
+
+export interface CatalogMetadata {
+  key: 'lastUpdate';
+  value: string; // ISO string o timestamp
+}

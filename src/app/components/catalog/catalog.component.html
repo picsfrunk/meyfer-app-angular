@@ -9,9 +9,7 @@
     <div class="catalog-header-buttons hidden-on-print">
       <button class="btn" [routerLink]="'/upload'"><span>Subir Datos en Excel</span></button>
       <button class="btn" (click)="fetchAndProcessExcel()"><span>Obtener Datos desde Excel y reprocesar</span></button>
-<!--      <button class="btn" (click)="clearSpreadSheetData()"><span>Borrar Datos de Excel</span></button>-->
       <button class="btn" (click)="window.print()"><span>Imprimir</span></button>
-<!--      <button class="btn" (click)="reprocessSpreadsheetData()"><span>Volver a procesar productos</span></button>-->
       <button class="btn" (click)="clearCatalog()"><span>Borrar Catalogo</span></button>
     </div>
     <div class="logo-container">
@@ -19,8 +17,7 @@
     </div>
     <div class="catalog-up-banner hidden-on-print" *ngIf="sections">
       <p> {{ catalogSize  == 0 ? "NO HAY" : catalogSize}} ARTICULOS </p>
-      <p> Utilidad: {{profitData.value}}%</p>
-      <p> Actualización: {{profitData.dateUpdated | date:"dd/MM/yyyy 'a las' hh:mm a" }}</p>
+      <p *ngIf="lastUpdate">Última actualización: {{ lastUpdate | date:"dd/MM/yyyy 'a las' hh:mm a" }}</p>
     </div>
   </div>
 
