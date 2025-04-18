@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe, NgForOf, NgIf } from '@angular/common';
-import { ProfitData, Section } from 'models/interfaces.model';
+import { Section } from 'models/interfaces.model';
 import { SectionComponent } from '../sections/section.component';
-import { ProductCatalogService } from 'app/services/product-catalog.service';
 import { RouterLink } from '@angular/router';
+import { ProductCatalogService } from '../../services/product-catalog.service';
 
 
 @Component({
@@ -23,17 +23,17 @@ export class CatalogComponent implements OnInit {
   protected readonly window = window;
   sections!: Section[];
   catalogSize: number = 0;
-  profitData!: ProfitData;
+  lastUpdate: string | null = null;
 
   constructor(private productCatalogService: ProductCatalogService) {
 
   };
 
   ngOnInit() {
-    this.getCatalogSize();
-    this.getProfitData();
-
     this.loadProducts()
+    this.getCatalogSize();
+    this.loadLastUpdateDate();
+
 
     //pruebas
     // Esto es para poder bajar el json TODO: hacer boton y funcion para bajarlo en xls
@@ -43,33 +43,32 @@ export class CatalogComponent implements OnInit {
   }
 
   loadProducts() {
-    this.productCatalogService.getAllSections()
-      .then( sectionsFromDB => {
-        this.sections = sectionsFromDB
-      })
-      .catch( e => console.error(e));
+    this.productCatalogService.getAllSectionsFromBrowser()
+      .then( (data) => { this.sections = data })
+      .catch( (err) => { console.log("Error al recargar productos: ", err); } )
   }
 
 
   fetchAndProcessExcel() {
-    this.productCatalogService.updateFromXls()
-      .then( () => this.loadProducts() )
+    this.productCatalogService.getAndSaveParsedProducts().subscribe(() => {
+      this.loadProducts();
+    });
   }
 
-   clearCatalog() {
-     this.productCatalogService.clearCatalog()
-      .then( () => this.loadProducts() )
+  clearCatalog() {
+    this.productCatalogService.clearCatalog()
+    this.loadProducts()
   }
 
-   getCatalogSize() {
+  getCatalogSize() {
     this.productCatalogService.catalogSize()
       .then( catSizeResponse => this.catalogSize = catSizeResponse )
   }
 
-  private  getProfitData() {
-     this.productCatalogService.getLastProfitData()
-      .then( result => {
-        result ? this.profitData = result : console.log("No profito")
-      })
+  loadLastUpdateDate() {
+    this.productCatalogService.getLastUpdateDate().then(date => {
+      this.lastUpdate = date;
+    });
   }
+
 }
