@@ -14,7 +14,7 @@ import {getProductPrefix, getProductPrefix1word} from '../../helpers/helpers';
 import {HttpClient} from '@angular/common/http';
 import * as XLSX from 'xlsx';
 import {environment} from '../../environments/environment';
-import {lastValueFrom, Observable} from 'rxjs';
+import {catchError, lastValueFrom, map, Observable, of, tap} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -35,13 +35,15 @@ export class ProductCatalogService {
     return this.http.get<Section[]>(`${environment.apiUrl}/api/products/parsed`)
   }
 
-  async getAndSaveParsedProducts() {
-    this.getAllParsedProducts().subscribe({
-      next: (data) => {
-        this.dexieDbService.bulkPutSections(data)
-      },
-      error: (err) => { console.error('Error al cargar secciones', err); },
-    })
+  getAndSaveParsedProducts(): Observable<void> {
+    return this.getAllParsedProducts().pipe(
+      tap((data) => this.dexieDbService.bulkPutSections(data)),
+      catchError((err) => {
+        console.error('Error al cargar secciones', err);
+        return of(); // Devuelve observable vacío
+      }),
+      map(() => void 0) // Para que retorne tipo Observable<void>
+    );
   }
 
   async updateFromXls() {
@@ -50,7 +52,7 @@ export class ProductCatalogService {
     await this.processSheetData();
   }
 
-  async getAllSections() {
+  getAllSectionsFromBrowser() {
     return this.dexieDbService.getAllSections();
   }
 

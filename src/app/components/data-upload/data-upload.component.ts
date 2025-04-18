@@ -60,7 +60,7 @@ export class DataUploadComponent implements OnInit {
     console.log('Confirmado. Excel data:', this.sheetData);
     this.uploadData()
       .finally(() => { setTimeout(() => {
-          this.router.navigate(['/catalog'])
+          this.router.navigate(['/'])
             .then(r => { this.uploadMessage = 'Datos cargados correctamente. Redirigiendo...';
           })
             .catch( e  => console.error(e));

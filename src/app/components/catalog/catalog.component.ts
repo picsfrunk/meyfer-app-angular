@@ -31,9 +31,8 @@ export class CatalogComponent implements OnInit {
 
   ngOnInit() {
     this.loadProducts()
-    // this.loadProductsFromBackend();
     this.getCatalogSize();
-    this.getProfitData();
+    // this.getProfitData();
 
 
     //pruebas
@@ -44,27 +43,24 @@ export class CatalogComponent implements OnInit {
   }
 
   loadProducts() {
-    this.productCatalogService.getAllSections()
-      .then( sectionsFromDB => {
-        this.sections = sectionsFromDB
-      })
-      .catch( e => console.error(e));
+    this.productCatalogService.getAllSectionsFromBrowser()
+      .then( (data) => { this.sections = data })
+      .catch( (err) => { console.log("Error al recargar productos: ", err); } )
   }
 
 
-  async fetchAndProcessExcel() {
-    await this.productCatalogService.getAndSaveParsedProducts().then(
-      () => this.loadProducts()
-    )
-
+  fetchAndProcessExcel() {
+    this.productCatalogService.getAndSaveParsedProducts().subscribe(() => {
+      this.loadProducts();
+    });
   }
 
-   clearCatalog() {
+  clearCatalog() {
      this.productCatalogService.clearCatalog()
       .then( () => this.loadProducts() )
   }
 
-   getCatalogSize() {
+  getCatalogSize() {
     this.productCatalogService.catalogSize()
       .then( catSizeResponse => this.catalogSize = catSizeResponse )
   }
