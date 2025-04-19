@@ -31,7 +31,15 @@ export class ProductCatalogService {
     return this.http.get<Section[]>(`${environment.apiUrl}/api/products/parsed`)
   }
 
-  getAndSaveParsedProducts(): Observable<void> {
+  getParsedProducts(): Observable<Section[]> {
+    return this.http.get<Section[]>(`${environment.apiUrl}/api/products/parsed`);
+  }
+
+  updateCatalog(): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/api/products/parsed`, {});
+  }
+
+  fetchParsedProducts(): Observable<void> {
     return this.getAllParsedProducts().pipe(
       mergeMap((data) =>
         from(this.dexieDbService.bulkPutSections(data)).pipe(
