@@ -13,7 +13,7 @@ import { ProductCatalogService } from '../../services/product-catalog.service';
   imports: [
     NgForOf,
     SectionComponent,
-    // RouterLink,
+    RouterLink,
     DatePipe,
     NgIf
   ],
@@ -48,15 +48,6 @@ export class CatalogComponent implements OnInit {
     });
   }
 
-  fetchAndUpdateCatalog() {
-    this.productCatalogService.updateCatalog().subscribe({
-      next: () => {
-        console.log('Catálogo actualizado en backend');
-        this.loadProducts(); // vuelve a cargar desde Mongo
-      },
-      error: (err) => console.error('Error al actualizar catálogo', err)
-    });
-  }
 
   loadLastUpdateDate() {
     //TODO: Issue #43

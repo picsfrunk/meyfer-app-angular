@@ -7,7 +7,7 @@
 
   <div class="catalog-header">
     <div class="catalog-header-buttons hidden-on-print">
-      <button class="btn" (click)="fetchAndUpdateCatalog()"><span>Obtener Datos desde Excel y reprocesar</span></button>
+      <button class="btn" [routerLink]="'admin'"><span>Acceso Administrador</span></button>
       <button class="btn" (click)="window.print()"><span>Imprimir</span></button>
     </div>
     <div class="logo-container">
