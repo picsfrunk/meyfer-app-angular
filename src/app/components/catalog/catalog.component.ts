@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe, NgForOf, NgIf } from '@angular/common';
-import { Section } from 'models/interfaces.model';
+import {Section, SectionsNames} from 'models/interfaces.model';
 import { SectionComponent } from '../sections/section.component';
 import { RouterLink } from '@angular/router';
 import { ProductCatalogService } from '../../services/product-catalog.service';
@@ -24,6 +24,7 @@ export class CatalogComponent implements OnInit {
   sections!: Section[];
   catalogSize: number = 0;
   lastUpdate: string | null = null;
+  sectionsNames: SectionsNames[] = [];
 
   constructor(private productCatalogService: ProductCatalogService) {
 
@@ -38,7 +39,7 @@ export class CatalogComponent implements OnInit {
     //pruebas
     // Esto es para poder bajar el json TODO: hacer boton y funcion para bajarlo en xls
     this.productCatalogService.getAllItems()
-      .then((items) => console.log("Items:\n", items) )
+      .then((items) => console.log("Items:\n", items))
 
   }
 
@@ -46,6 +47,8 @@ export class CatalogComponent implements OnInit {
     this.productCatalogService.getParsedProducts().subscribe({
       next: (data) => {
         this.sections = data
+        this.mapSectionsNames();
+
         console.log(this.sections)
       },
       error: (err) => console.error('Error al cargar productos', err)
@@ -78,7 +81,7 @@ export class CatalogComponent implements OnInit {
 
   getCatalogSize() {
     this.productCatalogService.catalogSize()
-      .then( catSizeResponse => this.catalogSize = catSizeResponse )
+      .then(catSizeResponse => this.catalogSize = catSizeResponse)
   }
 
   loadLastUpdateDate() {
@@ -87,4 +90,7 @@ export class CatalogComponent implements OnInit {
     });
   }
 
+  private mapSectionsNames() {
+    if (!this.sections) return;
+    this.sectionsNames = this.sections.map(s => ({ title: s.title }));  }
 }

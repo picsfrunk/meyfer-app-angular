@@ -24,9 +24,9 @@
   <app-section *ngFor="let section of sections"
                [section]="section"
                class="app-section-container"
-               [attr.id]="section.id"
+               [attr.id]="section.title"
                #sectionRefs
-               [allSections]="sections"
+               [allSections]="sectionsNames"
   />
 
 </div>

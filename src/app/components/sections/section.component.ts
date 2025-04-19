@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Section } from 'models/interfaces.model';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
+import {Section, SectionsNames} from 'models/interfaces.model';
 import { ProductComponent } from '../product/product.component';
 
 @Component({
@@ -12,13 +12,13 @@ import { ProductComponent } from '../product/product.component';
 })
 export class SectionComponent {
   @Input() section!: Section;
-  @Input() allSections!: Section[];
+  @Input() allSections: SectionsNames[] = [];
 
   get otherSections() {
-    return this.allSections.filter((s) => s.id !== this.section.id);
+    return this.allSections;
   }
 
-  scrollToSection(id: number, event: Event) {
+  scrollToSection(id: string, event: Event) {
     event.preventDefault();
     const element = document.getElementById(id.toString());
     if (element) {
