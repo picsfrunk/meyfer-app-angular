@@ -8,7 +8,7 @@
   <div class="catalog-header">
     <div class="catalog-header-buttons hidden-on-print">
       <button class="btn" [routerLink]="'/upload'"><span>Subir Datos en Excel</span></button>
-      <button class="btn" (click)="fetchAndProcessExcel()"><span>Obtener Datos desde Excel y reprocesar</span></button>
+      <button class="btn" (click)="fetchAndUpdateCatalog()"><span>Obtener Datos desde Excel y reprocesar</span></button>
       <button class="btn" (click)="window.print()"><span>Imprimir</span></button>
       <button class="btn" (click)="clearCatalog()"><span>Borrar Catalogo</span></button>
     </div>
