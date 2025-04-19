@@ -43,14 +43,30 @@ export class CatalogComponent implements OnInit {
   }
 
   loadProducts() {
-    this.productCatalogService.getAllSectionsFromBrowser()
-      .then( (data) => { this.sections = data })
-      .catch( (err) => { console.log("Error al recargar productos: ", err); } )
+    this.productCatalogService.getParsedProducts().subscribe({
+      next: (data) => {
+        this.sections = data
+        console.log(this.sections)
+      },
+      error: (err) => console.error('Error al cargar productos', err)
+    });
+    // this.productCatalogService.getAllSectionsFromBrowser()
+    //   .then( (data) => { this.sections = data })
+    //   .catch( (err) => { console.log("Error al recargar productos: ", err); } )
   }
 
+  fetchAndUpdateCatalog() {
+    this.productCatalogService.updateCatalog().subscribe({
+      next: () => {
+        console.log('Catálogo actualizado en backend');
+        this.loadProducts(); // vuelve a cargar desde Mongo
+      },
+      error: (err) => console.error('Error al actualizar catálogo', err)
+    });
+  }
 
   fetchAndProcessExcel() {
-    this.productCatalogService.getAndSaveParsedProducts().subscribe(() => {
+    this.productCatalogService.fetchParsedProducts().subscribe(() => {
       this.loadProducts();
     });
   }
