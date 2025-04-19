@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import {CommonModule, NgOptimizedImage} from '@angular/common';
-import {Section, SectionsNames} from 'models/interfaces.model';
+import { CommonModule } from '@angular/common';
+import { Section, SectionsNames } from 'models/interfaces.model';
 import { ProductComponent } from '../product/product.component';
 
 @Component({

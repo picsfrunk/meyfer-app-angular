@@ -21,16 +21,6 @@ export interface Item {
   barcode: string;
 }
 
-export interface ProfitData {
-  value: number;
-  dateUpdated: string;
-}
-
-export interface CatalogMetadata {
-  key: 'lastUpdate';
-  value: string; // ISO string o timestamp
-}
-
 export interface SectionsNames {
   title: string;
 }
