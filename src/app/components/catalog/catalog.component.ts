@@ -13,7 +13,7 @@ import { ProductCatalogService } from '../../services/product-catalog.service';
   imports: [
     NgForOf,
     SectionComponent,
-    RouterLink,
+    // RouterLink,
     DatePipe,
     NgIf
   ],
@@ -32,14 +32,7 @@ export class CatalogComponent implements OnInit {
 
   ngOnInit() {
     this.loadProducts()
-    this.getCatalogSize();
     this.loadLastUpdateDate();
-
-
-    //pruebas
-    // Esto es para poder bajar el json TODO: hacer boton y funcion para bajarlo en xls
-    this.productCatalogService.getAllItems()
-      .then((items) => console.log("Items:\n", items))
 
   }
 
@@ -53,9 +46,6 @@ export class CatalogComponent implements OnInit {
       },
       error: (err) => console.error('Error al cargar productos', err)
     });
-    // this.productCatalogService.getAllSectionsFromBrowser()
-    //   .then( (data) => { this.sections = data })
-    //   .catch( (err) => { console.log("Error al recargar productos: ", err); } )
   }
 
   fetchAndUpdateCatalog() {
@@ -68,26 +58,9 @@ export class CatalogComponent implements OnInit {
     });
   }
 
-  fetchAndProcessExcel() {
-    this.productCatalogService.fetchParsedProducts().subscribe(() => {
-      this.loadProducts();
-    });
-  }
-
-  clearCatalog() {
-    this.productCatalogService.clearCatalog()
-    this.loadProducts()
-  }
-
-  getCatalogSize() {
-    this.productCatalogService.catalogSize()
-      .then(catSizeResponse => this.catalogSize = catSizeResponse)
-  }
-
   loadLastUpdateDate() {
-    this.productCatalogService.getLastUpdateDate().then(date => {
-      this.lastUpdate = date;
-    });
+    //TODO: Issue #43
+
   }
 
   private mapSectionsNames() {
