@@ -14,7 +14,7 @@ import { ProductCatalogService } from '../../services/product-catalog.service';
     NgForOf,
     SectionComponent,
     RouterLink,
-    DatePipe,
+    // DatePipe,
     NgIf
   ],
   styleUrls: ['./catalog.component.scss']
@@ -22,8 +22,6 @@ import { ProductCatalogService } from '../../services/product-catalog.service';
 export class CatalogComponent implements OnInit {
   protected readonly window = window;
   sections!: Section[];
-  catalogSize: number = 0;
-  lastUpdate: string | null = null;
   sectionsNames: SectionsNames[] = [];
 
   constructor(private productCatalogService: ProductCatalogService) {

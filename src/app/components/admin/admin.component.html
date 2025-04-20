@@ -6,12 +6,12 @@
   <div class="admin-controls">
     <button class="btn" [routerLink]="'/'">Ir al Catálogo</button>
 
+    <button class="btn" (click)="fetchAndUpdateCatalog()">Obtener Datos desde Excel y reprocesar</button>
     <label for="profitInput">Ganancia actual (%)</label>
     <input type="number" id="profitInput" [(ngModel)]="profitMargin" class="input" />
 
     <button class="btn" (click)="updateProfitMargin()">Actualizar Ganancia</button>
     <button class="btn" (click)="fetchCurrentProfit()">Refrescar valor</button>
-    <button class="btn" (click)="fetchAndUpdateCatalog()">Obtener Datos desde Excel y reprocesar</button>
 
   </div>
 

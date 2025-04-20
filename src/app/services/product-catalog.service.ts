@@ -20,10 +20,10 @@ export class ProductCatalogService {
   }
 
   getProfitMargin() {
-    return this.http.get<{ margin: number }>('/api/config/profit');
+    return this.http.get<{ margin: number }>(`${environment.apiUrl}/api/config/profit`);
   }
 
   setProfitMargin(newMargin: number) {
-    return this.http.put('/api/config/profit', { margin: newMargin });
+    return this.http.put(`${environment.apiUrl}/api/config/profit`, { margin: newMargin });
   }
 }
