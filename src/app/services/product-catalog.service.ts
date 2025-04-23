@@ -26,4 +26,8 @@ export class ProductCatalogService {
   setProfitMargin(newMargin: number) {
     return this.http.put(`${environment.apiUrl}/api/config/profit`, { margin: newMargin });
   }
+
+  getLastUpdate() {
+    return this.http.get<{ lastUpdate: string }>(`${environment.apiUrl}/api/config/last-update`)
+  }
 }

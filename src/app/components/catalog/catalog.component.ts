@@ -14,7 +14,7 @@ import { ProductCatalogService } from '../../services/product-catalog.service';
     NgForOf,
     SectionComponent,
     RouterLink,
-    // DatePipe,
+    DatePipe,
     NgIf
   ],
   styleUrls: ['./catalog.component.scss']
@@ -23,6 +23,7 @@ export class CatalogComponent implements OnInit {
   protected readonly window = window;
   sections!: Section[];
   sectionsNames: SectionsNames[] = [];
+  lastUpdate!: string | number | Date;
 
   constructor(private productCatalogService: ProductCatalogService) {
 
@@ -48,11 +49,16 @@ export class CatalogComponent implements OnInit {
 
 
   loadLastUpdateDate() {
-    //TODO: Issue #43
+    this.productCatalogService.getLastUpdate().subscribe({
+      next: (data) => { this.lastUpdate = new Date(data.lastUpdate);
+      }
+    })
 
   }
 
   private mapSectionsNames() {
     if (!this.sections) return;
-    this.sectionsNames = this.sections.map(s => ({ title: s.title }));  }
+    this.sectionsNames = this.sections.map(s => ({ title: s.title }));
+  }
+
 }

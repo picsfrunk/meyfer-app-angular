@@ -7,13 +7,14 @@
 
   <div class="catalog-header">
     <div class="catalog-header-buttons hidden-on-print">
-      <button class="btn" [routerLink]="'admin'"><span>Acceso Administrador</span></button>
+      <button class="btn" [routerLink]="'admin'"><span>Acceso</span></button>
       <button class="btn" (click)="window.print()"><span>Imprimir</span></button>
     </div>
     <div class="logo-container">
       <img src="assets/images/logos/logo-negro-tr.png">
     </div>
-    <div class="catalog-up-banner hidden-on-print" *ngIf="sections">
+    <div class="catalog-up-banner" *ngIf="sections">
+      <p *ngIf="lastUpdate">Última actualización: {{ lastUpdate | date:"dd/MM/yyyy 'a las' hh:mm a" }}</p>
     </div>
   </div>
 
