@@ -26,4 +26,14 @@
                [allSections]="sectionsNames"
   />
 
+  <!-- Loading spinner -->
+  <div class="loading-overlay" *ngIf="isLoading">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Error message / Toast -->
+  <div class="error-toast" *ngIf="hasError">
+    No se pudo conectar con el servidor. Por favor, intente más tarde.
+  </div>
+
 </div>
