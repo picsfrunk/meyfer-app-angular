@@ -1,0 +1,35 @@
+@use "assets/styles/styles.scss";
+.admin-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 60vw;
+  margin: auto;
+  padding: var(--spacing-large);
+  background-color: white;
+  gap: var(--spacing-large);
+
+  .admin-header {
+    font-size: var(--font-large);
+    font-weight: bold;
+  }
+
+  .admin-controls {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-small);
+    width: 100%;
+    max-width: 400px;
+
+    .input {
+      padding: var(--spacing-small);
+      font-size: var(--font-base);
+    }
+  }
+
+  .admin-message {
+    margin-top: var(--spacing-small);
+    color: green;
+    font-weight: bold;
+  }
+}

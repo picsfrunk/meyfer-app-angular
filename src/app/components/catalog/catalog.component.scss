@@ -18,11 +18,14 @@
   }
 
   .catalog-header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
     .catalog-header-buttons {
       display: flex;
       gap: var(--spacing-small);
-      justify-content: center;
-      justify-items: center;
+      justify-content: space-between;
     }
 
     .logo-container {
@@ -37,8 +40,6 @@
     .catalog-up-banner {
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      width: 100%;
       font-size: var(--font-small);
       gap: var(--spacing-small);
     }

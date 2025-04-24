@@ -13,7 +13,7 @@ import { ProductCatalogService } from '../../services/product-catalog.service';
   imports: [
     NgForOf,
     SectionComponent,
-    // RouterLink,
+    RouterLink,
     DatePipe,
     NgIf
   ],
@@ -22,9 +22,8 @@ import { ProductCatalogService } from '../../services/product-catalog.service';
 export class CatalogComponent implements OnInit {
   protected readonly window = window;
   sections!: Section[];
-  catalogSize: number = 0;
-  lastUpdate: string | null = null;
   sectionsNames: SectionsNames[] = [];
+  lastUpdate!: string | number | Date;
 
   constructor(private productCatalogService: ProductCatalogService) {
 
@@ -48,22 +47,18 @@ export class CatalogComponent implements OnInit {
     });
   }
 
-  fetchAndUpdateCatalog() {
-    this.productCatalogService.updateCatalog().subscribe({
-      next: () => {
-        console.log('Catálogo actualizado en backend');
-        this.loadProducts(); // vuelve a cargar desde Mongo
-      },
-      error: (err) => console.error('Error al actualizar catálogo', err)
-    });
-  }
 
   loadLastUpdateDate() {
-    //TODO: Issue #43
+    this.productCatalogService.getLastUpdate().subscribe({
+      next: (data) => { this.lastUpdate = new Date(data.lastUpdate);
+      }
+    })
 
   }
 
   private mapSectionsNames() {
     if (!this.sections) return;
-    this.sectionsNames = this.sections.map(s => ({ title: s.title }));  }
+    this.sectionsNames = this.sections.map(s => ({ title: s.title }));
+  }
+
 }

@@ -19,4 +19,15 @@ export class ProductCatalogService {
     return this.http.post(`${environment.apiUrl}/api/products/parsed`, {});
   }
 
+  getProfitMargin() {
+    return this.http.get<{ margin: number }>(`${environment.apiUrl}/api/config/profit`);
+  }
+
+  setProfitMargin(newMargin: number) {
+    return this.http.put(`${environment.apiUrl}/api/config/profit`, { margin: newMargin });
+  }
+
+  getLastUpdate() {
+    return this.http.get<{ lastUpdate: string }>(`${environment.apiUrl}/api/config/last-update`)
+  }
 }
