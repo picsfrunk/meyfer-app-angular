@@ -1,0 +1,128 @@
+.admin-container {
+  display: flex;
+  flex-direction: column;
+  width: 50vw;
+  gap: var(--spacing-large);
+  margin: auto;
+  padding: var(--spacing-large);
+  width: 50%;
+  max-width: 800px;
+  background-color: white;
+  border-radius: var(--border-radius-md);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.admin-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-large);
+
+  h2 {
+    font-size: var(--font-large);
+    font-weight: bold;
+  }
+
+  .server-status {
+    font-size: var(--font-medium);
+    padding: 0.3rem 1rem;
+    border-radius: var(--border-radius-sm);
+    font-weight: 600;
+
+    &.connected {
+      color: #155724;
+      background-color: #d4edda;
+      border: 1px solid #c3e6cb;
+    }
+
+    &.disconnected {
+      color: #721c24;
+      background-color: #f8d7da;
+      border: 1px solid #f5c6cb;
+    }
+  }
+}
+
+.admin-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-medium);
+  border-top: 1px solid #ddd;
+  padding-top: var(--spacing-medium);
+
+  h3 {
+    font-size: var(--font-medium-large);
+    margin-bottom: var(--spacing-small);
+    color: var(--color-primary);
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    gap: var(--spacing-medium);
+    margin-bottom: var(--spacing-small);
+  }
+
+  .input {
+    width: 5rem;
+    padding: var(--spacing-small);
+    font-size: var(--font-base);
+    border: 1px solid #ccc;
+    border-radius: var(--border-radius-sm);
+  }
+
+  .button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-small);
+
+    .btn.secondary {
+      background-color: #6c757d;
+      border-color: #6c757d;
+
+      &:hover {
+        background-color: #5a6268;
+        border-color: #545b62;
+      }
+    }
+
+    .btn.warn {
+      background-color: #dc3545;
+      border-color: #dc3545;
+
+      &:hover {
+        background-color: #c82333;
+        border-color: #bd2130;
+      }
+    }
+  }
+
+  .spinner {
+    display: inline-block;
+    width: 1.2rem;
+    height: 1.2rem;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    border-top: 2px solid var(--color-primary);
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+.admin-message {
+  color: green;
+  font-weight: bold;
+  text-align: center;
+}

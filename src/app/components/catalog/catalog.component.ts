@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import { DatePipe, NgForOf, NgIf } from '@angular/common';
 import {Section, SectionsNames} from 'models/interfaces.model';
 import { SectionComponent } from '../sections/section.component';
 import { RouterLink } from '@angular/router';
 import { ProductCatalogService } from '../../services/product-catalog.service';
+import { ToastrModule, ToastrService} from 'ngx-toastr';
 
 
 @Component({
@@ -15,31 +16,27 @@ import { ProductCatalogService } from '../../services/product-catalog.service';
     SectionComponent,
     RouterLink,
     DatePipe,
-    NgIf
+    NgIf,
+    ToastrModule
   ],
   styleUrls: ['./catalog.component.scss']
 })
 export class CatalogComponent implements OnInit {
   protected readonly window = window;
   sections!: Section[];
-  catalogSize: number = 0;
-  lastUpdate: string | null = null;
   sectionsNames: SectionsNames[] = [];
+  lastUpdate!: string | number | Date;
+  isLoading = true;
+  hasError = false;
 
-  constructor(private productCatalogService: ProductCatalogService) {
-
-  };
+  constructor(
+    private productCatalogService: ProductCatalogService,
+    private toastr: ToastrService,
+  ) { };
 
   ngOnInit() {
     this.loadProducts()
-    this.getCatalogSize();
     this.loadLastUpdateDate();
-
-
-    //pruebas
-    // Esto es para poder bajar el json TODO: hacer boton y funcion para bajarlo en xls
-    this.productCatalogService.getAllItems()
-      .then((items) => console.log("Items:\n", items))
 
   }
 
@@ -47,50 +44,50 @@ export class CatalogComponent implements OnInit {
     this.productCatalogService.getParsedProducts().subscribe({
       next: (data) => {
         this.sections = data
+        this.isLoading = false;
+        this.hasError = false;
+        this.showSuccessToast();
         this.mapSectionsNames();
 
         console.log(this.sections)
       },
-      error: (err) => console.error('Error al cargar productos', err)
-    });
-    // this.productCatalogService.getAllSectionsFromBrowser()
-    //   .then( (data) => { this.sections = data })
-    //   .catch( (err) => { console.log("Error al recargar productos: ", err); } )
-  }
-
-  fetchAndUpdateCatalog() {
-    this.productCatalogService.updateCatalog().subscribe({
-      next: () => {
-        console.log('Catálogo actualizado en backend');
-        this.loadProducts(); // vuelve a cargar desde Mongo
-      },
-      error: (err) => console.error('Error al actualizar catálogo', err)
+      error: (err) => {
+        this.isLoading = false;
+        this.hasError = true
+        this.toastr.error(
+          'No se pudo conectar con el servidor. Intente más tarde.',
+          'Error de conexión:\n',
+          err
+        );
+        console.error('Error al cargar productos', err)
+      }
     });
   }
 
-  fetchAndProcessExcel() {
-    this.productCatalogService.fetchParsedProducts().subscribe(() => {
-      this.loadProducts();
-    });
-  }
-
-  clearCatalog() {
-    this.productCatalogService.clearCatalog()
-    this.loadProducts()
-  }
-
-  getCatalogSize() {
-    this.productCatalogService.catalogSize()
-      .then(catSizeResponse => this.catalogSize = catSizeResponse)
-  }
 
   loadLastUpdateDate() {
-    this.productCatalogService.getLastUpdateDate().then(date => {
-      this.lastUpdate = date;
-    });
+    this.productCatalogService.getLastUpdate().subscribe({
+      next: (data) => { this.lastUpdate = new Date(data.lastUpdate);
+      }
+    })
   }
 
   private mapSectionsNames() {
     if (!this.sections) return;
-    this.sectionsNames = this.sections.map(s => ({ title: s.title }));  }
+    this.sectionsNames = this.sections.map(s => ({ title: s.title }));
+  }
+
+  showSuccessToast() {
+    this.toastr.success(
+      'El catálogo fue cargado correctamente.',
+      'Carga exitosa',
+      {
+        timeOut: 3000,
+        positionClass: 'toast-bottom-center',
+        closeButton: true,
+        progressBar: true
+      }
+    );
+  }
+
 }

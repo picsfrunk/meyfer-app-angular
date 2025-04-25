@@ -7,14 +7,13 @@
 
   <div class="catalog-header">
     <div class="catalog-header-buttons hidden-on-print">
-      <button class="btn" (click)="fetchAndUpdateCatalog()"><span>Obtener Datos desde Excel y reprocesar</span></button>
+      <button class="btn" [routerLink]="'admin'"><span>Acceso</span></button>
       <button class="btn" (click)="window.print()"><span>Imprimir</span></button>
     </div>
     <div class="logo-container">
       <img src="assets/images/logos/logo-negro-tr.png">
     </div>
-    <div class="catalog-up-banner hidden-on-print" *ngIf="sections">
-      <p> {{ catalogSize  == 0 ? "NO HAY" : catalogSize}} ARTICULOS </p>
+    <div class="catalog-up-banner" *ngIf="sections">
       <p *ngIf="lastUpdate">Última actualización: {{ lastUpdate | date:"dd/MM/yyyy 'a las' hh:mm a" }}</p>
     </div>
   </div>
@@ -26,5 +25,15 @@
                #sectionRefs
                [allSections]="sectionsNames"
   />
+
+  <!-- Loading spinner -->
+  <div class="loading-overlay" *ngIf="isLoading">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Error message / Toast -->
+  <div class="error-toast" *ngIf="hasError">
+    No se pudo conectar con el servidor. Por favor, intente más tarde.
+  </div>
 
 </div>
