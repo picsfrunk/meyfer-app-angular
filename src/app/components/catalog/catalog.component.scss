@@ -49,6 +49,42 @@
     width: 100%;
   }
 
+  .loading-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.8);
+    z-index: 1000;
+  }
+
+  .spinner {
+    border: 6px solid #f3f3f3;
+    border-top: 6px solid #000;
+    border-radius: 50%;
+    width: 50px; height: 50px;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .error-toast {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 1rem 1.5rem;
+    margin: 1rem 0;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    font-size: 1rem;
+    text-align: center;
+  }
+
 }
 
 @media (max-width: styles.$breakpoint-tablet) {

@@ -1,21 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { NgIf } from '@angular/common';
+import {NgClass, NgIf} from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProductCatalogService } from '../../services/product-catalog.service';
-import {RouterLink} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
+import {ToastrModule, ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss'],
-  imports: [NgIf, FormsModule, RouterLink]
+  imports: [NgIf, FormsModule, RouterLink, NgClass, ToastrModule]
 })
 export class AdminComponent implements OnInit {
   profitMargin: number = 0;
-  message: string | null = null;
+  serverConnected = false
 
-  constructor(private productCatalogService: ProductCatalogService) {}
+  constructor(
+    private productCatalogService: ProductCatalogService,
+    private toastr: ToastrService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.fetchCurrentProfit();
@@ -25,11 +30,12 @@ export class AdminComponent implements OnInit {
     this.productCatalogService.getProfitMargin().subscribe({
       next: (data) => {
         this.profitMargin = data.margin;
-        this.message = 'Valor actualizado desde backend.';
+        this.serverConnected = true;
       },
       error: (err) => {
         console.error('Error al obtener la ganancia', err);
-        this.message = 'Error al obtener el valor.';
+        this.showToast('Error al obtener el valor.', true);
+        this.serverConnected = false
       }
     });
   }
@@ -37,11 +43,11 @@ export class AdminComponent implements OnInit {
   updateProfitMargin() {
     this.productCatalogService.setProfitMargin(this.profitMargin).subscribe({
       next: () => {
-        this.message = 'Ganancia actualizada con éxito.';
+        this.showToast('Valor actualizado en servidor.');
       },
       error: (err) => {
         console.error('Error al actualizar ganancia', err);
-        this.message = 'Error al actualizar la ganancia.';
+        this.showToast('Error al actualizar la ganancia.', true);
       }
     });
   }
@@ -49,10 +55,27 @@ export class AdminComponent implements OnInit {
   fetchAndUpdateCatalog() {
     this.productCatalogService.updateCatalog().subscribe({
       next: () => {
-        console.log('Catálogo actualizado en backend');
+        this.showToast('Catálogo actualizado correctamente');
+        this.serverConnected = true;
+        setTimeout(() => {
+          this.router.navigate(['/']);
+        }, 3000);
       },
-      error: (err) => console.error('Error al actualizar catálogo', err)
+      error: (err) => {
+        this.serverConnected = false;
+        this.showToast('Error al actualizar catálogo.', true);
+        console.error('Error al actualizar catálogo', err)
+      }
+
     });
+  }
+
+  showToast(message: string, isError: boolean = false, title: string = '') {
+    if (isError) {
+      this.toastr.error(message, title || 'Error');
+    } else {
+      this.toastr.success(message, title || 'Éxito');
+    }
   }
 
 }
