@@ -29,6 +29,10 @@ export class AdminComponent implements OnInit {
   ngOnInit() {
     this.fetchCurrentProfit();
     this.loadLastUpdateDate();
+    const pass = prompt('Ingrese clave de acceso:');
+    if (pass !== 'admin123') {
+      this.router.navigate(['/']);
+    }
 
   }
 
