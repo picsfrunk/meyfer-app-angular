@@ -70,7 +70,6 @@ export class CatalogComponent implements OnInit {
       next: (data) => { this.lastUpdate = new Date(data.lastUpdate);
       }
     })
-
   }
 
   private mapSectionsNames() {

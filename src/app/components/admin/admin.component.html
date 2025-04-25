@@ -21,16 +21,27 @@
       <input type="number" id="profitInput" [(ngModel)]="profitMargin" class="input" />
     </div>
     <div class="button-group">
-      <button class="btn" (click)="updateProfitMargin()">Actualizar Ganancia</button>
-      <button class="btn secondary" (click)="fetchCurrentProfit()">Refrescar valor</button>
+      <!-- Actualizar ganancia -->
+      <button class="btn" (click)="updateProfitAndReprocessProducts()" [disabled]="isUpdatingProfit">
+        <ng-container *ngIf="!isUpdatingProfit; else loadingProfit">Actualizar</ng-container>
+        <ng-template #loadingProfit><span class="spinner"></span> Actualizando...</ng-template>
+      </button>
+
     </div>
+    <p>Nota: esto actualizará el margen de ganancia y recalculará el valor de todos los productos</p>
   </div>
 
   <div class="admin-section">
     <h3>Datos desde Excel</h3>
     <div class="button-group">
-      <button class="btn warn" (click)="fetchAndUpdateCatalog()">Obtener y reprocesar</button>
-    </div>
+      <!-- Reprocesar catálogo -->
+      <button class="btn" (click)="fetchAndUpdateCatalog()" [disabled]="isUpdatingCatalog">
+        <ng-container *ngIf="!isUpdatingCatalog; else loadingCatalog">Obtener Datos desde Excel y reprocesar</ng-container>
+        <ng-template #loadingCatalog><span class="spinner"></span> Procesando...</ng-template>
+      </button>    </div>
+      <p *ngIf="lastUpdate">Última actualización: {{ lastUpdate | date:"dd/MM/yyyy 'a las' hh:mm a" }}</p>
   </div>
+
+
 
 </div>

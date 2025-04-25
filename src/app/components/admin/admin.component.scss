@@ -1,10 +1,11 @@
 .admin-container {
   display: flex;
   flex-direction: column;
+  width: 50vw;
   gap: var(--spacing-large);
   margin: auto;
   padding: var(--spacing-large);
-  width: 100%;
+  width: 50%;
   max-width: 800px;
   background-color: white;
   border-radius: var(--border-radius-md);
@@ -13,8 +14,10 @@
 
 .admin-header {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  gap: var(--spacing-large);
 
   h2 {
     font-size: var(--font-large);
@@ -42,6 +45,9 @@
 }
 
 .admin-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-medium);
   border-top: 1px solid #ddd;
   padding-top: var(--spacing-medium);
 
@@ -54,11 +60,13 @@
   .form-group {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-small);
+    width: 50%;
+    gap: var(--spacing-medium);
     margin-bottom: var(--spacing-small);
   }
 
   .input {
+    width: 5rem;
     padding: var(--spacing-small);
     font-size: var(--font-base);
     border: 1px solid #ccc;
@@ -88,6 +96,27 @@
         background-color: #c82333;
         border-color: #bd2130;
       }
+    }
+  }
+
+  .spinner {
+    display: inline-block;
+    width: 1.2rem;
+    height: 1.2rem;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    border-top: 2px solid var(--color-primary);
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
     }
   }
 }
