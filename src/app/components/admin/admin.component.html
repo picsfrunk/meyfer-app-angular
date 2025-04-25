@@ -1,19 +1,36 @@
 <div class="admin-container">
   <div class="admin-header">
     <h2>Panel de Administración</h2>
+    <span class="server-status" [ngClass]="{ connected: serverConnected, disconnected: !serverConnected }">
+      {{ serverConnected ? 'Conectado al servidor' : 'Sin conexión al servidor' }}
+    </span>
   </div>
 
-  <div class="admin-controls">
-    <button class="btn" [routerLink]="'/'">Ir al Catálogo</button>
 
-    <button class="btn" (click)="fetchAndUpdateCatalog()">Obtener Datos desde Excel y reprocesar</button>
-    <label for="profitInput">Ganancia actual (%)</label>
-    <input type="number" id="profitInput" [(ngModel)]="profitMargin" class="input" />
-
-    <button class="btn" (click)="updateProfitMargin()">Actualizar Ganancia</button>
-    <button class="btn" (click)="fetchCurrentProfit()">Refrescar valor</button>
-
+  <div class="admin-section">
+    <h3>Navegación</h3>
+    <div class="button-group">
+      <button class="btn" [routerLink]="'/'">Ir al Catálogo</button>
+    </div>
   </div>
 
-  <div *ngIf="message" class="admin-message">{{ message }}</div>
+  <div class="admin-section">
+    <h3>Ganancia</h3>
+    <div class="form-group">
+      <label for="profitInput">Ganancia actual (%)</label>
+      <input type="number" id="profitInput" [(ngModel)]="profitMargin" class="input" />
+    </div>
+    <div class="button-group">
+      <button class="btn" (click)="updateProfitMargin()">Actualizar Ganancia</button>
+      <button class="btn secondary" (click)="fetchCurrentProfit()">Refrescar valor</button>
+    </div>
+  </div>
+
+  <div class="admin-section">
+    <h3>Datos desde Excel</h3>
+    <div class="button-group">
+      <button class="btn warn" (click)="fetchAndUpdateCatalog()">Obtener y reprocesar</button>
+    </div>
+  </div>
+
 </div>

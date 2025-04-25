@@ -4,7 +4,7 @@ import {Section, SectionsNames} from 'models/interfaces.model';
 import { SectionComponent } from '../sections/section.component';
 import { RouterLink } from '@angular/router';
 import { ProductCatalogService } from '../../services/product-catalog.service';
-import {provideToastr, ToastrModule, ToastrService} from 'ngx-toastr';
+import { ToastrModule, ToastrService} from 'ngx-toastr';
 
 
 @Component({
@@ -45,6 +45,7 @@ export class CatalogComponent implements OnInit {
       next: (data) => {
         this.sections = data
         this.isLoading = false;
+        this.hasError = false;
         this.showSuccessToast();
         this.mapSectionsNames();
 
@@ -52,6 +53,7 @@ export class CatalogComponent implements OnInit {
       },
       error: (err) => {
         this.isLoading = false;
+        this.hasError = true
         this.toastr.error(
           'No se pudo conectar con el servidor. Intente más tarde.',
           'Error de conexión:\n',
