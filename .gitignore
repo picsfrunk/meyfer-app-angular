@@ -13,6 +13,7 @@ yarn-error.log
 
 # IDEs and editors
 .idea/
+.idea/*
 .project
 .classpath
 .c9/
@@ -21,7 +22,7 @@ yarn-error.log
 *.sublime-workspace
 
 # Visual Studio Code
-.vscode/*
+.vscode/**
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
@@ -36,7 +37,10 @@ yarn-error.log
 /libpeerconnection.log
 testem.log
 /typings
+.firebase/
+*.log
 
 # System files
 .DS_Store
 Thumbs.db
+/.firebase
