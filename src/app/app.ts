@@ -1,4 +1,4 @@
-import {Component, DOCUMENT, Inject, OnInit, signal} from '@angular/core';
+import {Component, DOCUMENT, effect, Inject, OnInit, signal} from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
@@ -22,21 +22,37 @@ export class App implements OnInit {
 
   constructor(
     @Inject(DOCUMENT) private document: Document
-  ) {}
+  ) {
+    effect(() => {
+      const classList = this.document.documentElement.classList;
+      if (this.isDarkMode()) {
+        classList.add('dark');
+      } else {
+        classList.remove('dark');
+      }
+    });
+  }
 
   ngOnInit() {
-    // Al iniciar, comprueba si el usuario tiene una preferencia de tema
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    if (prefersDark) {
-      this.isDarkMode.set(true);
-      this.applyTheme();
+    const stored = localStorage.getItem('theme');
+    if (stored) {
+      this.isDarkMode.set(stored === 'dark');
+    } else {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      this.isDarkMode.set(prefersDark);
+
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        this.isDarkMode.set(e.matches);
+      });
     }
   }
 
-  // Método para cambiar el tema
   toggleTheme(): void {
-    this.isDarkMode.update(value => !value);
-    this.applyTheme();
+    this.isDarkMode.update((value) => {
+      const newValue = !value;
+      localStorage.setItem('theme', newValue ? 'dark' : 'light');
+      return newValue;
+    });
   }
 
   private applyTheme(): void {
