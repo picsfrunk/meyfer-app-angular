@@ -1,32 +1,30 @@
-import {Component, DOCUMENT, Inject, signal} from '@angular/core';
+import {Component, DOCUMENT, Inject, OnInit, signal} from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
-import {ThemeService} from './core/services/theme.service';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
 
 @Component({
   selector: 'app-root',
   imports: [RouterLink,
-    RouterOutlet,
-    NzIconModule,
-    NzLayoutModule,
-    NzMenuModule,
-    NzButtonComponent],
+            RouterOutlet,
+            NzIconModule,
+            NzLayoutModule,
+            NzMenuModule,
+            NzButtonComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
-export class App {
+export class App implements OnInit {
   isCollapsed = false;
-  isDarkMode = signal(false); // Usa una señal para manejar el estado del tema
+  isDarkMode = signal(false);
 
   constructor(
-    private themeService: ThemeService,
     @Inject(DOCUMENT) private document: Document
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     // Al iniciar, comprueba si el usuario tiene una preferencia de tema
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     if (prefersDark) {
@@ -41,7 +39,6 @@ export class App {
     this.applyTheme();
   }
 
-  // Aplica el tema CSS a la etiqueta <html> del documento
   private applyTheme(): void {
     const classList = this.document.documentElement.classList;
     if (this.isDarkMode()) {
