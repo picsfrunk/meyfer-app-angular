@@ -1,0 +1,25 @@
+.mb-16 { margin-bottom: 16px; }
+
+.filters {
+  display: grid;
+  grid-template-columns: 1fr repeat(2, 160px);
+  gap: 12px;
+}
+
+.pager {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
+.product-image {
+  width: 60px;
+  height: auto;
+  object-fit: contain;
+}
+
+@media (max-width: 768px) {
+  .filters {
+    grid-template-columns: 1fr;
+  }
+}
