@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Product } from '../models/product.model';
 
 export interface CartItem {
   product: Product;
@@ -14,14 +13,14 @@ export class CartService {
 
   add(product: Product, qty = 1): void {
     const items = [...this._items$.value];
-    const i = items.findIndex(ci => ci.product.id === product.id);
+    const i = items.findIndex(ci => ci.product.product_id === product.product_id);
     if (i >= 0) items[i] = { ...items[i], qty: items[i].qty + qty };
     else items.push({ product, qty });
     this._items$.next(items);
   }
 
-  remove(productId: string): void {
-    this._items$.next(this._items$.value.filter(ci => ci.product.id !== productId));
+  remove(productId: number): void {
+    this._items$.next(this._items$.value.filter(ci => ci.product.product_id !== productId));
   }
 
   clear(): void {
