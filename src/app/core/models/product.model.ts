@@ -1,4 +1,4 @@
-interface Product {
+export interface Product {
   _id: {
     $oid: string;
   };
@@ -8,7 +8,15 @@ interface Product {
   category_id: number;
   category_name: string;
   display_name: string;
-  image_url: string; // <-- Nuevo campo para la imagen
+  image_url: string;
   list_price: number;
   product_type: string;
+}
+
+
+export interface PaginatedProducts {
+  products: Product[];
+  total: number;
+  page: number;
+  limit: number;
 }
