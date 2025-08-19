@@ -62,6 +62,9 @@ nz-header {
 }
 
 .app-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
   position: relative;
   height: 64px;
   padding: 0;
