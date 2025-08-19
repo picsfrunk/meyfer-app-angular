@@ -1,14 +1,13 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { ProductsService } from '../../core/services/products.service';
-import {Product} from '../../core/models/product.model';
+import { Product } from '../../core/models/product.model';
 
 @Component({
   selector: 'app-product-list',
@@ -16,7 +15,6 @@ import {Product} from '../../core/models/product.model';
   imports: [
     CommonModule,
     FormsModule,
-    NzTableModule,
     NzPaginationModule,
     NzInputModule,
     NzIconModule,
@@ -24,7 +22,7 @@ import {Product} from '../../core/models/product.model';
     NzCardModule,
   ],
   templateUrl: './products.html',
-  styleUrl: './products.scss'
+  styleUrls: ['./products.scss']
 })
 export class Products implements OnInit {
   private productsService = inject(ProductsService);
@@ -34,12 +32,12 @@ export class Products implements OnInit {
   displayProducts: Product[] = [];
 
   searchTerm: string = '';
-  pageSize = 20;
   pageIndex = 1;
+  pageSize = 12;
 
   total = 0;
   page = 1;
-  limit = 20;
+  limit = 12;
 
   ngOnInit() {
     this.loadProducts();
@@ -48,7 +46,6 @@ export class Products implements OnInit {
   loadProducts(page: number = this.page) {
     this.productsService.getPaginatedProducts(page, this.limit).subscribe({
       next: (res) => {
-        console.log(res);
         this.listOfProducts = res.products;
         this.filteredProducts = [...this.listOfProducts];
         this.total = res.total;
@@ -66,13 +63,13 @@ export class Products implements OnInit {
     if (!this.searchTerm.trim()) {
       this.filteredProducts = [...this.listOfProducts];
     } else {
+      const term = this.searchTerm.toLowerCase();
       this.filteredProducts = this.listOfProducts.filter(product =>
-        product.display_name.toLowerCase().includes(this.searchTerm.toLowerCase())
+        product.display_name.toLowerCase().includes(term)
       );
     }
     this.updateDisplayProducts();
   }
-
 
   updateDisplayProducts(): void {
     const start = (this.pageIndex - 1) * this.pageSize;

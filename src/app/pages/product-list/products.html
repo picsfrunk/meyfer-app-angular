@@ -9,14 +9,14 @@
         nz-input
         placeholder="Buscar productos..."
         [(ngModel)]="searchTerm"
-        (ngModelChange)="filterProducts(); updateDisplayProducts()"
+        (ngModelChange)="filterProducts()"
       />
     </nz-input-group>
     <ng-template #searchButton>
       <button
         nz-button
         nzType="primary"
-        (click)="filterProducts(); updateDisplayProducts()"
+        (click)="filterProducts()"
         [disabled]="!searchTerm.trim()"
       >
         <span nz-icon nzType="search"></span>
@@ -27,11 +27,7 @@
   <!-- Grid de productos -->
   <div class="product-grid">
     @for (product of displayProducts; track product.product_id) {
-      <nz-card
-        class="product-card"
-        [nzBordered]="true"
-        [nzHoverable]="true"
-      >
+      <nz-card class="product-card" [nzBordered]="true" [nzHoverable]="true">
         <nz-card-meta
           [nzTitle]="product.display_name"
           [nzDescription]="'Unidad: ' + product.base_unit_name + ' - $' + (product.list_price | number:'1.0-2')"
@@ -56,7 +52,7 @@
   </div>
 
   <!-- Paginación -->
-  <div class="pagination-container" style="margin-top: 1rem; text-align: center;">
+  <div class="pagination-container">
     <nz-pagination
       [nzPageIndex]="page"
       [nzPageSize]="limit"
