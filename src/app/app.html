@@ -34,23 +34,22 @@
     </ul>
   </nz-sider>
   <nz-layout>
+
     <nz-header>
       <div class="app-header">
-        <button nz-button nzType="text" (click)="toggleTheme()">
-          @if (isDarkMode()) {
-            <nz-icon nzType="sun" nzTheme="outline" />
-          } @else {
-            <nz-icon nzType="moon" nzTheme="outline" />          }
-        </button>
-        <app-cart-badge></app-cart-badge>
-      </div>
-      <div>
+        <app-theme-toggle
+          [isDarkMode]="isDarkMode"
+          [toggleTheme]="toggleTheme.bind(this)">
+        </app-theme-toggle>
+        <app-cart-badge/>
       </div>
     </nz-header>
+
     <nz-content>
       <div class="inner-content">
         <router-outlet></router-outlet>
       </div>
     </nz-content>
+
   </nz-layout>
 </nz-layout>
