@@ -1,20 +1,35 @@
-<nz-list [nzDataSource]="cartService.items()" nzBordered>
-  <div *ngFor="let element of cartService.items()">
-    <nz-list-item>
-      <div class="flex justify-between items-center w-full">
-        <span>{{ element.productCartItem.display_name }} x{{ element.qty }}</span>
-        <div class="space-x-1">
-          <button nz-button nzSize="small" nzType="default" (click)="add(element.productCartItem)">+</button>
-          <button nz-button nzSize="small" nzType="default" (click)="decrement(element.productCartItem.product_id)">-</button>
-          <button nz-button nzSize="small" nzDanger (click)="remove(element.productCartItem.product_id)">x</button>
-        </div>
-      </div>
-    </nz-list-item>
-  </div>
-</nz-list>
+<nz-card nzTitle="Mi Carrito" class="cart-card">
+  <nz-list nzBordered [nzItemLayout]="'horizontal'">
+    @for (element of cartService.items(); track element.productCartItem.product_id) {
+      <nz-list-item class="cart-item">
+        <div class="cart-row">
+          <span class="cart-name">
+            {{ element.productCartItem.display_name }}
+          </span>
 
-<div class="mt-4">
-  <p nz-typography>Total items: {{ cartService.count() }}</p>
-  <p nz-typography>Total: {{ cartService.total() | currency }}</p>
-  <button nz-button nzType="primary" nzDanger (click)="clear()">Vaciar</button>
-</div>
+          <div class="cart-actions">
+            <button nz-button nzType="default" nzShape="circle" (click)="decrement(element.productCartItem.product_id)">
+              <span>-</span>
+            </button>
+
+            <span class="cart-qty">{{ element.qty }}</span>
+
+            <button nz-button nzType="default" nzShape="circle" (click)="add(element.productCartItem)">
+              <span>+</span>
+            </button>
+
+            <button nz-button nzDanger nzShape="circle" (click)="remove(element.productCartItem.product_id)">
+              <nz-icon nzTheme="outline" />
+            </button>
+          </div>
+        </div>
+      </nz-list-item>
+    }
+  </nz-list>
+
+  <div class="cart-summary">
+    <p nz-typography>Total items: <b>{{ cartService.count() }}</b></p>
+    <p nz-typography>Total: <b>{{ cartService.total() | currency }}</b></p>
+    <button nz-button nzType="primary" nzDanger class="w-full" (click)="clear()">🗑 Vaciar carrito</button>
+  </div>
+</nz-card>

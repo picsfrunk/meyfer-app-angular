@@ -4,6 +4,8 @@ import { CartService } from '../../core/services/cart.service';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { NzCardComponent } from 'ng-zorro-antd/card';
+import {NzIconDirective} from 'ng-zorro-antd/icon';
 
 @Component({
   selector: 'app-cart',
@@ -13,8 +15,11 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
     CurrencyPipe,
     NzButtonModule,
     NzListModule,
-    NzTypographyModule
+    NzTypographyModule,
+    NzCardComponent,
+    NzIconDirective
   ],
+  styleUrls: ['./cart.scss'],
   templateUrl: './cart.html'
 })
 export class Cart {
