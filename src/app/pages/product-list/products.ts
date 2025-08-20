@@ -8,6 +8,8 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { ProductsService } from '../../core/services/products.service';
 import { Product } from '../../core/models/product.model';
+import {CartService} from '../../core/services/cart.service';
+import {NzMessageService} from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-product-list',
@@ -26,6 +28,8 @@ import { Product } from '../../core/models/product.model';
 })
 export class Products implements OnInit {
   private productsService = inject(ProductsService);
+  private cartService = inject(CartService);
+  private message = inject(NzMessageService)
 
   listOfProducts: Product[] = [];
   filteredProducts: Product[] = [];
@@ -83,6 +87,7 @@ export class Products implements OnInit {
   }
 
   addToCart(product: Product): void {
-    alert(`¡"${product.display_name}" agregado al carrito!`);
+    this.cartService.add(product);
+    this.message.success(`"${product.display_name}" agregado al carrito`);
   }
 }

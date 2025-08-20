@@ -4,7 +4,11 @@
 :root {
 }
 
-// Estilos específicos para el tema claro
+
+.large-icon {
+  font-size: 32px;
+}
+
 .light {
   .ant-layout > * {
     background-color: #a2b4c6;

@@ -2,7 +2,15 @@ import {
   MenuFoldOutline,
   MenuUnfoldOutline,
   FormOutline,
-  DashboardOutline, SunOutline, MoonFill, MoonOutline, ShopOutline, SunFill
+  DashboardOutline,
+  SunOutline,
+  MoonFill,
+  MoonOutline,
+  ShopOutline,
+  SunFill,
+  ShoppingCartOutline,
+  DeleteOutline,
+  MinusOutline, PlusOutline
 } from '@ant-design/icons-angular/icons';
 
 export const icons = [
@@ -13,4 +21,8 @@ export const icons = [
   SunOutline,
   MoonOutline,
   ShopOutline,
+  ShoppingCartOutline,
+  DeleteOutline,
+  PlusOutline,
+  MinusOutline
 ];

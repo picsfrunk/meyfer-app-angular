@@ -1,18 +1,22 @@
-import {Component, DOCUMENT, effect, Inject, OnInit, signal} from '@angular/core';
+import { Component, DOCUMENT, effect, Inject, OnInit, signal } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
-import {NzButtonComponent} from 'ng-zorro-antd/button';
+import { CartBadge } from './shared/cart-badge';
+import { ThemeToggle} from './shared/theme-toggle';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterLink,
-            RouterOutlet,
-            NzIconModule,
-            NzLayoutModule,
-            NzMenuModule,
-            NzButtonComponent],
+  imports: [
+    RouterLink,
+    RouterOutlet,
+    NzIconModule,
+    NzLayoutModule,
+    NzMenuModule,
+    CartBadge,
+    ThemeToggle,
+  ],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
@@ -23,7 +27,7 @@ export class App implements OnInit {
   constructor(
     @Inject(DOCUMENT) private document: Document
   ) {
-    effect(() => {
+    effect( () => {
       const classList = this.document.documentElement.classList;
       if (this.isDarkMode()) {
         classList.add('dark');
@@ -47,23 +51,12 @@ export class App implements OnInit {
     }
   }
 
-  toggleTheme(): void {
+  toggleTheme() {
     this.isDarkMode.update((value) => {
       const newValue = !value;
       localStorage.setItem('theme', newValue ? 'dark' : 'light');
       return newValue;
     });
-  }
-
-  private applyTheme(): void {
-    const classList = this.document.documentElement.classList;
-    if (this.isDarkMode()) {
-      classList.add('dark');
-      classList.remove('light');
-    } else {
-      classList.add('light');
-      classList.remove('dark');
-    }
   }
 
   menuItems: MenuItem[] = [
