@@ -1,18 +1,20 @@
-import {Component, DOCUMENT, effect, Inject, OnInit, signal} from '@angular/core';
+import { Component, DOCUMENT, effect, Inject, OnInit, signal } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
-import {NzButtonComponent} from 'ng-zorro-antd/button';
+import { NzButtonComponent } from 'ng-zorro-antd/button';
+import { CartBadge } from './shared/cart.badge/cart-badge';
 
 @Component({
   selector: 'app-root',
   imports: [RouterLink,
-            RouterOutlet,
-            NzIconModule,
-            NzLayoutModule,
-            NzMenuModule,
-            NzButtonComponent],
+    RouterOutlet,
+    NzIconModule,
+    NzLayoutModule,
+    NzMenuModule,
+    NzButtonComponent,
+    CartBadge],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
