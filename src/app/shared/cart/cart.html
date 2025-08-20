@@ -1,0 +1,20 @@
+<nz-list [nzDataSource]="cartService.items()" nzBordered>
+  <div *ngFor="let element of cartService.items()">
+    <nz-list-item>
+      <div class="flex justify-between items-center w-full">
+        <span>{{ element.productCartItem.display_name }} x{{ element.qty }}</span>
+        <div class="space-x-1">
+          <button nz-button nzSize="small" nzType="default" (click)="add(element.productCartItem)">+</button>
+          <button nz-button nzSize="small" nzType="default" (click)="decrement(element.productCartItem.product_id)">-</button>
+          <button nz-button nzSize="small" nzDanger (click)="remove(element.productCartItem.product_id)">x</button>
+        </div>
+      </div>
+    </nz-list-item>
+  </div>
+</nz-list>
+
+<div class="mt-4">
+  <p nz-typography>Total items: {{ cartService.count() }}</p>
+  <p nz-typography>Total: {{ cartService.total() | currency }}</p>
+  <button nz-button nzType="primary" nzDanger (click)="clear()">Vaciar</button>
+</div>

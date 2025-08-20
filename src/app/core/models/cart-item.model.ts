@@ -1,6 +1,6 @@
 import { Product } from './product.model';
 
 export interface CartItem {
-  item: Product;
+  productCartItem: Product;
   qty: number;
 }
