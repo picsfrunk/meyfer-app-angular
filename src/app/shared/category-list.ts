@@ -18,8 +18,8 @@ import { CategoryService } from '../core/services/category.service';
             nz-button
             nzType="default"
             class="category-btn"
-            [class.selected]="selectedCategory && selectedCategory.category_name === cat.category_name"
-            (click)="selectCategory(cat)"
+            [class.selected]="selectedCategory?.category_name === cat.category_name"
+            (click)="onCategorySelect(cat)"
           >
             {{ cat.category_name }}
             <span class="count">({{ cat.product_count }})</span>
@@ -58,10 +58,8 @@ import { CategoryService } from '../core/services/category.service';
   `]
 })
 export class CategoryList implements OnInit {
-  /** Recibe la categoría seleccionada del componente padre */
   @Input() selectedCategory: Category | null = null;
-  /** Emite un evento cuando se selecciona una nueva categoría */
-  @Output() categorySelected = new EventEmitter<Category>();
+  @Input({ required: true }) onCategorySelect!: (category: Category) => void;
 
   private categoryService = inject(CategoryService);
 
@@ -69,9 +67,5 @@ export class CategoryList implements OnInit {
 
   ngOnInit(): void {
     this.categoryService.fetchCategories();
-  }
-
-  selectCategory(category: Category): void {
-    this.categorySelected.emit(category);
   }
 }

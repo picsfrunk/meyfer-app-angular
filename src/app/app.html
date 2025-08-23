@@ -33,8 +33,10 @@
         }
       }
     </ul>
-    <app-category-list [selectedCategory]="selectedCategory()" (categorySelected)="onCategorySelected($event)"></app-category-list>
-    
+    <app-category-list
+      [selectedCategory]="selectedCategory()"
+      [onCategorySelect]="onCategorySelected"
+    ></app-category-list>
   </nz-sider>
   <nz-layout>
 

@@ -5,8 +5,8 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { CartBadge } from './shared/cart-badge';
 import { ThemeToggle} from './shared/theme-toggle';
-import {CategoryList} from './shared/categories';
-import {Category} from './core/models/category.model';
+import { CategoryList } from './shared/category-list';
+import { Category } from './core/models/category.model';
 
 @Component({
   selector: 'app-root',
@@ -30,7 +30,8 @@ export class App implements OnInit {
 
   onCategorySelected(category: Category): void {
     this.selectedCategory.set(category);
-  }
+    console.log('Categoría seleccionada:', category.category_name);
+  };
 
   constructor(
     @Inject(DOCUMENT) private document: Document
