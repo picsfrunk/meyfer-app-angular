@@ -1,0 +1,50 @@
+.order-form-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+
+}
+
+.summary-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.summary-item.total {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+.total-price {
+  font-size: 1.5rem;
+}
+
+.order-card {
+  background: linear-gradient(135deg, #fafafa, #f0f5ff);
+  border-radius: 16px;
+  padding: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: background 0.5s ease;
+
+}
+
+.form-footer {
+  margin-top: 32px;
+  button {
+    width: 100%;
+    height: 48px;
+    font-size: 1.1rem;
+  }
+}
+
+// Estilos para hacer el formulario responsive
+@media (max-width: 768px) {
+  .order-form-container {
+    padding: 10px;
+    margin: 20px auto;
+  }
+}
