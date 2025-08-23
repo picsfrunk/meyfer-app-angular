@@ -24,7 +24,7 @@
               }
             </ul>
           </li>
-        } @else {
+
           <li nz-menu-item nzMatchRouter [routerLink]="item.link">
             <span nz-icon [nzType]="item.icon!"></span>
             <span>{{ item.title }}</span>
@@ -32,6 +32,10 @@
         }
       }
     </ul>
+    <app-category-list
+      [selectedCategory]="selectedCategory()"
+      [onCategorySelect]="onCategorySelected"
+    ></app-category-list>
   </nz-sider>
   <nz-layout>
 

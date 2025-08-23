@@ -5,6 +5,8 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { CartBadge } from './shared/cart-badge';
 import { ThemeToggle} from './shared/theme-toggle';
+import { CategoryList } from './shared/category-list';
+import { Category } from './core/models/category.model';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +18,7 @@ import { ThemeToggle} from './shared/theme-toggle';
     NzMenuModule,
     CartBadge,
     ThemeToggle,
+    CategoryList,
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss'
@@ -23,6 +26,12 @@ import { ThemeToggle} from './shared/theme-toggle';
 export class App implements OnInit {
   isCollapsed = false;
   isDarkMode = signal(false);
+  selectedCategory = signal<Category | null>(null);
+
+  onCategorySelected = (category: Category) => {
+    this.selectedCategory.set(category);
+    console.log('Categoría seleccionada:', category.category_name);
+  };
 
   constructor(
     @Inject(DOCUMENT) private document: Document

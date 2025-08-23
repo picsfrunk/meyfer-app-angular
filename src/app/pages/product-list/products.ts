@@ -10,6 +10,7 @@ import { ProductsService } from '../../core/services/products.service';
 import { Product } from '../../core/models/product.model';
 import {CartService} from '../../core/services/cart.service';
 import {NzMessageService} from 'ng-zorro-antd/message';
+import {NzSpinComponent} from 'ng-zorro-antd/spin';
 
 @Component({
   selector: 'app-product-list',
@@ -22,6 +23,7 @@ import {NzMessageService} from 'ng-zorro-antd/message';
     NzIconModule,
     NzButtonModule,
     NzCardModule,
+    NzSpinComponent,
   ],
   templateUrl: './products.html',
   styleUrls: ['./products.scss']
@@ -34,6 +36,7 @@ export class Products implements OnInit {
   listOfProducts: Product[] = [];
   filteredProducts: Product[] = [];
   displayProducts: Product[] = [];
+  isLoading = this.productsService.isLoading;
 
   searchTerm: string = '';
   pageIndex = 1;

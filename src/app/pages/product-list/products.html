@@ -1,7 +1,6 @@
 <div class="product-list-container">
   <h1>Catálogo de Productos</h1>
 
-  <!-- Barra de búsqueda -->
   <div class="search-bar" style="margin-bottom: 1rem;">
     <nz-input-group [nzAddOnAfter]="searchButton">
       <input
@@ -24,34 +23,34 @@
     </ng-template>
   </div>
 
-  <!-- Grid de productos -->
-  <div class="product-grid">
-    @for (product of displayProducts; track product.product_id) {
-      <nz-card class="product-card" [nzBordered]="true" [nzHoverable]="true">
-        <nz-card-meta
-          [nzTitle]="product.display_name"
-          [nzDescription]="'Unidad: ' + product.base_unit_name + ' - $' + (product.list_price | number:'1.0-2')"
-        >
-        </nz-card-meta>
+  <nz-spin [nzSpinning]="isLoading()">
+    <div class="product-grid">
+      @for (product of displayProducts; track product.product_id) {
+        <nz-card class="product-card" [nzBordered]="true" [nzHoverable]="true">
+          <nz-card-meta
+            [nzTitle]="product.display_name"
+            [nzDescription]="'Unidad: ' + product.base_unit_name + ' - $' + (product.list_price | number:'1.0-2')"
+          >
+          </nz-card-meta>
 
-        <img
-          nz-card-cover
-          [src]="product.image_url"
-          [alt]="product.display_name"
-          class="product-image"
-          loading="lazy"
-        />
+          <img
+            nz-card-cover
+            [src]="product.image_url"
+            [alt]="product.display_name"
+            class="product-image"
+            loading="lazy"
+          />
 
-        <div class="card-actions">
-          <button nz-button nzType="primary" (click)="addToCart(product)">
-            Agregar al carrito
-          </button>
-        </div>
-      </nz-card>
-    }
-  </div>
+          <div class="card-actions">
+            <button nz-button nzType="primary" (click)="addToCart(product)">
+              Agregar al carrito
+            </button>
+          </div>
+        </nz-card>
+      }
+    </div>
+  </nz-spin>
 
-  <!-- Paginación -->
   <div class="pagination-container">
     <nz-pagination
       [nzPageIndex]="page"
