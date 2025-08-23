@@ -52,6 +52,9 @@
 }
 
 .cart-summary {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2em;
   background: #ffffff;
   padding: 16px;
   border-radius: 12px;
@@ -64,14 +67,20 @@
     font-size: 14px;
   }
 
-  button {
-    margin-top: 8px;
-    transition: background 0.3s ease, transform 0.2s ease;
+  .cart-buttons {
+    display: flex;
+    gap: 8px;
+    align-self: flex-end;
+    button {
+      margin-top: 8px;
+      transition: background 0.3s ease, transform 0.2s ease;
 
-    &:hover {
-      transform: scale(1.05);
+      &:hover {
+        transform: scale(1.05);
+      }
     }
   }
+
 }
 
 /* Animaciones */

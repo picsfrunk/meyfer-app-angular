@@ -1,0 +1,142 @@
+<div class="order-form-container">
+  <nz-card class="order-card" nzTitle="Confirmación del Pedido">
+    <form nz-form [formGroup]="orderForm" (ngSubmit)="submitForm()">
+      <h4 nz-typography>Datos del Cliente</h4>
+      <nz-divider></nz-divider>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="cliente" nzRequired>Cliente</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Por favor, ingrese el nombre del cliente">
+          <input nz-input formControlName="cliente" id="cliente" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="razonSocial" nzRequired>Razón Social</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Por favor, ingrese la razón social">
+          <input nz-input formControlName="razonSocial" id="razonSocial" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="cuit" nzRequired>CUIT</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Formato de CUIT inválido (ej: 20-12345678-9)">
+          <input nz-input formControlName="cuit" id="cuit" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="telefono1" nzRequired>Teléfono</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Por favor, ingrese un número de teléfono válido">
+          <input nz-input formControlName="telefono1" id="telefono1" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="email" nzRequired>Email</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Por favor, ingrese un email válido">
+          <input nz-input formControlName="email" id="email" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <h4 nz-typography class="mt-8">Dirección de Entrega</h4>
+      <nz-divider></nz-divider>
+      <div formGroupName="direccion">
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="calle" nzRequired>Calle</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Por favor, ingrese la calle">
+            <input nz-input formControlName="calle" id="calle" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="numero" nzRequired>Número</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Por favor, ingrese el número">
+            <input nz-input formControlName="numero" id="numero" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="piso">Piso / Depto</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <input nz-input formControlName="piso" id="piso" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="timbre">Timbre</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <input nz-input formControlName="timbre" id="timbre" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="entreCalles">Entre Calles</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <input nz-input formControlName="entreCalles" id="entreCalles" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="localidad" nzRequired>Localidad</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Por favor, ingrese la localidad">
+            <input nz-input formControlName="localidad" id="localidad" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="partido" nzRequired>Partido</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Por favor, ingrese el partido">
+            <input nz-input formControlName="partido" id="partido" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <h4 nz-typography class="mt-8">Contacto y Horarios</h4>
+      <nz-divider></nz-divider>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="contacto" nzRequired>Contacto</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Por favor, ingrese el nombre del contacto">
+          <input nz-input formControlName="contacto" id="contacto" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="horarios" nzRequired>Horarios</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Por favor, ingrese los horarios de entrega">
+          <input nz-input formControlName="horarios" id="horarios" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="notas">Notas</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <textarea nz-input formControlName="notas" id="notas" rows="4"></textarea>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-divider></nz-divider>
+      <div>
+        <h3 nz-typography>Resumen del Pedido</h3>
+        <nz-divider></nz-divider>
+        <div class="summary-container">
+          <div class="summary-item">
+            <span nz-typography nzType="secondary">Cantidad de Productos</span>
+            <nz-tag nzColor="processing">{{ cartCount() }}</nz-tag>
+          </div>
+          <div class="summary-item total">
+            <span nz-typography>Total</span>
+            <span nz-typography nzType="success" class="total-price">{{ cartTotal() | currency }}</span>
+          </div>
+        </div>
+      </div>
+
+      <nz-form-item nz-row class="form-footer">
+        <nz-form-control [nzSpan]="14" [nzOffset]="6">
+          <button nz-button nzType="primary" [nzLoading]="isFormLoading" [disabled]="!orderForm.valid">
+            Confirmar Pedido
+          </button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </nz-card>
+</div>

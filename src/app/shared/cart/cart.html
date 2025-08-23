@@ -9,7 +9,7 @@
         </span>
 
         <div class="actions">
-          
+
           <button nz-button nzShape="circle" nzType="default" (click)="add(element.productCartItem)">
             <nz-icon nzType="plus"/>
           </button>
@@ -31,5 +31,23 @@
 <div class="cart-summary mt-4">
   <p nz-typography>Total items: <strong>{{ cartService.count() }}</strong></p>
   <p nz-typography>Total: <strong>{{ cartService.total() | currency }}</strong></p>
-  <button nz-button nzType="primary" nzDanger (click)="clear()">Vaciar</button>
-</div>
+  <div class="cart-buttons">
+    <button
+      nz-button
+      nzType="primary"
+      nzDanger
+      (click)="clear()"
+      [disabled]="cartService.count() === 0">
+      Vaciar
+    </button>
+    <button
+      nz-button
+      nzType="primary"
+      class="mt-2"
+      (click)="goToCheckout()"
+      [disabled]="cartService.count() === 0">
+      Confirmar Pedido
+    </button>
+  </div>
+
+  </div>
