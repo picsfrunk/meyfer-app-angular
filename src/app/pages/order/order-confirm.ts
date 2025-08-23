@@ -3,16 +3,16 @@ import { Component, inject, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CartService } from '../../core/services/cart.service';
-import {NzModalModule, NzModalService} from 'ng-zorro-antd/modal';
+import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
-import {NzDividerComponent} from 'ng-zorro-antd/divider';
-import {NzCardComponent} from 'ng-zorro-antd/card';
-import {NzTagComponent} from 'ng-zorro-antd/tag';
-import {NzTypographyComponent} from 'ng-zorro-antd/typography';
+import { NzDividerComponent } from 'ng-zorro-antd/divider';
+import { NzCardComponent } from 'ng-zorro-antd/card';
+import { NzTagComponent } from 'ng-zorro-antd/tag';
+import { NzTypographyComponent } from 'ng-zorro-antd/typography';
 
 @Component({
   selector: 'app-order-confirm',
@@ -32,7 +32,7 @@ import {NzTypographyComponent} from 'ng-zorro-antd/typography';
   templateUrl: './order-confirm.html',
   styleUrl: './order-confirm.scss'
 })
-export class OrderConfirm  {
+export class OrderConfirm {
   // Inyección de dependencias con `inject()`
   private fb = inject(FormBuilder);
   private cartService = inject(CartService);
@@ -45,8 +45,6 @@ export class OrderConfirm  {
   // Usar señales para el estado del carrito
   cartTotal = this.cartService.total;
   cartCount = this.cartService.count;
-
-  private cartTotalSubscription!: Subscription;
 
   constructor() {
     this.initializeForm();
@@ -78,28 +76,6 @@ export class OrderConfirm  {
   }
 
 
-  // private initializeForm(): void {
-  //   this.orderForm = this.fb.group({
-  //     cliente: [null, [Validators.required]],
-  //     razonSocial: [null, [Validators.required]],
-  //     cuit: [null, [Validators.required, Validators.pattern(/^\d{2}-\d{8}-\d{1}$/)]],
-  //     telefono1: [null, [Validators.required, Validators.pattern(/^\+?\d{10,}$/)]],
-  //     email: [null, [Validators.required, Validators.email]],
-  //     direccion: this.fb.group({
-  //       calle: [null, [Validators.required]],
-  //       numero: [null, [Validators.required]],
-  //       piso: [null],
-  //       timbre: [null],
-  //       entreCalles: [null],
-  //       localidad: [null, [Validators.required]],
-  //       partido: [null, [Validators.required]]
-  //     }),
-  //     contacto: [null, [Validators.required]],
-  //     horarios: [null, [Validators.required]],
-  //     notas: [null]
-  //   });
-  // }
-
   private checkCartStatus(): void {
     if (this.cartCount() === 0) {
       this.messageService.warning('El carrito de compras está vacío. Por favor, agregue productos para continuar.');
@@ -109,13 +85,24 @@ export class OrderConfirm  {
   submitForm(): void {
     if (this.orderForm.valid) {
       this.isFormLoading = true;
+
+      // Construye el objeto JSON con todos los datos del pedido
+      const orderData = {
+        customerInfo: this.orderForm.value,
+        cartItems: this.cartService.items(),
+        total: this.cartTotal(),
+        totalItems: this.cartCount()
+      };
+
+      // Muestra el objeto en la consola para verificación
+      console.log('Datos del pedido para enviar:', orderData);
+
       // Lógica para enviar el pedido al backend (simulada)
       setTimeout(() => {
         this.messageService.success('Pedido enviado con éxito!');
         this.cartService.clear();
         this.isFormLoading = false;
         this.modalService.closeAll();
-        // Podrías navegar a una página de confirmación
       }, 2000);
     } else {
       Object.values(this.orderForm.controls).forEach(control => {
@@ -132,5 +119,4 @@ export class OrderConfirm  {
       this.messageService.error('Por favor, complete los campos requeridos y corrija los errores.');
     }
   }
-
 }
