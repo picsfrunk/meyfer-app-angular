@@ -5,6 +5,8 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
+import {NzModalService} from 'ng-zorro-antd/modal';
+import { OrderConfirm } from '../../pages/order/order-confirm';
 
 @Component({
   selector: 'app-cart',
@@ -22,6 +24,7 @@ import {NzIconDirective} from 'ng-zorro-antd/icon';
 })
 export class Cart {
   cartService = inject(CartService);
+  private modalService = inject(NzModalService);
 
   add(product: any) {
     this.cartService.add(product);
@@ -37,5 +40,14 @@ export class Cart {
 
   clear(): void {
     this.cartService.clear();
+  }
+
+  goToCheckout(): void {
+    const modalRef = this.modalService.create({
+      nzTitle: 'Confirmar Pedido',
+      nzContent: OrderConfirm,
+      nzWidth: 800,
+      nzFooter: null // No necesitas footer si el componente tiene sus propios botones
+    });
   }
 }
