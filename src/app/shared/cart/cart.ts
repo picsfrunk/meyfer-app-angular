@@ -4,7 +4,6 @@ import { CartService } from '../../core/services/cart.service';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { NzCardComponent } from 'ng-zorro-antd/card';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
 
 @Component({
@@ -16,7 +15,6 @@ import {NzIconDirective} from 'ng-zorro-antd/icon';
     NzButtonModule,
     NzListModule,
     NzTypographyModule,
-    NzCardComponent,
     NzIconDirective
   ],
   styleUrls: ['./cart.scss'],
