@@ -1,9 +1,9 @@
 // src/app/shared/components/category-list/category-list.ts
-import { Component, inject, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, inject, OnInit, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import {Category } from '../core/models/category.model';
+import { Category } from '../core/models/category.model';
 import { CategoryService } from '../core/services/category.service';
 
 @Component({
@@ -11,49 +11,34 @@ import { CategoryService } from '../core/services/category.service';
   standalone: true,
   imports: [CommonModule, NzListModule, NzButtonModule],
   template: `
-    <nz-list [nzBordered]="false" class="category-list">
+    <nz-list [nzSplit]="false"
+             [nzLoading]="isLoading()"
+    >
       @for (cat of categories(); track cat.category_name) {
         <nz-list-item>
           <button
             nz-button
-            nzType="default"
-            class="category-btn"
-            [class.selected]="selectedCategory?.category_name === cat.category_name"
+            [nzType]="selectedCategory?.category_name === cat.category_name ? 'primary' : 'default'"
+            nzBlock
             (click)="onCategorySelect(cat)"
           >
             {{ cat.category_name }}
-            <span class="count">({{ cat.product_count }})</span>
+            <span style="margin-left:auto; font-weight:500; color: rgba(0,0,0,.65)">
+              {{ cat.product_count }}
+            </span>
           </button>
         </nz-list-item>
       }
     </nz-list>
   `,
   styles: [`
-    .category-list {
+    nz-list {
       padding: 0;
     }
-    .category-btn {
+    button[nz-button] {
       display: flex;
       justify-content: space-between;
-      width: 100%;
-      text-align: left;
-      padding: 8px 12px;
-      margin-bottom: 4px;
-      font-size: 14px;
-      border: 1px solid #d9d9d9;
-    }
-    .category-btn.selected {
-      background-color: #e6f7ff;
-      border-color: #91d5ff;
-      color: #1890ff;
-      font-weight: bold;
-    }
-    .count {
-      font-weight: bold;
-      color: #1890ff;
-    }
-    .category-btn.selected .count {
-      color: #1890ff;
+      align-items: center;
     }
   `]
 })
@@ -62,8 +47,8 @@ export class CategoryList implements OnInit {
   @Input({ required: true }) onCategorySelect!: (category: Category) => void;
 
   private categoryService = inject(CategoryService);
-
   categories = this.categoryService.categories;
+  isLoading = this.categoryService.isLoading;
 
   ngOnInit(): void {
     this.categoryService.fetchCategories();

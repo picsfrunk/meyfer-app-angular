@@ -28,7 +28,7 @@ export class App implements OnInit {
   isDarkMode = signal(false);
   selectedCategory = signal<Category | null>(null);
 
-  onCategorySelected(category: Category): void {
+  onCategorySelected = (category: Category) => {
     this.selectedCategory.set(category);
     console.log('Categoría seleccionada:', category.category_name);
   };
