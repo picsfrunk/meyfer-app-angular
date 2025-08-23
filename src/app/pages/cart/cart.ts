@@ -6,7 +6,7 @@ import { NzListModule } from 'ng-zorro-antd/list';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
 import {NzModalService} from 'ng-zorro-antd/modal';
-import { OrderConfirm } from '../../pages/order/order-confirm';
+import { OrderConfirm } from '../order/order-confirm';
 
 @Component({
   selector: 'app-cart',
