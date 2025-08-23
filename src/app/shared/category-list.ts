@@ -1,41 +1,44 @@
-// src/app/shared/components/category-list/category-list.ts
 import { Component, inject, OnInit, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NzListModule } from 'ng-zorro-antd/list';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { Category } from '../core/models/category.model';
+import { NzMenuModule } from 'ng-zorro-antd/menu'; // 👈 Importa NzMenuModule
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { CategoryService } from '../core/services/category.service';
+import { Category } from '../core/models/category.model'; // 👈 Importa NzSpinModule para el loader
 
 @Component({
   selector: 'app-category-list',
   standalone: true,
-  imports: [CommonModule, NzListModule, NzButtonModule],
+  imports: [CommonModule, NzMenuModule, NzSpinModule],
   template: `
-    <nz-list [nzSplit]="false"
-             [nzLoading]="isLoading()"
-    >
-      @for (cat of categories(); track cat.category_name) {
-        <nz-list-item>
-          <button
-            nz-button
-            [nzType]="selectedCategory?.category_name === cat.category_name ? 'primary' : 'default'"
-            nzBlock
-            (click)="onCategorySelect(cat)"
-          >
-            {{ cat.category_name }}
-            <span style="margin-left:auto; font-weight:500; color: rgba(0,0,0,.65)">
-              {{ cat.product_count }}
-            </span>
-          </button>
-        </nz-list-item>
-      }
-    </nz-list>
+    <div class="category-menu-container">
+      <nz-spin [nzSpinning]="isLoading()">
+        <ul nz-menu [nzMode]="'inline'">
+          @for (cat of categories(); track cat.category_name) {
+            <li nz-menu-item
+                [nzSelected]="selectedCategory?.category_name === cat.category_name"
+                (click)="onCategorySelect(cat)">
+              <span class="category-name">{{ cat.category_name }}</span>
+              <span class="product-count">({{ cat.product_count }})</span>
+            </li>
+          }
+        </ul>
+      </nz-spin>
+    </div>
   `,
   styles: [`
-    nz-list {
-      padding: 0;
+    .category-menu-container {
+      padding: 16px 0;
     }
-    button[nz-button] {
+    .category-name {
+      margin-right: auto;
+    }
+    .product-count {
+      margin-left: 10px;
+      font-weight: bold;
+      color: rgba(0,0,0,.45);
+    }
+    /* Estilos para el item del menú */
+    .ant-menu-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -47,6 +50,7 @@ export class CategoryList implements OnInit {
   @Input({ required: true }) onCategorySelect!: (category: Category) => void;
 
   private categoryService = inject(CategoryService);
+
   categories = this.categoryService.categories;
   isLoading = this.categoryService.isLoading;
 
