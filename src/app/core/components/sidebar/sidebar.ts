@@ -13,64 +13,9 @@ import {Category} from '../../models/category.model';
   selector: 'app-sidebar',
   standalone: true,
   imports: [CommonModule, RouterLink, NzIconModule, NzMenuModule, NzSpinComponent],
-  template: `
-    <ul nz-menu nzMode="inline" [nzInlineCollapsed]="false">
-      @for (item of menuItems; track item.title) {
-        @if (item.subMenuType) {
-          <li nz-submenu [nzTitle]="item.title" [nzIcon]="item.icon" [nzOpen]="true">
-              <ul>
-                @if (item.subMenuType === 'categories') {
-                  <nz-spin [nzSpinning]="isLoadingCategories()">
-                      @for (cat of fullCategories(); track cat.category_name) {
-                        <li nz-menu-item
-                            [nzSelected]="selectedCategory()?.category_name === cat.category_name"
-                            (click)="onCategorySelected(cat)">
-                          <span class="category-name">{{ cat.category_name }}</span>
-                          <span class="product-count">({{ cat.product_count }})</span>
-                        </li>
-                      }
-                    </nz-spin>
-                } @else if (item.subMenuType === 'default' && item.children) {
-                  @for (child of item.children; track child.title) {
-                    <li nz-menu-item [routerLink]="child.link" [nzDisabled]="child.disabled">
-                      <span nz-icon [nzType]="child.icon"></span>
-                      <span>{{ child.title }}</span>
-                    </li>
-                  }
-                }
-              </ul>
-          </li>
-        } @else {
-          <li nz-menu-item [routerLink]="item.link" [nzDisabled]="item.disabled">
-            <span nz-icon [nzType]="item.icon"></span>
-            <span>{{ item.title }}</span>
-          </li>
-        }
-      }
-    </ul>
-  `,
-  styles: [`
-    :host {
-      display: block;
-    }
-    .ant-menu-inline {
-      border-right: none;
-    }
-    li.ant-menu-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .category-name {
-      margin-right: auto;
-      padding-left: 1em;
-    }
-    .product-count {
-      margin-left: 10px;
-      font-weight: bold;
-      color: rgba(0,0,0,.45);
-    }
-  `]
+  templateUrl: './sidebar.html',
+  styleUrls: ['./sidebar.scss'],
+
 })
 export class Sidebar implements OnInit {
   private categoryService = inject(CategoryService);
