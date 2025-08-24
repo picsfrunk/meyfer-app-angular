@@ -3,7 +3,7 @@ import {RouterOutlet} from '@angular/router';
 import {NzLayoutModule} from 'ng-zorro-antd/layout';
 import {CartBadge} from './shared/cart-badge';
 import {ThemeToggle} from './shared/theme-toggle';
-import {Sidebar} from './shared/sidebar';
+import {Sidebar} from './core/components/sidebar/sidebar';
 
 @Component({
   selector: 'app-root',

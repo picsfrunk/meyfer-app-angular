@@ -26,5 +26,5 @@ export const icons = [
   PlusOutline,
   MinusOutline,
   HomeOutline,
-  
+
 ];
