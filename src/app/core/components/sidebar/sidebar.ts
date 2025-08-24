@@ -18,17 +18,18 @@ import {Category} from '../../models/category.model';
       @for (item of menuItems; track item.title) {
         @if (item.subMenuType) {
           <li nz-submenu [nzTitle]="item.title" [nzIcon]="item.icon" [nzOpen]="true">
-            <nz-spin [nzSpinning]="isLoadingCategories()">
               <ul>
                 @if (item.subMenuType === 'categories') {
-                  @for (cat of categories(); track cat.category_name) {
-                    <li nz-menu-item
-                        [nzSelected]="selectedCategory()?.category_name === cat.category_name"
-                        (click)="onCategorySelected(cat)">
-                      <span class="category-name">{{ cat.category_name }}</span>
-                      <span class="product-count">({{ cat.product_count }})</span>
-                    </li>
-                  }
+                  <nz-spin [nzSpinning]="isLoadingCategories()">
+                      @for (cat of categories(); track cat.category_name) {
+                        <li nz-menu-item
+                            [nzSelected]="selectedCategory()?.category_name === cat.category_name"
+                            (click)="onCategorySelected(cat)">
+                          <span class="category-name">{{ cat.category_name }}</span>
+                          <span class="product-count">({{ cat.product_count }})</span>
+                        </li>
+                      }
+                    </nz-spin>
                 } @else if (item.subMenuType === 'default' && item.children) {
                   @for (child of item.children; track child.title) {
                     <li nz-menu-item [routerLink]="child.link" [nzDisabled]="child.disabled">
@@ -38,7 +39,6 @@ import {Category} from '../../models/category.model';
                   }
                 }
               </ul>
-            </nz-spin>
           </li>
         } @else {
           <li nz-menu-item [routerLink]="item.link" [nzDisabled]="item.disabled">
@@ -63,6 +63,7 @@ import {Category} from '../../models/category.model';
     }
     .category-name {
       margin-right: auto;
+      padding-left: 1em;
     }
     .product-count {
       margin-left: 10px;

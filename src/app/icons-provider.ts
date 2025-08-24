@@ -4,13 +4,16 @@ import {
   FormOutline,
   DashboardOutline,
   SunOutline,
-  MoonFill,
   MoonOutline,
   ShopOutline,
-  SunFill,
   ShoppingCartOutline,
   DeleteOutline,
-  MinusOutline, PlusOutline, HomeOutline
+  MinusOutline,
+  PlusOutline,
+  HomeOutline,
+  UserOutline,
+  LockOutline,
+  SettingOutline
 } from '@ant-design/icons-angular/icons';
 
 export const icons = [
@@ -26,5 +29,7 @@ export const icons = [
   PlusOutline,
   MinusOutline,
   HomeOutline,
-
+  UserOutline,
+  LockOutline,
+  SettingOutline,
 ];
