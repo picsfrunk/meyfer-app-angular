@@ -12,7 +12,6 @@ import {Sidebar} from './shared/sidebar';
   styleUrl: './app.scss'
 })
 export class App implements OnInit {
-  isCollapsed = false;
   isDarkMode = signal(false);
 
   constructor(@Inject(DOCUMENT) private document: Document) {

@@ -1,9 +1,9 @@
-import { Component, inject, OnInit, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { NzMenuModule } from 'ng-zorro-antd/menu';
-import { NzSpinModule } from 'ng-zorro-antd/spin';
-import { CategoryService } from '../core/services/category.service';
-import { Category } from '../core/models/category.model';
+import {Component, inject, OnInit, Input} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {NzMenuModule} from 'ng-zorro-antd/menu';
+import {NzSpinModule} from 'ng-zorro-antd/spin';
+import {CategoryService} from '../core/services/category.service';
+import {Category} from '../core/models/category.model';
 
 @Component({
   selector: 'categories',
@@ -25,11 +25,13 @@ import { Category } from '../core/models/category.model';
     .category-name {
       margin-right: auto;
     }
+
     .product-count {
       margin-left: 8px;
       font-weight: 500;
       color: rgba(0, 0, 0, 0.45);
     }
+
     li[nz-menu-item] {
       display: flex;
       justify-content: space-between;
@@ -39,7 +41,7 @@ import { Category } from '../core/models/category.model';
 })
 export class Categories implements OnInit {
   @Input() selectedCategory: Category | null = null;
-  @Input({ required: true }) onCategorySelect!: (category: Category) => void;
+  @Input({required: true}) onCategorySelect!: (category: Category) => void;
 
   private categoryService = inject(CategoryService);
 

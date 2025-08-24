@@ -10,7 +10,7 @@ import {
   SunFill,
   ShoppingCartOutline,
   DeleteOutline,
-  MinusOutline, PlusOutline
+  MinusOutline, PlusOutline, HomeOutline
 } from '@ant-design/icons-angular/icons';
 
 export const icons = [
@@ -24,5 +24,7 @@ export const icons = [
   ShoppingCartOutline,
   DeleteOutline,
   PlusOutline,
-  MinusOutline
+  MinusOutline,
+  HomeOutline,
+  
 ];
