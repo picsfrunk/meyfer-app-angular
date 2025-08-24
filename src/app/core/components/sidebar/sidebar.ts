@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal, OnInit, inject } from '@angular/core';
+import {Component, signal, OnInit, inject, computed} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
@@ -21,7 +21,7 @@ import {Category} from '../../models/category.model';
               <ul>
                 @if (item.subMenuType === 'categories') {
                   <nz-spin [nzSpinning]="isLoadingCategories()">
-                      @for (cat of categories(); track cat.category_name) {
+                      @for (cat of fullCategories(); track cat.category_name) {
                         <li nz-menu-item
                             [nzSelected]="selectedCategory()?.category_name === cat.category_name"
                             (click)="onCategorySelected(cat)">
@@ -89,4 +89,13 @@ export class Sidebar implements OnInit {
     this.selectedCategory.set(category);
     console.log('Categoría seleccionada desde sidebar:', category.category_name);
   };
+
+  fullCategories = computed(() => {
+    const allCategory: Category = {
+      category_name: 'Todos',
+      product_count: this.categories().reduce((sum, cat) => sum + cat.product_count, 0)
+    };
+    return [allCategory, ...this.categories()];
+  });
+
 }
