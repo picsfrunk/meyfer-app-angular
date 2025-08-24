@@ -1,12 +1,12 @@
 import { Component, inject, OnInit, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NzMenuModule } from 'ng-zorro-antd/menu'; // 👈 Importa NzMenuModule
+import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { CategoryService } from '../core/services/category.service';
-import { Category } from '../core/models/category.model'; // 👈 Importa NzSpinModule para el loader
+import { Category } from '../core/models/category.model';
 
 @Component({
-  selector: 'app-category-list',
+  selector: 'categories',
   standalone: true,
   imports: [CommonModule, NzMenuModule, NzSpinModule],
   template: `
@@ -37,7 +37,6 @@ import { Category } from '../core/models/category.model'; // 👈 Importa NzSpin
       font-weight: bold;
       color: rgba(0,0,0,.45);
     }
-    /* Estilos para el item del menú */
     .ant-menu-item {
       display: flex;
       justify-content: space-between;
@@ -45,7 +44,7 @@ import { Category } from '../core/models/category.model'; // 👈 Importa NzSpin
     }
   `]
 })
-export class CategoryList implements OnInit {
+export class Categories implements OnInit {
   @Input() selectedCategory: Category | null = null;
   @Input({ required: true }) onCategorySelect!: (category: Category) => void;
 
