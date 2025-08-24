@@ -10,34 +10,27 @@ import { Category } from '../core/models/category.model';
   standalone: true,
   imports: [CommonModule, NzMenuModule, NzSpinModule],
   template: `
-    <div class="category-menu-container">
-      <nz-spin [nzSpinning]="isLoading()">
-        <ul nz-menu [nzMode]="'inline'">
-          @for (cat of categories(); track cat.category_name) {
-            <li nz-menu-item
-                [nzSelected]="selectedCategory?.category_name === cat.category_name"
-                (click)="onCategorySelect(cat)">
-              <span class="category-name">{{ cat.category_name }}</span>
-              <span class="product-count">({{ cat.product_count }})</span>
-            </li>
-          }
-        </ul>
-      </nz-spin>
-    </div>
+    <nz-spin [nzSpinning]="isLoading()">
+      @for (cat of categories(); track cat.category_name) {
+        <li nz-menu-item
+            [nzSelected]="selectedCategory?.category_name === cat.category_name"
+            (click)="onCategorySelect(cat)">
+          <span class="category-name">{{ cat.category_name }}</span>
+          <span class="product-count">({{ cat.product_count }})</span>
+        </li>
+      }
+    </nz-spin>
   `,
   styles: [`
-    .category-menu-container {
-      padding: 16px 0;
-    }
     .category-name {
       margin-right: auto;
     }
     .product-count {
-      margin-left: 10px;
-      font-weight: bold;
-      color: rgba(0,0,0,.45);
+      margin-left: 8px;
+      font-weight: 500;
+      color: rgba(0, 0, 0, 0.45);
     }
-    .ant-menu-item {
+    li[nz-menu-item] {
       display: flex;
       justify-content: space-between;
       align-items: center;
