@@ -1,9 +1,10 @@
 import {inject, Injectable, signal, WritableSignal} from '@angular/core';
 import { Observable } from 'rxjs';
 import { finalize } from "rxjs/operators";
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { PaginatedProducts, Product } from '../models/product.model';
+import {Category} from '../models/category.model';
 
 @Injectable({ providedIn: 'root' })
 export class ProductsService {
@@ -11,18 +12,20 @@ export class ProductsService {
   private http = inject(HttpClient);
 
   readonly isLoading: WritableSignal<boolean> = signal(false);
+  readonly selectedCategory: WritableSignal<Category | null> = signal(null);
 
-  getAllProducts(): Observable<Product[]> {
+  getPaginatedProducts(page: number = 1, limit: number = 20, category_id?: number): Observable<PaginatedProducts> {
     this.isLoading.set(true);
-    return this.http.get<Product[]>(`${this.apiUrl}/products/scraped`).pipe(
-      finalize(() => this.isLoading.set(false))
-    );
-  }
 
-  getPaginatedProducts(page: number = 1, limit: number = 20): Observable<PaginatedProducts> {
-    this.isLoading.set(true);
-    return this.http.get<PaginatedProducts>(
-      `${this.apiUrl}/products/scraped?page=${page}&limit=${limit}`).pipe(
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('limit', limit.toString());
+
+    if ( this.selectedCategory() ) {
+      params = params.set('category_id', this.selectedCategory()!.category_id);
+    }
+
+    return this.http.get<PaginatedProducts>(`${this.apiUrl}/products/scraped`, { params: params }).pipe(
       finalize(() => this.isLoading.set(false))
     );
   }

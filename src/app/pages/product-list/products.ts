@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import {Component, OnInit, inject, signal, effect} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
@@ -11,6 +11,7 @@ import { Product } from '../../core/models/product.model';
 import {CartService} from '../../core/services/cart.service';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {NzSpinComponent} from 'ng-zorro-antd/spin';
+import {Category} from '../../core/models/category.model';
 
 @Component({
   selector: 'app-product-list',
@@ -45,6 +46,18 @@ export class Products implements OnInit {
   total = 0;
   page = 1;
   limit = 12;
+
+  constructor() {
+    effect(() => {
+      const selectedCat = this.productsService.selectedCategory()!;
+      console.log('Categoría seleccionada desde sidebar:', {
+        category_id: selectedCat.category_id,
+        category_name: selectedCat.category_name,
+        product_count: selectedCat.product_count
+      });
+      this.loadProducts();
+    });
+  }
 
   ngOnInit() {
     this.loadProducts();

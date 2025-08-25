@@ -8,6 +8,7 @@ import {CategoryService} from '../../services/category.service';
 import {MENU_ITEMS} from './menu-items';
 import {MenuItem} from '../../models/menu-item.model';
 import {Category} from '../../models/category.model';
+import {ProductsService} from '../../services/products.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -19,6 +20,7 @@ import {Category} from '../../models/category.model';
 })
 export class Sidebar implements OnInit {
   private categoryService = inject(CategoryService);
+  private productService = inject(ProductsService);
 
   categories = this.categoryService.categories;
   isLoadingCategories = this.categoryService.isLoading;
@@ -28,20 +30,17 @@ export class Sidebar implements OnInit {
 
   ngOnInit(): void {
     this.categoryService.fetchCategories();
+
   }
 
   onCategorySelected = (category: Category) => {
-    this.selectedCategory.set(category);
-    console.log('Categoría seleccionada desde sidebar:', {
-      category_id: category.category_id,
-      category_name: category.category_name,
-      product_count: category.product_count
-    });
+    this.productService.selectedCategory.set(category);
+
   };
 
   fullCategories = computed(() => {
     const allCategory: Category = {
-      category_id: '0',
+      category_id: 0,
       category_name: 'Todos',
       product_count: this.categories().reduce((sum, cat) => sum + cat.product_count, 0)
     };
