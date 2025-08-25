@@ -14,12 +14,13 @@ export class ProductsService {
   readonly isLoading: WritableSignal<boolean> = signal(false);
   readonly selectedCategory: WritableSignal<Category | null> = signal(null);
 
-  getPaginatedProducts(page: number = 1, limit: number = 20, category_id?: number): Observable<PaginatedProducts> {
+  getPaginatedProducts(page: number = 1, limit: number = 20, category_id?: number, search: string = ''): Observable<PaginatedProducts> {
     this.isLoading.set(true);
 
     let params = new HttpParams()
-      .set('page', page.toString())
-      .set('limit', limit.toString());
+      .set('page', page.toString() )
+      .set('limit', limit.toString() )
+      .set('search', search );
 
     if ( this.selectedCategory() ) {
       params = params.set('category_id', this.selectedCategory()!.category_id);
