@@ -41,16 +41,13 @@ export class Products implements OnInit {
   displayProducts: Product[] = [];
   isLoading = this.productsService.isLoading;
 
-  // 🔎 search dinámico con signal
   searchTerm = signal<string>('');
-  searchDelay = 9999; // ms configurable
 
   page = 1;
   limit = 12;
   total = 0;
 
   constructor() {
-    // Efecto: cuando cambia la categoría seleccionada en el sidebar
     effect(() => {
       const selectedCat = this.productsService.selectedCategory();
       if (selectedCat) {
@@ -66,12 +63,9 @@ export class Products implements OnInit {
     this.loadProducts();
   }
 
-  loadProducts(page: number = this.page, search: string = this.searchTerm()) {
-    console.log('Search term', search);
-    console.log('Total Products:', this.total);
-
+  loadProducts(page: number = this.page) {
     const categoryId = this.productsService.selectedCategory()?.category_id;
-    this.productsService.getPaginatedProducts(page, this.limit, categoryId, search).subscribe({
+    this.productsService.getPaginatedProducts(page, this.limit, categoryId, this.searchTerm()).subscribe({
       next: (res) => {
         this.listOfProducts = res.products;
         this.total = res.total;
@@ -82,11 +76,13 @@ export class Products implements OnInit {
         console.error('Error loading products', err);
       }
     });
+    console.log('Search term', this.searchTerm());
+    console.log('Total Products:', this.total);
   }
 
   onPageIndexChange(index: number): void {
     this.page = index;
-    this.loadProducts(this.page, this.searchTerm());
+    this.loadProducts(this.page);
   }
 
   addToCart(product: Product): void {
