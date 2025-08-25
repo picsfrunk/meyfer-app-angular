@@ -1,48 +1,23 @@
-import { Component, DOCUMENT, effect, Inject, OnInit, signal } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzLayoutModule } from 'ng-zorro-antd/layout';
-import { NzMenuModule } from 'ng-zorro-antd/menu';
-import { CartBadge } from './shared/cart-badge';
-import { ThemeToggle} from './shared/theme-toggle';
-import { CategoryList } from './shared/category-list';
-import { Category } from './core/models/category.model';
+import {Component, DOCUMENT, effect, Inject, OnInit, signal} from '@angular/core';
+import {RouterOutlet} from '@angular/router';
+import {NzLayoutModule} from 'ng-zorro-antd/layout';
+import {CartBadge} from './shared/cart-badge';
+import {ThemeToggle} from './shared/theme-toggle';
+import {Sidebar} from './core/components/sidebar/sidebar';
 
 @Component({
   selector: 'app-root',
-  imports: [
-    RouterLink,
-    RouterOutlet,
-    NzIconModule,
-    NzLayoutModule,
-    NzMenuModule,
-    CartBadge,
-    ThemeToggle,
-    CategoryList,
-  ],
+  imports: [RouterOutlet, NzLayoutModule, CartBadge, ThemeToggle, Sidebar],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
 export class App implements OnInit {
-  isCollapsed = false;
   isDarkMode = signal(false);
-  selectedCategory = signal<Category | null>(null);
 
-  onCategorySelected = (category: Category) => {
-    this.selectedCategory.set(category);
-    console.log('Categoría seleccionada:', category.category_name);
-  };
-
-  constructor(
-    @Inject(DOCUMENT) private document: Document
-  ) {
-    effect( () => {
+  constructor(@Inject(DOCUMENT) private document: Document) {
+    effect(() => {
       const classList = this.document.documentElement.classList;
-      if (this.isDarkMode()) {
-        classList.add('dark');
-      } else {
-        classList.remove('dark');
-      }
+      this.isDarkMode() ? classList.add('dark') : classList.remove('dark');
     });
   }
 
@@ -67,37 +42,4 @@ export class App implements OnInit {
       return newValue;
     });
   }
-
-  menuItems: MenuItem[] = [
-    {
-      title: 'Dashboard',
-      icon: 'dashboard',
-      children: [
-        { title: 'Welcome', link: '/welcome' },
-        { title: 'Monitor', link: '/monitor' },
-        { title: 'Workplace', link: '/workplace' }
-      ]
-    },
-    {
-      title: 'Form',
-      icon: 'form',
-      children: [
-        { title: 'Basic Form', link: '/form/basic' }
-      ]
-    },
-    {
-      title: 'Catálogo',
-      icon: 'shop',
-      link: '/products'
-    }
-  ];
 }
-
-
-interface MenuItem {
-  title: string;
-  icon?: string;
-  link?: string;
-  children?: MenuItem[];
-}
-

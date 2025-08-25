@@ -3,7 +3,7 @@ import { CartService } from '../core/services/cart.service';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import {NzModalModule, NzModalService} from 'ng-zorro-antd/modal';
-import {Cart} from './cart/cart';
+import {Cart} from '../pages/cart/cart';
 
 
 @Component({
