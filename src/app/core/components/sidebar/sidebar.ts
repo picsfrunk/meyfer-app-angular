@@ -32,11 +32,16 @@ export class Sidebar implements OnInit {
 
   onCategorySelected = (category: Category) => {
     this.selectedCategory.set(category);
-    console.log('Categoría seleccionada desde sidebar:', category.category_name);
+    console.log('Categoría seleccionada desde sidebar:', {
+      category_id: category.category_id,
+      category_name: category.category_name,
+      product_count: category.product_count
+    });
   };
 
   fullCategories = computed(() => {
     const allCategory: Category = {
+      category_id: '0',
       category_name: 'Todos',
       product_count: this.categories().reduce((sum, cat) => sum + cat.product_count, 0)
     };
