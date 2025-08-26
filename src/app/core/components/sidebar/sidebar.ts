@@ -38,8 +38,7 @@ export class Sidebar implements OnInit {
     this.productService.selectedCategory.set(category);
     let queryParams: any = {};
 
-    if (category.category_id === 0) { // Using category_id 0 is more robust than a string
-      // Clear all category and search filters, but preserve others
+    if (!category.category_id) {
       queryParams = { category_id: null };
     } else {
       queryParams = { category_id: category.category_id };
