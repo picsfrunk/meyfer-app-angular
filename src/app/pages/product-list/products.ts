@@ -15,6 +15,8 @@ import { toObservable } from '@angular/core/rxjs-interop';
 import { ProductsService } from '../../core/services/products.service';
 import { CartService } from '../../core/services/cart.service';
 import { Product } from '../../core/models/product.model';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Category} from '../../core/models/category.model';
 
 @Component({
   selector: 'app-product-list',
@@ -36,53 +38,68 @@ export class Products implements OnInit {
   private productsService = inject(ProductsService);
   private cartService = inject(CartService);
   private message = inject(NzMessageService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
   listOfProducts: Product[] = [];
   displayProducts: Product[] = [];
   isLoading = this.productsService.isLoading;
 
-  searchTerm = signal<string>('');
+  searchTerm = signal('');
+  page = signal(1);
+  limit = signal(12);
 
-  page = 1;
-  limit = 12;
   total = 0;
 
   constructor() {
+    this.route.queryParams.subscribe(params => {
+      const page = params['page'] ? +params['page'] : 1;
+      const categoryId = params['category_id'] ? +params['category_id'] : undefined;
+      const search = params['search'] || '';
+
+      this.page.set(page);
+      this.searchTerm.set(search);
+
+      this.loadProducts(page, search);
+    });
+
     effect(() => {
-      const selectedCat = this.productsService.selectedCategory();
-      if (selectedCat) {
-        console.log('Categoría seleccionada desde sidebar:', selectedCat);
-        this.page = 1;
-        this.loadProducts();
+      const currentSearchTerm = this.searchTerm();
+      if (this.route.snapshot.queryParams['search'] !== currentSearchTerm) {
+        this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: { search: currentSearchTerm || null },
+          queryParamsHandling: 'merge'
+        });
       }
     });
 
   }
 
   ngOnInit() {
-    this.loadProducts();
   }
 
-  loadProducts(page: number = this.page) {
-    const categoryId = this.productsService.selectedCategory()?.category_id;
-    this.productsService.getPaginatedProducts(page, this.limit, categoryId, this.searchTerm()).subscribe({
+  loadProducts(page?: number, search?: string) {
+
+    this.productsService.getPaginatedProducts(page, this.limit(), search).subscribe({
       next: (res) => {
         this.listOfProducts = res.products;
         this.total = res.total;
-        this.page = res.page;
+        this.page.set(res.page);
         this.displayProducts = this.listOfProducts;
       },
       error: (err) => {
         console.error('Error loading products', err);
       }
     });
-    console.log('Search term', this.searchTerm());
-    console.log('Total Products:', this.total);
   }
 
   onPageIndexChange(index: number): void {
-    this.page = index;
-    this.loadProducts(this.page);
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { page: index },
+      queryParamsHandling: 'merge'
+    });
   }
 
   addToCart(product: Product): void {

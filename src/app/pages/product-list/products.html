@@ -46,8 +46,8 @@
 
   <div class="pagination-container">
     <nz-pagination
-      [nzPageIndex]="page"
-      [nzPageSize]="limit"
+      [nzPageIndex]="page()"
+      [nzPageSize]="limit()"
       [nzTotal]="total"
       (nzPageIndexChange)="onPageIndexChange($event)"
     ></nz-pagination>
