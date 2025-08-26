@@ -9,7 +9,8 @@ export const MENU_ITEMS: MenuItem[] = [
   {
     title: 'Catálogo',
     icon: 'shop',
-    subMenuType: 'categories'
+    subMenuType: 'categories',
+    link: '/products'
   },
   {
     title: 'Configuración',

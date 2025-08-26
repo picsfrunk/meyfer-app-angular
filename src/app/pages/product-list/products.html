@@ -2,24 +2,17 @@
   <h1>Catálogo de Productos</h1>
 
   <div class="search-bar" style="margin-bottom: 1rem;">
-    <nz-input-group [nzAddOnAfter]="searchButton">
+    <nz-input-group [nzSuffix]="suffixIcon">
       <input
         type="text"
         nz-input
         placeholder="Buscar productos..."
-        [(ngModel)]="searchTerm"
-        (ngModelChange)="filterProducts()"
+        [value]="searchTerm()"
+        (input)="searchTerm.set($any($event.target).value); loadProducts()"
       />
     </nz-input-group>
-    <ng-template #searchButton>
-      <button
-        nz-button
-        nzType="primary"
-        (click)="filterProducts()"
-        [disabled]="!searchTerm.trim()"
-      >
-        <span nz-icon nzType="search"></span>
-      </button>
+    <ng-template #suffixIcon>
+      <span nz-icon nzType="search"></span>
     </ng-template>
   </div>
 
@@ -29,13 +22,14 @@
         <nz-card class="product-card" [nzBordered]="true" [nzHoverable]="true">
           <nz-card-meta
             [nzTitle]="product.display_name"
-            [nzDescription]="'Unidad: ' + product.base_unit_name + ' - $' + (product.list_price | number:'1.0-2')"
+            [nzDescription]="'Unidad: ' + product.base_unit_name +
+                             ' - $' + (product.list_price | currency:'1.0-2')"
           >
           </nz-card-meta>
 
           <img
             nz-card-cover
-            [src]="product.image_url"
+            [src]="product.image_url || 'assets/no-image.png'"
             [alt]="product.display_name"
             class="product-image"
             loading="lazy"
@@ -53,10 +47,10 @@
 
   <div class="pagination-container">
     <nz-pagination
-      [nzPageIndex]="page"
-      [nzPageSize]="limit"
+      [nzPageIndex]="page()"
+      [nzPageSize]="limit()"
       [nzTotal]="total"
-      (nzPageIndexChange)="loadProducts($event)"
+      (nzPageIndexChange)="onPageIndexChange($event)"
     ></nz-pagination>
   </div>
 </div>
