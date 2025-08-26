@@ -22,7 +22,8 @@
         <nz-card class="product-card" [nzBordered]="true" [nzHoverable]="true">
           <nz-card-meta
             [nzTitle]="product.display_name"
-            [nzDescription]="'Unidad: ' + product.base_unit_name + ' - $' + (product.list_price | number:'1.0-2')"
+            [nzDescription]="'Unidad: ' + product.base_unit_name +
+                             ' - $' + (product.list_price | currency:'1.0-2')"
           >
           </nz-card-meta>
 

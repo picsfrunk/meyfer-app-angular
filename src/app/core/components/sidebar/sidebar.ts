@@ -46,7 +46,7 @@ export class Sidebar implements OnInit {
 
     this.router.navigate(['/products'], {
       queryParams,
-      queryParamsHandling: 'merge' // This is the key! It preserves existing query parameters.
+      queryParamsHandling: 'merge'
     });
   };
 
