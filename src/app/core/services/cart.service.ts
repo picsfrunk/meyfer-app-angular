@@ -1,40 +1,26 @@
 import { Injectable, signal, computed, effect } from '@angular/core';
 import { Product } from '../models/product.model';
 import { CartItem } from '../models/cart-item.model';
+import { CartStorageService } from './cart-storage.service';
 
 @Injectable({ providedIn: 'root' })
 export class CartService {
   private readonly _items = signal<CartItem[]>([]);
-
   readonly items = this._items.asReadonly();
+
   readonly count = computed(() =>
-    this._items().filter(it => it.productCartItem).reduce((acc, it) => acc + it.qty, 0)
-  );
-  readonly total = computed(() =>
-    this._items().filter(it => it.productCartItem).reduce(
-      (acc, it) => acc + (it.productCartItem.list_price ?? 0) * it.qty, 0
-    )
+    this._items().reduce((acc, it) => acc + it.qty, 0)
   );
 
-  constructor() {
-    const stored = localStorage.getItem('cart');
-    if (stored) {
-      try {
-        const parsed: CartItem[] = JSON.parse(stored);
-        const validItems = parsed
-          .filter(it => it?.productCartItem)
-          .map(it => ({
-            productCartItem: it.productCartItem as Product,
-            qty: it.qty ?? 1
-          }));
-        this._items.set(validItems);
-      } catch {
-        this._items.set([]);
-      }
-    }
+  readonly total = computed(() =>
+    this._items().reduce((acc, it) => acc + (it.productCartItem.list_price ?? 0) * it.qty, 0)
+  );
+
+  constructor(private storage: CartStorageService) {
+    this._items.set(this.storage.loadCart());
 
     effect(() => {
-      localStorage.setItem('cart', JSON.stringify(this._items()));
+      this.storage.saveCart(this._items());
     });
   }
 
@@ -62,5 +48,6 @@ export class CartService {
 
   clear(): void {
     this._items.set([]);
+    this.storage.clearCart();
   }
 }
