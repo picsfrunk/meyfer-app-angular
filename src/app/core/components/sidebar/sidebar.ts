@@ -40,7 +40,7 @@ export class Sidebar implements OnInit {
 
     if (category.category_id === 0) { // Using category_id 0 is more robust than a string
       // Clear all category and search filters, but preserve others
-      queryParams = { category_id: null, search: null };
+      queryParams = { category_id: null };
     } else {
       queryParams = { category_id: category.category_id };
     }
