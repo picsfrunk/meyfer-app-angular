@@ -100,10 +100,11 @@ export class OrderConfirm {
 
       this.orderService.submitOrder(payload).subscribe({
         next: (res) => {
-          this.messageService.success(res.message || 'Pedido enviado con éxito!');
+          this.messageService.success(`Pedido ${res.orderId} recibido.`, { nzDuration: 5000 });
           this.orderService.clearCart();
           this.isFormLoading = false;
           this.modalService.closeAll();
+          console.log(res);
         },
         error: (err) => {
           console.error('Error enviando pedido:', err);
