@@ -1,4 +1,3 @@
-// src/app/shared/components/order-confirm/order-confirm.component.ts
 import { Component, inject, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -13,6 +12,7 @@ import { NzDividerComponent } from 'ng-zorro-antd/divider';
 import { NzCardComponent } from 'ng-zorro-antd/card';
 import { NzTagComponent } from 'ng-zorro-antd/tag';
 import { NzTypographyComponent } from 'ng-zorro-antd/typography';
+import {OrderService} from '../../core/services/order.service';
 
 @Component({
   selector: 'app-order-confirm',
@@ -33,22 +33,21 @@ import { NzTypographyComponent } from 'ng-zorro-antd/typography';
   styleUrl: './order-confirm.scss'
 })
 export class OrderConfirm {
-  // Inyección de dependencias con `inject()`
   private fb = inject(FormBuilder);
   private cartService = inject(CartService);
+  private orderService = inject(OrderService);
   private messageService = inject(NzMessageService);
   private modalService = inject(NzModalService);
+
 
   orderForm!: FormGroup;
   isFormLoading = false;
 
-  // Usar señales para el estado del carrito
   cartTotal = this.cartService.total;
   cartCount = this.cartService.count;
 
   constructor() {
     this.initializeForm();
-    // Validar el carrito antes de mostrar el formulario
     this.checkCartStatus();
   }
 
@@ -86,7 +85,6 @@ export class OrderConfirm {
     if (this.orderForm.valid) {
       this.isFormLoading = true;
 
-      // Construye el objeto JSON con todos los datos del pedido
       const orderData = {
         customerInfo: this.orderForm.value,
         cartItems: this.cartService.items(),
@@ -94,16 +92,25 @@ export class OrderConfirm {
         totalItems: this.cartCount()
       };
 
-      // Muestra el objeto en la consola para verificación
-      console.log('Datos del pedido para enviar:', orderData);
+      console.log('Datos del pedido a enviar:', orderData);
 
-      // Lógica para enviar el pedido al backend (simulada)
-      setTimeout(() => {
-        this.messageService.success('Pedido enviado con éxito!');
-        this.cartService.clear();
-        this.isFormLoading = false;
-        this.modalService.closeAll();
-      }, 2000);
+      const payload = this.orderService.buildOrderPayload(this.orderForm.value);
+
+      this.isFormLoading = true;
+
+      this.orderService.submitOrder(payload).subscribe({
+        next: (res) => {
+          this.messageService.success(res.message || 'Pedido enviado con éxito!');
+          this.orderService.clearCart();
+          this.isFormLoading = false;
+          this.modalService.closeAll();
+        },
+        error: (err) => {
+          console.error('Error enviando pedido:', err);
+          this.messageService.error('Ocurrió un error al enviar el pedido.', err);
+          this.isFormLoading = false;
+        }
+      });
     } else {
       Object.values(this.orderForm.controls).forEach(control => {
         if (control instanceof FormGroup) {
