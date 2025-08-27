@@ -19,27 +19,34 @@
   <nz-spin [nzSpinning]="isLoading()">
     <div class="product-grid">
       @for (product of displayProducts; track product.product_id) {
+<!--        Products Grid      -->
         <nz-card class="product-card" [nzBordered]="true" [nzHoverable]="true">
-          <nz-card-meta
-            [nzTitle]="product.display_name"
-            [nzDescription]="'Unidad: ' + product.base_unit_name +
-                             ' - $' + (product.list_price | currency:'1.0-2')"
-          >
-          </nz-card-meta>
-
-          <img
-            nz-card-cover
-            [src]="product.image_url || 'assets/no-image.png'"
-            [alt]="product.display_name"
-            class="product-image"
-            loading="lazy"
-          />
-
-          <div class="card-actions">
-            <button nz-button nzType="primary" (click)="addToCart(product)">
-              Agregar al carrito
-            </button>
+          <div class="product-image-container">
+            <img
+              nz-card-cover
+              [src]="product.image_url || 'assets/no-image.png'"
+              [alt]="product.display_name"
+              class="product-image"
+              loading="lazy"
+            />
           </div>
+
+          <div class="product-info-body">
+            <h3 class="product-title">{{ product.display_name }}</h3>
+            <div class="product-details">
+              <p class="product-unit">{{ product.base_unit_name }}</p>
+              <p class="product-price">{{ product.list_price | currency: 'ARS' : 'symbol' }}</p>
+            </div>
+          </div>
+
+          <ul nz-card-actions class="card-actions">
+            <li>
+              <button nz-button nzType="primary" (click)="addToCart(product)">
+                <span nz-icon nzType="shopping-cart"></span>
+                Agregar
+              </button>
+            </li>
+          </ul>
         </nz-card>
       }
     </div>

@@ -125,7 +125,7 @@
           </div>
           <div class="summary-item total">
             <span nz-typography>Total</span>
-            <span nz-typography nzType="success" class="total-price">{{ cartTotal() | currency }}</span>
+            <span nz-typography nzType="success" class="total-price">{{ cartTotal() | currency: 'ARS' : 'symbol' }}</span>
           </div>
         </div>
       </div>

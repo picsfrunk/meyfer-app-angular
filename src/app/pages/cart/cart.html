@@ -30,7 +30,7 @@
 
 <div class="cart-summary mt-4">
   <p nz-typography>Total items: <strong>{{ cartService.count() }}</strong></p>
-  <p nz-typography>Total: <strong>{{ cartService.total() | currency }}</strong></p>
+  <p nz-typography>Total: <strong>{{ cartService.total() | currency: 'ARS' : 'symbol' }}</strong></p>
   <div class="cart-buttons">
     <button
       nz-button

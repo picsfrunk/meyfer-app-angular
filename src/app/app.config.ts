@@ -1,4 +1,7 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection, importProvidersFrom } from '@angular/core';
+import {
+  ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection, importProvidersFrom,
+  LOCALE_ID
+} from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -10,8 +13,10 @@ import es from '@angular/common/locales/es';
 import { FormsModule } from '@angular/forms';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient } from '@angular/common/http';
+import localeEsAr from '@angular/common/locales/es-AR';
 
 registerLocaleData(es);
+registerLocaleData(localeEsAr, 'es-AR');
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -23,5 +28,6 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(FormsModule),
     provideAnimationsAsync(),
     provideHttpClient(),
+    { provide: LOCALE_ID, useValue: 'es-AR' }
   ]
 };
