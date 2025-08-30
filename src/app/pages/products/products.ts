@@ -1,5 +1,5 @@
 import {Component, OnInit, inject, signal, effect, ViewChild} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -13,6 +13,7 @@ import { CartService } from '../../core/services/cart.service';
 import { Product } from '../../core/models/product.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import {ProductInfo} from '../../core/components/product/product-info';
+import {NzImageDirective} from 'ng-zorro-antd/image';
 
 @Component({
   selector: 'app-product-list',
@@ -27,6 +28,7 @@ import {ProductInfo} from '../../core/components/product/product-info';
     NzCardModule,
     NzSpinComponent,
     ProductInfo,
+    NzImageDirective,
   ],
   templateUrl: './products.html',
   styleUrls: ['./products.scss']

@@ -26,7 +26,7 @@
           [nzActions]="[moreInfo, add]"
           nzSize="small"
         >
-          <nz-card-meta
+          <nz-card-meta (click)="openProductInfo(product)"
             nzTitle="{{ product.display_name }}"
             nzDescription="{{ product.list_price | currency: 'ARS' : 'symbol' }}"
           ></nz-card-meta>
@@ -37,7 +37,8 @@
           <div class="product-image-container">
 
             <img
-              [src]="product.image_url || 'assets/no-image.png'"
+              nz-image
+              [nzSrc]="product.image_url || 'assets/no-image.png'"
               [alt]="product.display_name"
               class="product-image"
               loading="lazy"

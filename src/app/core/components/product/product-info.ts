@@ -1,10 +1,15 @@
 import { Component, Input, signal, inject } from '@angular/core';
-import { CommonModule, CurrencyPipe } from '@angular/common';
+import {CommonModule, CurrencyPipe, NgOptimizedImage} from '@angular/common';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { Product } from '../../models/product.model';
 import { NzImageModule } from 'ng-zorro-antd/image';
+import {NzColDirective, NzRowDirective} from 'ng-zorro-antd/grid';
+import {NzTypographyComponent} from 'ng-zorro-antd/typography';
+import {NzDescriptionsComponent, NzDescriptionsItemComponent} from 'ng-zorro-antd/descriptions';
+import {NzDividerComponent} from 'ng-zorro-antd/divider';
+import {NzCardComponent} from 'ng-zorro-antd/card';
 
 @Component({
   selector: 'app-product-info',
@@ -16,28 +21,52 @@ import { NzImageModule } from 'ng-zorro-antd/image';
     NzIconModule,
     CurrencyPipe,
     NzImageModule,
+    NzRowDirective,
+    NzColDirective,
+    NzDescriptionsComponent,
+    NzDescriptionsItemComponent,
+    NzDividerComponent,
   ],
   template: `
     <nz-modal
       [(nzVisible)]="isOpen"
-      [nzTitle]="product()?.display_name"
       [nzFooter]="footerTpl"
-      [nzWidth]="480"
+      [nzWidth]="720"
       (nzOnCancel)="close()"
       nzDraggable="true"
     >
       <ng-container *nzModalContent>
-        <img
-          nz-image
-          [nzSrc]="product()!.image_url"
-          alt="product()!.display_name"
-          class="product-image"
-        />
-        <div class="product-info-body">
-          <p class="product-price">
-            {{ product()?.list_price | currency: 'ARS' : 'symbol' }}
-          </p>
-        </div>
+        @if (product(); as p) {
+              <nz-row [nzGutter]="[24, 24]" class="items-center">
+
+                <nz-col [nzSpan]="24" [nzMd]="10">
+                  <img
+                    nz-image
+                    [nzSrc]="p.image_url"
+                    [alt]="p.display_name"
+                    class="product-image"
+                  />
+                </nz-col>
+
+                <nz-col [nzSpan]="24" [nzMd]="14">
+                  <h2 class="product-title">{{ p.display_name }}</h2>
+
+                  <nz-divider/>
+
+                  <nz-descriptions nzBordered [nzColumn]="1" class="product-info">
+                    <nz-descriptions-item nzTitle="💲 Precio">
+                      <strong>{{ p.list_price | currency:'ARS':'symbol' }}</strong>
+                    </nz-descriptions-item>
+                    <nz-descriptions-item nzTitle="📂 Categoría">
+                      {{ p.category_name }}
+                    </nz-descriptions-item>
+                    <nz-descriptions-item nzTitle="🏷️ Marca">
+                      {{ p.brand }}
+                    </nz-descriptions-item>
+                  </nz-descriptions>
+                </nz-col>
+              </nz-row>
+        }
       </ng-container>
 
 
@@ -53,29 +82,29 @@ import { NzImageModule } from 'ng-zorro-antd/image';
 
   `,
   styles: [`
-    .modal-content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 16px;
-      text-align: center;
+    .product-card {
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
     }
+
     .product-image {
       max-width: 100%;
-      height: auto;
-      border-radius: 8px;
-      border: 1px solid #e8e8e8;
-      padding: 10px;
+      max-height: 280px;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
       object-fit: contain;
     }
-    .product-info-body {
-      width: 100%;
+
+    .product-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
     }
-    .product-price {
-      font-size: 24px;
-      font-weight: bold;
-      margin: 0;
+
+    .product-info {
+      margin-top: 1rem;
     }
+
   `]
 })
 export class ProductInfo {
