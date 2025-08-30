@@ -1,5 +1,5 @@
-import { Component, OnInit, inject, signal, effect } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {Component, OnInit, inject, signal, effect, ViewChild} from '@angular/core';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -8,15 +8,12 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzSpinComponent } from 'ng-zorro-antd/spin';
 import { NzMessageService } from 'ng-zorro-antd/message';
-
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { toObservable } from '@angular/core/rxjs-interop';
-
 import { ProductsService } from '../../core/services/products.service';
 import { CartService } from '../../core/services/cart.service';
 import { Product } from '../../core/models/product.model';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Category} from '../../core/models/category.model';
+import { ActivatedRoute, Router } from '@angular/router';
+import {ProductInfo} from '../../core/components/product/product-info';
+import {NzImageDirective} from 'ng-zorro-antd/image';
 
 @Component({
   selector: 'app-product-list',
@@ -30,6 +27,8 @@ import {Category} from '../../core/models/category.model';
     NzButtonModule,
     NzCardModule,
     NzSpinComponent,
+    ProductInfo,
+    NzImageDirective,
   ],
   templateUrl: './products.html',
   styleUrls: ['./products.scss']
@@ -41,13 +40,15 @@ export class Products implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
+  @ViewChild('productInfoModal') productInfoModal!: ProductInfo;
+
   listOfProducts: Product[] = [];
   displayProducts: Product[] = [];
-  isLoading = this.productsService.isLoading;
+  isLoading = this.productsService.isLoadingMany;
 
   searchTerm = signal('');
   page = signal(1);
-  limit = signal(12);
+  limit = signal(10);
 
   total = 0;
 
@@ -105,5 +106,9 @@ export class Products implements OnInit {
   addToCart(product: Product): void {
     this.cartService.add(product);
     this.message.success(`"${product.display_name}" agregado al carrito`);
+  }
+
+  openProductInfo(product: Product): void {
+    this.productInfoModal.open(product);
   }
 }

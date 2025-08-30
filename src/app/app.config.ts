@@ -28,6 +28,6 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(FormsModule),
     provideAnimationsAsync(),
     provideHttpClient(),
-    { provide: LOCALE_ID, useValue: 'es-AR' }
+    { provide: LOCALE_ID, useValue: 'es-AR' },
   ]
 };

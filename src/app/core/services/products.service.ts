@@ -1,5 +1,5 @@
 import {inject, Injectable, signal, WritableSignal} from '@angular/core';
-import { Observable } from 'rxjs';
+import {Observable, tap} from 'rxjs';
 import { finalize } from "rxjs/operators";
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
@@ -11,11 +11,12 @@ export class ProductsService {
   private apiUrl = environment.apiUrl;
   private http = inject(HttpClient);
 
-  readonly isLoading: WritableSignal<boolean> = signal(false);
+  readonly isLoadingMany: WritableSignal<boolean> = signal(false);
+  readonly isLoadingOne: WritableSignal<boolean> = signal(false);
   readonly selectedCategory: WritableSignal<Category | null> = signal(null);
 
   getPaginatedProducts(page: number = 1, limit: number = 20, search: string = ''): Observable<PaginatedProducts> {
-    this.isLoading.set(true);
+    this.isLoadingMany.set(true);
 
     let params = new HttpParams()
       .set('page', page.toString() )
@@ -27,7 +28,14 @@ export class ProductsService {
     }
 
     return this.http.get<PaginatedProducts>(`${this.apiUrl}/products/scraped`, { params: params }).pipe(
-      finalize(() => this.isLoading.set(false))
+      finalize(() => this.isLoadingMany.set(false))
+    );
+  }
+
+  getProductById(id: number): Observable<Product> {
+    return this.http.get<Product>(`${this.apiUrl}/products/scraped/${id}`).pipe(
+      tap(() => this.isLoadingOne.set(true)),
+      finalize(() => this.isLoadingMany.set(false))
     );
   }
 }
