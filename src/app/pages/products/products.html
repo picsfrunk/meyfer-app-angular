@@ -19,35 +19,49 @@
   <nz-spin [nzSpinning]="isLoading()">
     <div class="product-grid">
       @for (product of displayProducts; track product.product_id) {
-<!--        Products Grid      -->
-        <nz-card class="product-card" [nzBordered]="true" [nzHoverable]="true">
+
+        <nz-card
+          class="product-card"
+          [nzCover]="coverTemplate"
+          [nzActions]="[moreInfo, add]"
+          nzSize="small"
+        >
+          <nz-card-meta
+            nzTitle="{{ product.display_name }}"
+            nzDescription="{{ product.list_price | currency: 'ARS' : 'symbol' }}"
+          ></nz-card-meta>
+
+        </nz-card>
+
+        <ng-template #coverTemplate>
           <div class="product-image-container">
+
             <img
-              nz-card-cover
               [src]="product.image_url || 'assets/no-image.png'"
               [alt]="product.display_name"
               class="product-image"
               loading="lazy"
             />
           </div>
+        </ng-template>
 
-          <div class="product-info-body">
-            <h3 class="product-title">{{ product.display_name }}</h3>
-            <div class="product-details">
-              <p class="product-unit">{{ product.base_unit_name }}</p>
-              <p class="product-price">{{ product.list_price | currency: 'ARS' : 'symbol' }}</p>
-            </div>
-          </div>
+        <ng-template #add>
+          <button nz-button nzType="primary" (click)="addToCart(product)">
+            <nz-icon nzType="shopping-cart" nzTheme="outline" />
+            Agregar
+          </button>
+        </ng-template>
 
-          <ul nz-card-actions class="card-actions">
-            <li>
-              <button nz-button nzType="primary" (click)="addToCart(product)">
-                <span nz-icon nzType="shopping-cart"></span>
-                Agregar
-              </button>
-            </li>
-          </ul>
-        </nz-card>
+        <ng-template #moreInfo>
+          <button nz-button nzType="default" (click)="openProductInfo(product)">
+            <nz-icon nzType="info-circle" nzTheme="outline" />
+            Abrir
+          </button>
+        </ng-template>
+
+
+
+
       }
     </div>
   </nz-spin>
@@ -61,3 +75,5 @@
     ></nz-pagination>
   </div>
 </div>
+
+<app-product-info #productInfoModal [onAddToCart]="addToCart.bind(this)"></app-product-info>
