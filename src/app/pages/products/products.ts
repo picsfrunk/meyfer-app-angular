@@ -43,7 +43,7 @@ export class Products implements OnInit {
 
   listOfProducts: Product[] = [];
   displayProducts: Product[] = [];
-  isLoading = this.productsService.isLoading;
+  isLoading = this.productsService.isLoadingMany;
 
   searchTerm = signal('');
   page = signal(1);
