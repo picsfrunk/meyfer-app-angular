@@ -12,7 +12,6 @@ export class ProductsService {
   private http = inject(HttpClient);
 
   readonly isLoadingMany: WritableSignal<boolean> = signal(false);
-  readonly isLoadingOne: WritableSignal<boolean> = signal(false);
   readonly selectedCategory: WritableSignal<Category | null> = signal(null);
 
   getPaginatedProducts(page: number = 1, limit: number = 20, search: string = ''): Observable<PaginatedProducts> {
@@ -32,10 +31,4 @@ export class ProductsService {
     );
   }
 
-  getProductById(id: number): Observable<Product> {
-    return this.http.get<Product>(`${this.apiUrl}/products/scraped/${id}`).pipe(
-      tap(() => this.isLoadingOne.set(true)),
-      finalize(() => this.isLoadingMany.set(false))
-    );
-  }
 }

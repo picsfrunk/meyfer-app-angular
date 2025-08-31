@@ -54,23 +54,23 @@ export class OrderConfirm {
 
   private initializeForm(): void {
     this.orderForm = this.fb.group({
-      cliente: ['John Doe', [Validators.required]],
-      razonSocial: ['ACME Corp.', [Validators.required]],
-      cuit: ['20-12345678-9', [Validators.required, Validators.pattern(/^\d{2}-\d{8}-\d{1}$/)]],
-      telefono1: ['+1155551234', [Validators.required, Validators.pattern(/^\+?\d{10,}$/)]],
-      email: ['john.doe@example.com', [Validators.required, Validators.email]],
+      cliente: ['', [Validators.required]],
+      razonSocial: ['', [Validators.required]],
+      cuit: ['', [Validators.required, Validators.pattern(/^\d{2}-\d{8}-\d{1}$/)]],
+      telefono1: ['', [Validators.required, Validators.pattern(/^\+?\d{10,}$/)]],
+      email: ['', [Validators.required, Validators.email]],
       direccion: this.fb.group({
-        calle: ['Main Street', [Validators.required]],
-        numero: ['123', [Validators.required]],
-        piso: ['Floor 4'],
-        timbre: ['Apto. 4B'],
-        entreCalles: ['Pine & Oak'],
-        localidad: ['Springfield', [Validators.required]],
-        partido: ['Simpsonsville', [Validators.required]]
+        calle: ['', [Validators.required]],
+        numero: ['', [Validators.required]],
+        piso: [''],
+        timbre: [''],
+        entreCalles: [''],
+        localidad: ['', [Validators.required]],
+        partido: ['', [Validators.required]]
       }),
-      contacto: ['Jane Smith', [Validators.required]],
-      horarios: ['9 AM - 5 PM', [Validators.required]],
-      notas: ['Please leave the package at the front door.']
+      contacto: ['', [Validators.required]],
+      horarios: ['', [Validators.required]],
+      notas: ['']
     });
   }
 

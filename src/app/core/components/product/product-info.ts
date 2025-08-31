@@ -108,11 +108,9 @@ import {NzCardComponent} from 'ng-zorro-antd/card';
   `]
 })
 export class ProductInfo {
-  // Estado del modal y del producto
   readonly isOpen = signal(false);
   readonly product = signal<Product | null>(null);
 
-  // Inputs para la comunicación
   @Input() onAddToCart: (product: Product) => void = () => {};
 
   open(p: Product): void {
