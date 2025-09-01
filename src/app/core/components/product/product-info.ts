@@ -114,7 +114,6 @@ export class ProductInfo {
   @Input() onAddToCart: (product: Product) => void = () => {};
 
   open(p: Product): void {
-    console.log("En PI Child Prod:\n", p);
     this.product.set(p);
     this.isOpen.set(true);
   }

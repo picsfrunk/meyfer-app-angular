@@ -7,9 +7,8 @@
 
       <div class="sidebar-logo">
 
-        <a href="https://ng.ant.design/" target="_blank">
-          <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo">
-          <h1>Ant Design of Angular</h1>
+        <a href="/" target="_blank">
+          <img src="../assets/logo-sidebar.png" alt="logo"/>
         </a>
       </div>
 
@@ -19,10 +18,7 @@
   <nz-layout>
     <nz-header>
       <div class="app-header">
-        <app-theme-toggle
-          [isDarkMode]="isDarkMode"
-          [toggleTheme]="toggleTheme.bind(this)">
-        </app-theme-toggle>
+        <app-theme-toggle [isDarkMode]="isDarkMode" [toggleTheme]="toggleTheme.bind(this)"/>
         <app-cart-badge/>
       </div>
     </nz-header>
@@ -33,4 +29,6 @@
       </div>
     </nz-content>
   </nz-layout>
+
+
 </nz-layout>

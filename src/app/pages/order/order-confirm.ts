@@ -85,14 +85,12 @@ export class OrderConfirm {
     if (this.orderForm.valid) {
       this.isFormLoading = true;
 
-      const orderData = {
-        customerInfo: this.orderForm.value,
-        cartItems: this.cartService.items(),
-        total: this.cartTotal(),
-        totalItems: this.cartCount()
-      };
-
-      console.log('Datos del pedido a enviar:', orderData);
+      // const orderData = {
+      //   customerInfo: this.orderForm.value,
+      //   cartItems: this.cartService.items(),
+      //   total: this.cartTotal(),
+      //   totalItems: this.cartCount()
+      // };
 
       const payload = this.orderService.buildOrderPayload(this.orderForm.value);
 
@@ -104,7 +102,6 @@ export class OrderConfirm {
           this.orderService.clearCart();
           this.isFormLoading = false;
           this.modalService.closeAll();
-          console.log(res);
         },
         error: (err) => {
           console.error('Error enviando pedido:', err);

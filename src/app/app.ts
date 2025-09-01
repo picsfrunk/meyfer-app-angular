@@ -7,6 +7,7 @@ import {Sidebar} from './core/components/sidebar/sidebar';
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   imports: [RouterOutlet, NzLayoutModule, CartBadge, ThemeToggle, Sidebar],
   templateUrl: './app.html',
   styleUrl: './app.scss'
