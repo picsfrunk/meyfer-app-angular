@@ -12,21 +12,21 @@ export const MENU_ITEMS: MenuItem[] = [
     subMenuType: 'categories',
     link: '/products'
   },
-  {
-    title: 'Configuración',
-    icon: 'setting',
-    subMenuType: 'default',
-    children: [
-      {
-        title: 'Perfil',
-        icon: 'user',
-        link: '/settings/profile'
-      },
-      {
-        title: 'Seguridad',
-        icon: 'lock',
-        link: '/settings/security'
-      }
-    ]
-  }
+  // {
+  //   title: 'Configuración',
+  //   icon: 'setting',
+  //   subMenuType: 'default',
+  //   children: [
+  //     {
+  //       title: 'Perfil',
+  //       icon: 'user',
+  //       link: '/settings/profile'
+  //     },
+  //     {
+  //       title: 'Seguridad',
+  //       icon: 'lock',
+  //       link: '/settings/security'
+  //     }
+  //   ]
+  // }
 ];
