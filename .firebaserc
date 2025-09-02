@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "meyfershop"
-  }
+    "default": "meyfer",
+    "prod": "meyfer"
+  },
+  "targets": {},
+  "etags": {}
 }
