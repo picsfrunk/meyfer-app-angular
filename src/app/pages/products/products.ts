@@ -103,12 +103,39 @@ export class Products implements OnInit {
     });
   }
 
-  addToCart(product: Product): void {
-    this.cartService.add(product);
-    this.message.success(`"${product.display_name}" agregado al carrito`);
-  }
-
   openProductInfo(product: Product): void {
     this.productInfoModal.open(product);
   }
+
+  // Diccionario para guardar cantidades por producto (id -> cantidad)
+  private quantities = new Map<number, number>();
+
+  getQuantity(product: any): number {
+    return this.quantities.get(product.product_id) || 0;
+  }
+
+  increaseQuantity(product: any): void {
+    const current = this.getQuantity(product);
+    this.quantities.set(product.product_id, current + 1);
+  }
+
+  decreaseQuantity(product: any): void {
+    const current = this.getQuantity(product);
+    if (current > 0) {
+      this.quantities.set(product.product_id, current - 1);
+    }
+  }
+
+  addToCart(product: any): void {
+    const qty = this.getQuantity(product);
+    if (qty > 0) {
+      this.cartService.add(product, qty);
+
+      this.quantities.set(product.product_id, 0);
+      this.message.success(`"${product.display_name}" agregado al carrito`);
+
+    }
+
+  }
+
 }

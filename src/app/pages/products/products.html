@@ -21,38 +21,67 @@
         <nz-card
           class="product-card"
           [nzCover]="coverTemplate"
-          [nzActions]="[add]"
-          nzSize="small"
+          [nzHoverable]="true"
+          nzSize="default"
         >
-          <nz-card-meta (click)="openProductInfo(product)"
-            nzTitle="{{ product.display_name }}"
-            nzDescription="{{ product.list_price | currency: 'ARS' : 'symbol' }}"
-          ></nz-card-meta>
-
-        </nz-card>
-
-        <ng-template #coverTemplate>
-          <div class="product-image-container">
-
-            <img
-              nz-image
-              [nzSrc]="product.image_url || 'assets/no-image.png'"
-              [alt]="product.display_name"
-              class="product-image"
-              loading="lazy"
-            />
+          <div class="product-title"
+               (click)="openProductInfo(product)">
+           <span>{{ product.display_name }}</span>
           </div>
-        </ng-template>
 
-        <ng-template #add>
-          <button nz-button nzType="primary" (click)="addToCart(product)">
-            <nz-icon nzType="shopping-cart" nzTheme="outline" />
-            Agregar
-          </button>
-        </ng-template>
+          <div class="price-container">
+    <span class="price">
+      {{ product.list_price | currency: 'ARS':'symbol' }}
+    </span>
+          </div>
 
+          <div class="quantity-container">
+            <button
+              nz-button
+              nzShape="circle"
+              nzType="default"
+              (click)="decreaseQuantity(product)"
+              [disabled]="getQuantity(product) === 0"
+            >
+              <nz-icon nzType="minus" />
+            </button>
 
+            <span class="quantity">{{ getQuantity(product) }}</span>
 
+            <button
+              nz-button
+              nzShape="circle"
+              nzType="default"
+              (click)="increaseQuantity(product)"
+            >
+              <nz-icon nzType="plus" />
+            </button>
+          </div>
+
+          <div class="add-to-cart-container">
+            <button
+              nz-button
+              nzType="primary"
+              (click)="addToCart(product)"
+              [disabled]="getQuantity(product) === 0"
+            >
+              <nz-icon nzType="shopping-cart" />
+              Agregar al carrito
+            </button>
+          </div>
+
+          <ng-template #coverTemplate>
+            <div class="product-image-container">
+              <img
+                nz-image
+                [nzSrc]="product.image_url || 'assets/no-image.png'"
+                [alt]="product.display_name"
+                class="product-image"
+                loading="lazy"
+              />
+            </div>
+          </ng-template>
+        </nz-card>
 
 
       }
