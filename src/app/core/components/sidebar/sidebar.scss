@@ -11,17 +11,15 @@ li.ant-menu-item {
 }
 .category-name {
   margin-right: auto;
-  padding-left: 1em;
 }
 .product-count {
   margin-left: 10px;
   font-weight: bold;
   color: rgba(0,0,0,.45);
 }
-/* Estilos para el ítem seleccionado */
 .ant-menu-item-selected {
   font-weight: bold;
 }
 .ant-menu-item-selected .product-count {
-  color: inherit; /* Hereda el color del texto principal */
+  color: inherit;
 }

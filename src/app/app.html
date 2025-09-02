@@ -1,23 +1,22 @@
 <nz-layout>
   <nz-header class="app-header">
-    <div class="sidebar-logo">
+    <div class="header-logo">
       <img src="../assets/logo-sidebar.png" alt="logo"/>
     </div>
-    <app-cart-badge/>
+    <div class="header-icons">
+      <app-cart-badge/>
+
+    </div>
   </nz-header>
 
   <nz-layout>
     <nz-sider class="menu-sidebar"
-              nzWidth="25vw"
+              nzWidth="20vw"
               nzBreakpoint="md"
               [nzCollapsible]="true"
               >
-
-
-
         <app-sidebar/>
     </nz-sider>
-
 
 
     <nz-content>
