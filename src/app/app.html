@@ -1,26 +1,24 @@
 <nz-layout>
-  <nz-sider class="menu-sidebar"
-            nzWidth="256px"
-            nzBreakpoint="md"
-            [nzCollapsible]="false"
-            [nzTrigger]="null">
-
-      <div class="sidebar-logo">
-
-        <a href="/" target="_blank">
-          <img src="../assets/logo-sidebar.png" alt="logo"/>
-        </a>
-      </div>
-
-      <app-sidebar/>
-  </nz-sider>
+  <nz-header class="app-header">
+    <div class="sidebar-logo">
+      <img src="../assets/logo-sidebar.png" alt="logo"/>
+    </div>
+    <app-cart-badge/>
+  </nz-header>
 
   <nz-layout>
-    <nz-header>
-      <div class="app-header">
-        <app-cart-badge/>
-      </div>
-    </nz-header>
+    <nz-sider class="menu-sidebar"
+              nzWidth="25vw"
+              nzBreakpoint="md"
+              [nzCollapsible]="true"
+              >
+
+
+
+        <app-sidebar/>
+    </nz-sider>
+
+
 
     <nz-content>
       <div class="inner-content">

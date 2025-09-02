@@ -12,26 +12,6 @@
   box-shadow: 2px 0 6px rgba(0,21,41,.35);
 }
 
-.header-trigger {
-  height: 64px;
-  padding: 20px 24px;
-  font-size: 20px;
-  cursor: pointer;
-  transition: all .3s,padding 0s;
-}
-
-.trigger:hover {
-  color: #1890ff;
-}
-
-.sidebar-logo {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #35608e;
-  padding: 1em;
-
-}
 
 nz-header {
   padding: 0;
@@ -41,13 +21,15 @@ nz-header {
 
 .app-header {
   display: flex;
+  flex-direction: row;
   align-items: center;
-  justify-content: flex-end;
-  gap: 16px;
-  background: #fff;
-  height: 64px;
-  padding: 2em 2em 0 0;
-  box-shadow: 0 1px 4px rgba(0,21,41,.08);
+  justify-content: space-between;
+  background: #35608e;
+  height: 8vh;
+  padding-right: 4em;
+  .sidebar-logo {
+    padding: 16px;
+  }
 }
 
 nz-content {

@@ -48,7 +48,7 @@ export class Products implements OnInit {
 
   searchTerm = signal('');
   page = signal(1);
-  limit = signal(10);
+  limit = signal(16);
 
   total = 0;
 
