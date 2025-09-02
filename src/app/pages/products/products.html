@@ -1,6 +1,4 @@
 <div class="product-list-container">
-  <h1>Catálogo de Productos</h1>
-
   <div class="search-bar" style="margin-bottom: 1rem;">
     <nz-input-group [nzSuffix]="suffixIcon">
       <input
@@ -23,7 +21,7 @@
         <nz-card
           class="product-card"
           [nzCover]="coverTemplate"
-          [nzActions]="[moreInfo, add]"
+          [nzActions]="[add]"
           nzSize="small"
         >
           <nz-card-meta (click)="openProductInfo(product)"
@@ -53,12 +51,6 @@
           </button>
         </ng-template>
 
-        <ng-template #moreInfo>
-          <button nz-button nzType="default" (click)="openProductInfo(product)">
-            <nz-icon nzType="info-circle" nzTheme="outline" />
-            Abrir
-          </button>
-        </ng-template>
 
 
 
