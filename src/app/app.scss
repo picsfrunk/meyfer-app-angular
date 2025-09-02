@@ -10,6 +10,7 @@
   z-index: 10;
   box-shadow: 2px 0 6px rgba(0,21,41,.35);
   background-color: white;
+  min-width: 20vw;
 }
 
 .app-header {
@@ -38,4 +39,5 @@ nz-content {
 .inner-content {
   background: #fff;
   height: 100%;
+  padding: 0 4em 0 4em;
 }
