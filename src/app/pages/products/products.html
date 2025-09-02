@@ -23,9 +23,9 @@
           [nzCover]="coverTemplate"
           [nzHoverable]="true"
           nzSize="default"
+          (click)="openProductInfo(product)"
         >
-          <div class="product-title"
-               (click)="openProductInfo(product)">
+          <div class="product-title">
            <span>{{ product.display_name }}</span>
           </div>
 
