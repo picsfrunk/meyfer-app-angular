@@ -1,0 +1,101 @@
+<div class="product-list-container">
+  <div class="search-bar" style="margin-bottom: 1rem;">
+    <nz-input-group [nzSuffix]="suffixIcon">
+      <input
+        type="text"
+        nz-input
+        placeholder="Buscar productos..."
+        [value]="searchTerm()"
+        (input)="searchTerm.set($any($event.target).value); loadProducts()"
+      />
+    </nz-input-group>
+    <ng-template #suffixIcon>
+      <span nz-icon nzType="search"></span>
+    </ng-template>
+  </div>
+
+  <nz-spin [nzSpinning]="isLoading()">
+    <div class="product-grid">
+      @for (product of displayProducts; track product.product_id) {
+
+        <nz-card
+          class="product-card"
+          [nzCover]="coverTemplate"
+          [nzHoverable]="true"
+          nzSize="default"
+          (click)="openProductInfo(product)"
+        >
+          <div class="product-title">
+           <span>{{ product.display_name }}</span>
+          </div>
+
+          <div class="price-container">
+    <span class="price">
+      {{ product.list_price | currency: 'ARS':'symbol' }}
+    </span>
+          </div>
+
+          <div class="quantity-container">
+            <button
+              nz-button
+              nzShape="circle"
+              nzType="default"
+              (click)="decreaseQuantity(product)"
+              [disabled]="getQuantity(product) === 0"
+            >
+              <nz-icon nzType="minus" />
+            </button>
+
+            <span class="quantity">{{ getQuantity(product) }}</span>
+
+            <button
+              nz-button
+              nzShape="circle"
+              nzType="default"
+              (click)="increaseQuantity(product)"
+            >
+              <nz-icon nzType="plus" />
+            </button>
+          </div>
+
+          <div class="add-to-cart-container">
+            <button
+              nz-button
+              nzType="primary"
+              (click)="addToCart(product)"
+              [disabled]="getQuantity(product) === 0"
+            >
+              <nz-icon nzType="shopping-cart" />
+              Agregar al carrito
+            </button>
+          </div>
+
+          <ng-template #coverTemplate>
+            <div class="product-image-container">
+              <img
+                nz-image
+                [nzSrc]="product.image_url || 'assets/no-image.png'"
+                [alt]="product.display_name"
+                class="product-image"
+                loading="lazy"
+              />
+            </div>
+          </ng-template>
+        </nz-card>
+
+
+      }
+    </div>
+  </nz-spin>
+
+  <div class="pagination-container">
+    <nz-pagination
+      [nzPageIndex]="page()"
+      [nzPageSize]="limit()"
+      [nzTotal]="total"
+      (nzPageIndexChange)="onPageIndexChange($event)"
+    ></nz-pagination>
+  </div>
+</div>
+
+<app-product-info #productInfoModal [onAddToCart]="addToCart.bind(this)"></app-product-info>

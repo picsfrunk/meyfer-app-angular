@@ -1,1 +1,23 @@
-/* You can add global styles to this file, and also import other style files */
+@import "ng-zorro-antd/ng-zorro-antd.dark.css";
+@import "ng-zorro-antd/ng-zorro-antd.css";
+
+:root {
+}
+
+
+.large-icon {
+  font-size: 32px;
+  color: white;
+}
+
+.light {
+  .ant-layout > * {
+    background-color: #a2b4c6;
+  }
+}
+
+.dark {
+  .ant-layout > * {
+    background-color: #000000;
+  }
+}

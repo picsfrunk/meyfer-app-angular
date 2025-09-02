@@ -1,0 +1,53 @@
+<nz-list [nzDataSource]="cartService.items()" nzBordered class="cart-list">
+
+  @for (element of cartService.items(); track element.productCartItem.product_id) {
+    <nz-list-item class="cart-item">
+      <div class="item-content">
+        <span class="item-name">
+          {{ element.productCartItem.display_name }}
+          <span class="qty">x{{ element.qty }}</span>
+        </span>
+
+        <div class="actions">
+
+          <button nz-button nzShape="circle" nzType="default" (click)="add(element.productCartItem)">
+            <nz-icon nzType="plus"/>
+          </button>
+
+          <button nz-button nzShape="circle" nzType="default" (click)="decrement(element.productCartItem.product_id)">
+            <nz-icon nzType="minus"/>
+          </button>
+
+          <button nz-button nzShape="circle" nzDanger (click)="remove(element.productCartItem.product_id)">
+            <nz-icon nzType="delete"/>
+          </button>
+
+        </div>
+      </div>
+    </nz-list-item>
+  }
+</nz-list>
+
+<div class="cart-summary mt-4">
+  <p nz-typography>Total items: <strong>{{ cartService.count() }}</strong></p>
+  <p nz-typography>Total: <strong>{{ cartService.total() | currency: 'ARS' : 'symbol' }}</strong></p>
+  <div class="cart-buttons">
+    <button
+      nz-button
+      nzType="primary"
+      nzDanger
+      (click)="clear()"
+      [disabled]="cartService.count() === 0">
+      Vaciar
+    </button>
+    <button
+      nz-button
+      nzType="primary"
+      class="mt-2"
+      (click)="goToCheckout()"
+      [disabled]="cartService.count() === 0">
+      Confirmar Pedido
+    </button>
+  </div>
+
+  </div>

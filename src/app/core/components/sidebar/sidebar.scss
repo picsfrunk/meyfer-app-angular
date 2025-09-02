@@ -1,0 +1,26 @@
+:host {
+  display: block;
+}
+.ant-menu-inline {
+  border-right: none;
+}
+li.ant-menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.category-name {
+  margin-right: auto;
+  text-transform: uppercase;
+}
+.product-count {
+  margin-left: 10px;
+  font-weight: bold;
+  color: rgba(0,0,0,.45);
+}
+.ant-menu-item-selected {
+  font-weight: bold;
+}
+.ant-menu-item-selected .product-count {
+  color: inherit;
+}
