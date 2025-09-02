@@ -52,6 +52,9 @@ export class Products implements OnInit {
 
   total = 0;
 
+  private quantities = new Map<number, number>();
+
+
   constructor() {
     this.route.queryParams.subscribe(params => {
       const page = params['page'] ? +params['page'] : 1;
@@ -107,8 +110,6 @@ export class Products implements OnInit {
     this.productInfoModal.open(product);
   }
 
-  // Diccionario para guardar cantidades por producto (id -> cantidad)
-  private quantities = new Map<number, number>();
 
   getQuantity(product: any): number {
     return this.quantities.get(product.product_id) || 0;

@@ -36,12 +36,12 @@ export class Sidebar implements OnInit {
 
   onCategorySelected = (category: Category) => {
     this.productService.selectedCategory.set(category);
-    let queryParams: any = {};
+    let queryParams: any;
 
     if (!category.category_id) {
       queryParams = { category_id: null };
     } else {
-      queryParams = { category_id: category.category_id };
+      queryParams = { category_id: category.category_id, page: 1 };
     }
 
     this.router.navigate(['/products'], {
