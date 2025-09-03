@@ -6,16 +6,18 @@
 }
 
 .menu-sidebar {
-  position: relative;
+  position: fixed;
   z-index: 10;
   box-shadow: 2px 0 6px rgba(0,21,41,.35);
   background-color: white;
   min-width: 20vw;
+  height: 100vh;
 }
 
 .app-header {
   width: 100%;
-  z-index: 2;
+  z-index: 9999;
+  position: fixed;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -33,11 +35,12 @@
   }
 }
 
-nz-content {
-}
-
 .inner-content {
+  margin-top: 8vh;
   background: #fff;
   height: 100%;
-  padding: 0 4em 0 4em;
+}
+
+.router-content {
+  margin-left: 20vw;
 }
