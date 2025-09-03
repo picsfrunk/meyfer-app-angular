@@ -112,7 +112,7 @@ export class Products implements OnInit {
 
 
   getQuantity(product: any): number {
-    return this.quantities.get(product.product_id) || 0;
+    return this.quantities.get(product.product_id) || 1;
   }
 
   increaseQuantity(product: any): void {
