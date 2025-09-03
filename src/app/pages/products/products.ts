@@ -1,5 +1,5 @@
 import {Component, OnInit, inject, signal, effect, ViewChild} from '@angular/core';
-import {CommonModule, NgOptimizedImage} from '@angular/common';
+import {CommonModule, NgOptimizedImage, ViewportScroller} from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -39,6 +39,7 @@ export class Products implements OnInit {
   private message = inject(NzMessageService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private viewportScroller = inject(ViewportScroller);
 
   @ViewChild('productInfoModal') productInfoModal!: ProductInfo;
 
@@ -48,7 +49,7 @@ export class Products implements OnInit {
 
   searchTerm = signal('');
   page = signal(1);
-  limit = signal(16);
+  limit = signal(12);
 
   total = 0;
 
@@ -58,7 +59,6 @@ export class Products implements OnInit {
   constructor() {
     this.route.queryParams.subscribe(params => {
       const page = params['page'] ? +params['page'] : 1;
-      const categoryId = params['category_id'] ? +params['category_id'] : undefined;
       const search = params['search'] || '';
 
       this.page.set(page);
@@ -103,6 +103,8 @@ export class Products implements OnInit {
       relativeTo: this.route,
       queryParams: { page: index },
       queryParamsHandling: 'merge'
+    }).then(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
 
