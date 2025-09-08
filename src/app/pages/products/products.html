@@ -1,5 +1,5 @@
 <div class="product-list-container">
-  <div class="search-bar" style="margin-bottom: 1rem;">
+  <div class="search-bar">
     <nz-input-group [nzSuffix]="suffixIcon">
       <input
         type="text"
@@ -17,23 +17,19 @@
   <nz-spin [nzSpinning]="isLoading()">
     <div class="product-grid">
       @for (product of displayProducts; track product.product_id) {
-
         <nz-card
           class="product-card"
-          [nzCover]="coverTemplate"
           [nzHoverable]="true"
-          nzSize="default"
+          [nzCover]="coverTemplate"
         >
-          <div class="product-title"
-               (click)="openProductInfo(product)"
-          >
-           <span>{{ product.display_name }}</span>
+          <div class="product-title" (click)="openProductInfo(product)">
+            <span>{{ product.display_name }}</span>
           </div>
 
           <div class="price-container">
-    <span class="price">
-      {{ product.list_price | currency: 'ARS':'symbol' }}
-    </span>
+            <span class="price">
+              {{ product.list_price | currency: 'ARS':'symbol' }}
+            </span>
           </div>
 
           <div class="quantity-container">
@@ -65,6 +61,7 @@
               nzType="primary"
               (click)="addToCart(product)"
               [disabled]="getQuantity(product) === 0"
+              nzBlock
             >
               <nz-icon nzType="shopping-cart" />
               Agregar al carrito
@@ -83,8 +80,6 @@
             </div>
           </ng-template>
         </nz-card>
-
-
       }
     </div>
   </nz-spin>
@@ -99,4 +94,7 @@
   </div>
 </div>
 
-<app-product-info #productInfoModal [onAddToCart]="addToCart.bind(this)"></app-product-info>
+<app-product-info
+  #productInfoModal
+  [onAddToCart]="addToCart.bind(this)"
+></app-product-info>
