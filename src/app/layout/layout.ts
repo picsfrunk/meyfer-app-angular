@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {CartBadge} from '../shared/cart-badge';
 import {NzContentComponent, NzHeaderComponent, NzLayoutComponent, NzSiderComponent} from 'ng-zorro-antd/layout';
 import {RouterOutlet} from '@angular/router';
-import {Sidebar} from '../core/components/sidebar/sidebar';
+import {Menu} from '../core/components/sidebar/menu.component';
 
 @Component({
   selector: 'app-layout',
@@ -13,7 +13,7 @@ import {Sidebar} from '../core/components/sidebar/sidebar';
     NzLayoutComponent,
     NzSiderComponent,
     RouterOutlet,
-    Sidebar
+    Menu
   ],
   templateUrl: './layout.html',
   styleUrl: './layout.scss'

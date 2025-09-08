@@ -11,14 +11,14 @@ import {Category} from '../../models/category.model';
 import {ProductsService} from '../../services/products.service';
 
 @Component({
-  selector: 'app-sidebar',
+  selector: 'app-menu',
   standalone: true,
   imports: [CommonModule, RouterLink, NzIconModule, NzMenuModule, NzSpinComponent],
-  templateUrl: './sidebar.html',
-  styleUrls: ['./sidebar.scss'],
+  templateUrl: './menu.component.html',
+  styleUrls: ['./menu.component.scss'],
 
 })
-export class Sidebar implements OnInit {
+export class Menu implements OnInit {
   private categoryService = inject(CategoryService);
   private productService = inject(ProductsService);
   private router = inject(Router);
