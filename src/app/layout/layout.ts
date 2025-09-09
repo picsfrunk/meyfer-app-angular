@@ -1,8 +1,11 @@
-import { Component } from '@angular/core';
+import {Component, signal} from '@angular/core';
 import {CartBadge} from '../shared/cart-badge';
 import {NzContentComponent, NzHeaderComponent, NzLayoutComponent, NzSiderComponent} from 'ng-zorro-antd/layout';
 import {RouterOutlet} from '@angular/router';
-import {Sidebar} from '../core/components/sidebar/sidebar';
+import {Menu} from '../core/components/sidebar/menu';
+import {NzDrawerModule} from 'ng-zorro-antd/drawer';
+import {NzIconDirective} from 'ng-zorro-antd/icon';
+import {NzButtonComponent} from 'ng-zorro-antd/button';
 
 @Component({
   selector: 'app-layout',
@@ -13,11 +16,19 @@ import {Sidebar} from '../core/components/sidebar/sidebar';
     NzLayoutComponent,
     NzSiderComponent,
     RouterOutlet,
-    Sidebar
+    Menu,
+    NzDrawerModule,
+    NzIconDirective,
+    NzButtonComponent
   ],
   templateUrl: './layout.html',
   styleUrl: './layout.scss'
 })
 export class Layout {
+  isMobileMenuOpen = signal<boolean>(false);
+
+  close(): void {
+    this.isMobileMenuOpen.set(false);
+  }
 
 }

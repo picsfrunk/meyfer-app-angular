@@ -39,7 +39,6 @@ export class Products implements OnInit {
   private message = inject(NzMessageService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  private viewportScroller = inject(ViewportScroller);
 
   @ViewChild('productInfoModal') productInfoModal!: ProductInfo;
 
