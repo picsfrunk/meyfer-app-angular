@@ -1,46 +1,70 @@
 :host {
-  display: flex;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  display: block;
 }
 
 .menu-sidebar {
   position: fixed;
-  z-index: 10;
-  box-shadow: 2px 0 6px rgba(0,21,41,.35);
+  z-index: 100;
+  box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
   background-color: white;
   min-width: 20vw;
   height: 100vh;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 }
 
 .app-header {
   width: 100%;
-  z-index: 9999;
+  z-index: 1000;
   position: fixed;
+  top: 0;
+  left: 0;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   background: #35608e;
-  height: 8vh;
-  padding: 0 4em 0 0;
+  height: 56px;
+  padding: 0 1rem;
 
-  .header-logo {
-    padding: 16px;
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .menu-toggle-btn {
+    display: none;
+    @media (max-width: 768px) {
+      display: inline-flex;
+      font-size: 1.2rem;
+      color: #fff;
+    }
+  }
+
+  .header-logo img {
+    height: 32px;
   }
 
   .header-icons {
-    padding-top: 1em;
+    display: flex;
+    align-items: center;
   }
 }
 
 .inner-content {
-  margin-top: 8vh;
+  margin-top: 56px;
   background: #fff;
   height: 100%;
 }
 
 .router-content {
   margin-left: 20vw;
+  padding: 1rem;
+
+  @media (max-width: 768px) {
+    margin-left: 0;
+  }
 }
