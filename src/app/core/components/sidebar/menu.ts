@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {Component, signal, OnInit, inject, computed} from '@angular/core';
+import {Component, signal, OnInit, inject, computed, Input, WritableSignal} from '@angular/core';
 import {Router, RouterLink} from '@angular/router';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import {MenuService, NzMenuModule} from 'ng-zorro-antd/menu';
@@ -14,8 +14,8 @@ import {ProductsService} from '../../services/products.service';
   selector: 'app-menu',
   standalone: true,
   imports: [CommonModule, RouterLink, NzIconModule, NzMenuModule, NzSpinComponent],
-  templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.scss'],
+  templateUrl: './menu.html',
+  styleUrls: ['./menu.scss'],
 
 })
 export class Menu implements OnInit {
@@ -26,6 +26,7 @@ export class Menu implements OnInit {
   categories = this.categoryService.categories;
   isLoadingCategories = this.categoryService.isLoading;
   selectedCategory = signal<Category | null>(null);
+  @Input() isMobileMenuOpen!: WritableSignal<boolean>;
 
   readonly menuItems: MenuItem[] = MENU_ITEMS;
 
@@ -48,6 +49,7 @@ export class Menu implements OnInit {
       queryParams,
       queryParamsHandling: 'merge'
     });
+    this.isMobileMenuOpen.set(false);
   };
 
   fullCategories = computed( () => {

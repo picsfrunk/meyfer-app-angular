@@ -7,10 +7,10 @@
             nz-button
             nzType="text"
             class="menu-toggle-btn"
-            (click)="isMobileMenuOpen = true"
+            (click)="isMobileMenuOpen.set(true)"
           >
 
-            @if (isMobileMenuOpen) {
+            @if (isMobileMenuOpen()) {
               <nz-icon nzType="menu-unfold" nzTheme="outline" />
             } @else {
               <nz-icon nzType="menu-fold" nzTheme="outline" />
@@ -47,13 +47,13 @@
 
     <nz-drawer
       [nzClosable]="true"
-      [nzVisible]="isMobileMenuOpen"
+      [nzVisible]="isMobileMenuOpen()"
       nzPlacement="left"
       nzTitle="Menú"
       (nzOnClose)="close()"
     >
       <ng-container *nzDrawerContent>
-        <app-menu />
+        <app-menu [isMobileMenuOpen]="isMobileMenuOpen"/>
       </ng-container>
     </nz-drawer>
 
