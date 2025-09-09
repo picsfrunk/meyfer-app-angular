@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import {Component, signal} from '@angular/core';
 import {CartBadge} from '../shared/cart-badge';
 import {NzContentComponent, NzHeaderComponent, NzLayoutComponent, NzSiderComponent} from 'ng-zorro-antd/layout';
 import {RouterOutlet} from '@angular/router';
-import {Menu} from '../core/components/sidebar/menu.component';
+import {Menu} from '../core/components/sidebar/menu';
 import {NzDrawerModule} from 'ng-zorro-antd/drawer';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
@@ -25,10 +25,10 @@ import {NzButtonComponent} from 'ng-zorro-antd/button';
   styleUrl: './layout.scss'
 })
 export class Layout {
-  isMobileMenuOpen = false;
+  isMobileMenuOpen = signal<boolean>(false);
 
   close(): void {
-    this.isMobileMenuOpen = false;
+    this.isMobileMenuOpen.set(false);
   }
 
 }
