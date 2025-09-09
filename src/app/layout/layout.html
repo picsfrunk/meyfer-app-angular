@@ -1,28 +1,64 @@
 <nz-layout>
   <nz-header class="app-header">
-    <div class="header-logo">
-      <img src="../assets/logo-sidebar.png" alt="logo"/>
-    </div>
-    <div class="header-icons">
-      <app-cart-badge/>
+    <div class="header-left">
+      <div class="header-left">
+        <div class="menu-toggle-btn">
+          <button
+            nz-button
+            nzType="text"
+            class="menu-toggle-btn"
+            (click)="isMobileMenuOpen = true"
+          >
 
+            @if (isMobileMenuOpen) {
+              <nz-icon nzType="menu-unfold" nzTheme="outline" />
+            } @else {
+              <nz-icon nzType="menu-fold" nzTheme="outline" />
+            }
+
+          </button>
+        </div>
+
+
+        <div class="header-logo">
+          <img src="../assets/logo-sidebar.png" alt="logo" />
+        </div>
+      </div>
+    </div>
+
+    <div class="header-icons">
+      <app-cart-badge />
     </div>
   </nz-header>
 
   <nz-layout class="inner-content">
-    <nz-sider class="menu-sidebar"
-              nzWidth="20vw"
-              nzBreakpoint="md"
-              [nzCollapsible]="true"
+    <!-- Desktop sidebar -->
+    <nz-sider
+      class="menu-sidebar"
+      nzWidth="20vw"
+      nzBreakpoint="md"
+      [nzCollapsible]="true"
+      [nzCollapsedWidth]="0"
+      [nzCollapsed]="false"
+      [nzTrigger]="null"
     >
-      <app-menu/>
+      <app-menu />
     </nz-sider>
 
+    <nz-drawer
+      [nzClosable]="true"
+      [nzVisible]="isMobileMenuOpen"
+      nzPlacement="left"
+      nzTitle="Menú"
+      (nzOnClose)="close()"
+    >
+      <ng-container *nzDrawerContent>
+        <app-menu />
+      </ng-container>
+    </nz-drawer>
 
     <nz-content class="router-content">
-        <router-outlet></router-outlet>
+      <router-outlet></router-outlet>
     </nz-content>
   </nz-layout>
-
-
 </nz-layout>

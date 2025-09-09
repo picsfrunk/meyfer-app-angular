@@ -4,13 +4,17 @@
       <li nz-submenu [nzTitle]="item.title" [nzIcon]="item.icon" [nzOpen]="true">
         <ul>
           @if (item.subMenuType === 'categories') {
-            <nz-spin [nzSpinning]="isLoadingCategories()">
+            <nz-spin [nzSpinning]="isLoadingCategories()" class="categories-spin">
               @for (cat of fullCategories(); track cat.category_name) {
-                <li nz-menu-item
-                    [nzSelected]="selectedCategory()?.category_name === cat.category_name"
-                    (click)="onCategorySelected(cat)">
-                  <span class="category-name">{{ cat.category_name }}</span>
-                  <span class="product-count">({{ cat.product_count }})</span>
+                <li
+                  nz-menu-item
+                  [nzSelected]="selectedCategory()?.category_name === cat.category_name"
+                  (click)="onCategorySelected(cat)"
+                >
+                  <div class="category-item">
+                    <span class="category-name">{{ cat.category_name }}</span>
+                    <span class="product-count">{{ cat.product_count }}</span>
+                  </div>
                 </li>
               }
             </nz-spin>
