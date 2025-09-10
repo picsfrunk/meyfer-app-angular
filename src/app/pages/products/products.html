@@ -6,7 +6,7 @@
         nz-input
         placeholder="Buscar productos..."
         [value]="searchTerm()"
-        (input)="searchTerm.set($any($event.target).value); loadProducts()"
+        (input)="onSearchInput($event)"
       />
     </nz-input-group>
     <ng-template #suffixIcon>

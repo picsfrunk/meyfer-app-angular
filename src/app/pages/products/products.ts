@@ -1,4 +1,4 @@
-import {Component, OnInit, inject, signal, effect, ViewChild} from '@angular/core';
+import {Component, OnInit, inject, signal, effect, ViewChild, OnDestroy} from '@angular/core';
 import {CommonModule, NgOptimizedImage, ViewportScroller} from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
@@ -14,6 +14,7 @@ import { Product } from '../../core/models/product.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import {ProductInfo} from '../../core/components/product/product-info';
 import {NzImageDirective} from 'ng-zorro-antd/image';
+import {debounceTime, distinctUntilChanged, Subject, takeUntil} from 'rxjs';
 
 @Component({
   selector: 'app-product-list',
@@ -33,7 +34,7 @@ import {NzImageDirective} from 'ng-zorro-antd/image';
   templateUrl: './products.html',
   styleUrls: ['./products.scss']
 })
-export class Products implements OnInit {
+export class Products implements OnInit, OnDestroy {
   private productsService = inject(ProductsService);
   private cartService = inject(CartService);
   private message = inject(NzMessageService);
@@ -46,40 +47,46 @@ export class Products implements OnInit {
   displayProducts: Product[] = [];
   isLoading = this.productsService.isLoadingMany;
 
+  private readonly DEBOUNCE_SEARCH_TIME = 777 ;
   searchTerm = signal('');
+  private searchTerms = new Subject<string>();
+  private readonly destroy$ = new Subject<void>();
   page = signal(1);
   limit = signal(12);
 
   total = 0;
-
   private quantities = new Map<number, number>();
 
 
-  constructor() {
-    this.route.queryParams.subscribe(params => {
-      const page = params['page'] ? +params['page'] : 1;
-      const search = params['search'] || '';
+  ngOnInit(): void {
+    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(params => {
+      this.page.set(params['page'] ? +params['page'] : 1);
+      this.searchTerm.set(params['search'] || '');
 
-      this.page.set(page);
-      this.searchTerm.set(search);
-
-      this.loadProducts(page, search);
+      this.loadProducts(this.page(), this.searchTerm());
     });
 
-    effect(() => {
-      const currentSearchTerm = this.searchTerm();
-      if (this.route.snapshot.queryParams['search'] !== currentSearchTerm) {
-        this.router.navigate([], {
-          relativeTo: this.route,
-          queryParams: { search: currentSearchTerm || null },
-          queryParamsHandling: 'merge'
-        });
-      }
+    this.searchTerms.pipe(
+      debounceTime(this.DEBOUNCE_SEARCH_TIME),
+      distinctUntilChanged(),
+      takeUntil(this.destroy$)
+    ).subscribe(term => {
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: { search: term || null, page: 1 },
+        queryParamsHandling: 'merge'
+      });
     });
-
   }
 
-  ngOnInit() {
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  onSearchInput(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+    this.searchTerms.next(value);
   }
 
   loadProducts(page?: number, search?: string) {
@@ -140,4 +147,10 @@ export class Products implements OnInit {
 
   }
 
+  searchProducts(): void {
+    // desarrollar delay y manejo de busquedas a la api
+
+    this.loadProducts()
+
+  }
 }
