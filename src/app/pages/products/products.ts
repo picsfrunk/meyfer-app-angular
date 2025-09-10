@@ -47,7 +47,7 @@ export class Products implements OnInit, OnDestroy {
   displayProducts: Product[] = [];
   isLoading = this.productsService.isLoadingMany;
 
-  private readonly DEBOUNCE_SEARCH_TIME = 777 ;
+  private readonly DEBOUNCE_SEARCH_TIME = 1000 ;
   searchTerm = signal('');
   private searchTerms = new Subject<string>();
   private readonly destroy$ = new Subject<void>();
@@ -89,6 +89,13 @@ export class Products implements OnInit, OnDestroy {
     this.searchTerms.next(value);
   }
 
+  clearSearch(): void {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { search: null, page: 1 },
+      queryParamsHandling: 'merge'
+    });  }
+
   loadProducts(page?: number, search?: string) {
 
     this.productsService.getPaginatedProducts(page, this.limit(), search).subscribe({
@@ -110,7 +117,7 @@ export class Products implements OnInit, OnDestroy {
       queryParams: { page: index },
       queryParamsHandling: 'merge'
     }).then(() => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: 'instant' });
     });
   }
 
@@ -147,10 +154,4 @@ export class Products implements OnInit, OnDestroy {
 
   }
 
-  searchProducts(): void {
-    // desarrollar delay y manejo de busquedas a la api
-
-    this.loadProducts()
-
-  }
 }
