@@ -1,16 +1,30 @@
 <div class="product-list-container">
   <div class="search-bar">
-    <nz-input-group [nzSuffix]="suffixIcon">
+    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
       <input
         type="text"
         nz-input
         placeholder="Buscar productos..."
         [value]="searchTerm()"
-        (input)="searchTerm.set($any($event.target).value); loadProducts()"
+        (input)="onSearchInput($event)"
       />
     </nz-input-group>
-    <ng-template #suffixIcon>
-      <span nz-icon nzType="search"></span>
+
+    <ng-template #suffixIconButton>
+        @if (searchTerm()) {
+          <button nz-button nzType="primary" nzSearch>
+            <nz-icon
+              nzType="close-circle"
+              nzTheme="fill"
+              (click)="clearSearch()"
+              class="clear-icon"
+              />
+          </button>
+        } @else {
+          <button nz-button nzType="default">
+            <nz-icon nzType="search"/>
+          </button>
+        }
     </ng-template>
   </div>
 
