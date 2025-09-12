@@ -43,6 +43,14 @@
             ]
           },
           "configurations": {
+            "staging": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.staging.ts"
+                }
+              ]
+            },
             "production": {
               "fileReplacements": [
                 {
@@ -63,14 +71,6 @@
                 }
               ],
               "outputHashing": "all"
-            },
-            "staging": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.staging.ts"
-                }
-              ]
             },
             "development": {
               "optimization": false,
