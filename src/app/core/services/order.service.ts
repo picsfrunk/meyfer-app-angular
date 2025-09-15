@@ -23,7 +23,7 @@ export class OrderService {
   private cartService = inject(CartService);
 
   private apiUrl = environment.apiUrl;
-  private readonly endpoint = '/orders';
+  private readonly endpoint = '/orders/new';
 
   constructor() {}
 
