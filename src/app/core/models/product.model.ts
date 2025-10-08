@@ -9,7 +9,7 @@ export interface Product {
   category_name: string;
   display_name: string;
   image_url: string;
-  list_price: number;
+  final_price: number;
   product_type: string;
 }
 

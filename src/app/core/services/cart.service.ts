@@ -13,7 +13,7 @@ export class CartService {
   );
 
   readonly total = computed(() =>
-    this._items().reduce((acc, it) => acc + (it.productCartItem.list_price ?? 0) * it.qty, 0)
+    this._items().reduce((acc, it) => acc + (it.productCartItem.final_price ?? 0) * it.qty, 0)
   );
 
   constructor(private storage: CartStorageService) {
