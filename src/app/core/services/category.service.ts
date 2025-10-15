@@ -21,7 +21,6 @@ export class CategoryService {
       .pipe(
         map(res => {
           this.totalProducts.set(res.totalProducts);
-          console.log(res);
           return res.categories;
         }),
         finalize(() => this.isLoading.set(false))

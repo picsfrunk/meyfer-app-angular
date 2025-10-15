@@ -22,6 +22,7 @@ import {NzButtonComponent} from 'ng-zorro-antd/button';
     NzButtonComponent
   ],
   templateUrl: './layout.html',
+  standalone: true,
   styleUrl: './layout.scss'
 })
 export class Layout {
