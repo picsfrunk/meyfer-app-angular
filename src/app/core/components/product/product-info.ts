@@ -52,17 +52,20 @@ import { NzDividerComponent } from 'ng-zorro-antd/divider';
                           <nz-divider/>
 
                           <nz-descriptions nzBordered [nzColumn]="1" class="product-info">
-                              <nz-descriptions-item nzTitle="💲 Precio">
+                              <nz-descriptions-item nzTitle="Precio">
                                   <strong class="product-price">
                                       {{ p.final_price | currency:'ARS':'symbol' }}
                                   </strong>
                               </nz-descriptions-item>
-                              <nz-descriptions-item nzTitle="📂 Categoría">
+                              <nz-descriptions-item nzTitle="Categoría">
                                   {{ p.category_name }}
                               </nz-descriptions-item>
-                              <nz-descriptions-item nzTitle="🏷️ Marca">
+                              <nz-descriptions-item nzTitle="Marca">
                                   {{ p.brand }}
                               </nz-descriptions-item>
+                            <nz-descriptions-item nzTitle="Código">
+                              {{ p.product_id }}
+                            </nz-descriptions-item>
                           </nz-descriptions>
                       </nz-col>
                   </nz-row>
