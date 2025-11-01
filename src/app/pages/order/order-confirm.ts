@@ -58,7 +58,7 @@ export class OrderConfirm {
       razonSocial: [''],
       cuit: [''],
       telefono1: [''],
-      email: [''],
+      email: ['', [Validators.required]],
       direccion: this.fb.group({
         calle: [''],
         numero: [''],
