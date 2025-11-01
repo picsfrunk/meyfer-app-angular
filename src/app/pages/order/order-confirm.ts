@@ -55,21 +55,21 @@ export class OrderConfirm {
   private initializeForm(): void {
     this.orderForm = this.fb.group({
       cliente: ['', [Validators.required]],
-      razonSocial: ['', [Validators.required]],
-      cuit: ['', [Validators.required, Validators.pattern(/^\d{2}-\d{8}-\d{1}$/)]],
-      telefono1: ['', [Validators.required, Validators.pattern(/^\+?\d{10,}$/)]],
-      email: ['', [Validators.required, Validators.email]],
+      razonSocial: [''],
+      cuit: [''],
+      telefono1: [''],
+      email: [''],
       direccion: this.fb.group({
-        calle: ['', [Validators.required]],
-        numero: ['', [Validators.required]],
+        calle: [''],
+        numero: [''],
         piso: [''],
         timbre: [''],
         entreCalles: [''],
-        localidad: ['', [Validators.required]],
-        partido: ['', [Validators.required]]
+        localidad: [''],
+        partido: ['']
       }),
       contacto: ['', [Validators.required]],
-      horarios: ['', [Validators.required]],
+      horarios: [''],
       notas: ['']
     });
   }
