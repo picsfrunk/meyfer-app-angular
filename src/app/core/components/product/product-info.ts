@@ -75,7 +75,6 @@ import { NzDividerComponent } from 'ng-zorro-antd/divider';
           <ng-template #footerTpl>
               <div class="footer-actions">
 
-                  <button nz-button (click)="close()">Cerrar</button>
                   <div class="quantity-control">
                       <button nz-button nzShape="circle" (click)="decrementQuantity()" [disabled]="quantity() <= 1">
                           <span nz-icon nzType="minus"></span>
@@ -116,9 +115,11 @@ import { NzDividerComponent } from 'ng-zorro-antd/divider';
     .product-info {
       margin-top: 1rem;
     }
-
     .footer-actions {
+
       display: flex;
+      flex-direction: column;
+      gap: 1em;
       justify-content: space-evenly;
       align-items: center;
       width: 100%;
