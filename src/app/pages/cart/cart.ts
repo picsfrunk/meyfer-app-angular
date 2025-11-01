@@ -44,10 +44,9 @@ export class Cart {
 
   goToCheckout(): void {
     const modalRef = this.modalService.create({
-      nzTitle: 'Confirmar Pedido',
       nzContent: OrderConfirm,
       nzWidth: 800,
-      nzFooter: null // No necesitas footer si el componente tiene sus propios botones
+      nzFooter: null
     });
   }
 }
