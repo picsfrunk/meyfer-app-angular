@@ -14,23 +14,17 @@ export class CategoryService {
   readonly categories = signal<Category[]>([]);
   readonly totalProducts = signal<number>(0);
 
-  fetchCategories(): void {
+  fetchCategories() {
     this.isLoading.set(true);
 
-    this.http.get<CategoryResponse>(`${this.apiUrl}/categories`)
+    return this.http.get<CategoryResponse>(`${this.apiUrl}/categories`)
       .pipe(
         map(res => {
           this.totalProducts.set(res.totalProducts);
           return res.categories;
         }),
         finalize(() => this.isLoading.set(false))
-      )
-      .subscribe({
-        next: (categories) => {
-          this.categories.set(categories);
-        },
-        error: (err) => console.error('Error loading categories', err)
-      });
+      );
   }
 
 }
