@@ -1,6 +1,7 @@
 import {CommonModule} from '@angular/common';
-import {Component, signal, OnInit, inject, computed, Input, WritableSignal} from '@angular/core';
-import {Router, RouterLink} from '@angular/router';
+import {Component, signal, OnInit, inject, computed, Input, WritableSignal, OnDestroy} from '@angular/core';
+import {Router, RouterLink, ActivatedRoute} from '@angular/router';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {NzIconModule} from 'ng-zorro-antd/icon';
 import {NzMenuModule} from 'ng-zorro-antd/menu';
 import {NzSpinComponent} from 'ng-zorro-antd/spin';
@@ -9,6 +10,8 @@ import {MENU_ITEMS} from './menu-items';
 import {MenuItem} from '../../models/menu-item.model';
 import {Category} from '../../models/category.model';
 import {ProductsService} from '../../services/products.service';
+import {Subject} from 'rxjs';
+import {takeUntil, filter, switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-menu',
@@ -16,12 +19,13 @@ import {ProductsService} from '../../services/products.service';
   imports: [CommonModule, RouterLink, NzIconModule, NzMenuModule, NzSpinComponent],
   templateUrl: './menu.html',
   styleUrls: ['./menu.scss'],
-
 })
-export class Menu implements OnInit {
+export class Menu implements OnInit, OnDestroy {
   private categoryService = inject(CategoryService);
   private productService = inject(ProductsService);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private destroy$ = new Subject<void>();
 
   categories = this.categoryService.categories;
   isLoadingCategories = this.categoryService.isLoading;
@@ -30,16 +34,54 @@ export class Menu implements OnInit {
 
   readonly menuItems: MenuItem[] = MENU_ITEMS;
 
+  // Convertir el signal a observable en el campo de clase
+  private categories$ = toObservable(this.categories);
+
   ngOnInit(): void {
     this.categoryService.fetchCategories();
 
+    // Ahora usar el observable creado en el campo
+    this.categories$
+      .pipe(
+        filter(cats => cats.length > 0),
+        switchMap(() => this.route.queryParams),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(params => {
+        this.syncCategoryFromParams(params);
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  private syncCategoryFromParams(params: any): void {
+    const categoryId = params['category_id'];
+    console.log(`[menu]: category_id=${categoryId}`);
+    let targetCategoryId: number;
+
+    if (categoryId === undefined || categoryId === null || categoryId === '') {
+      targetCategoryId = 0; // "Todos"
+    } else {
+      targetCategoryId = Number(categoryId);
+    }
+
+    const category = this.fullCategories().find(
+      cat => cat.category_id === targetCategoryId
+    );
+
+    if (category && this.selectedCategory()?.category_id !== category.category_id) {
+      this.productService.selectedCategory.set(category);
+    }
   }
 
   onCategorySelected = (category: Category) => {
     this.productService.selectedCategory.set(category);
 
-    let queryParams: any = {
-      category_id: category.category_id || null,
+    const queryParams: any = {
+      category_id: category.category_id === 0 ? null : category.category_id,
       page: 1,
       search: null
     };
@@ -49,7 +91,7 @@ export class Menu implements OnInit {
       queryParamsHandling: 'merge'
     });
 
-    this.isMobileMenuOpen.set(false);
+    this.isMobileMenuOpen?.set(false);
   };
 
   fullCategories = computed(() => {
@@ -60,5 +102,4 @@ export class Menu implements OnInit {
     };
     return [allCategory, ...this.categories()];
   });
-
 }
