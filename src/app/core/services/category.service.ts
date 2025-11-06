@@ -1,9 +1,8 @@
-import { Injectable, inject, signal} from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {finalize, map} from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { Category, CategoryResponse } from '../models/category.model';
-
 
 @Injectable({ providedIn: 'root' })
 export class CategoryService {
@@ -26,11 +25,8 @@ export class CategoryService {
         finalize(() => this.isLoading.set(false))
       )
       .subscribe({
-        next: (categories) => {
-          this.categories.set(categories);
-        },
+        next: (categories) => this.categories.set(categories),
         error: (err) => console.error('Error loading categories', err)
       });
   }
-
 }
