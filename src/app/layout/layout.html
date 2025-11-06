@@ -1,23 +1,28 @@
 <nz-layout>
-  <!-- ====== HEADER ====== -->
   <nz-header class="app-header">
     <div class="header-left">
-      <button
-        nz-button
-        nzType="text"
-        class="menu-toggle-btn"
-        aria-label="Abrir menú"
-        (click)="toggleMobileMenu()"
-      >
-        @if (isMobileMenuOpen()) {
-          <nz-icon nzType="menu-fold" nzTheme="outline" />
-        } @else {
-          <nz-icon nzType="menu-unfold" nzTheme="outline" />
-        }
-      </button>
+      <div class="header-left">
+        <div class="menu-toggle-btn">
+          <button
+            nz-button
+            nzType="text"
+            class="menu-toggle-btn"
+            (click)="isMobileMenuOpen.set(true)"
+          >
 
-      <div class="header-logo">
-        <img src="../assets/logo-sidebar.png" alt="logo" />
+            @if (isMobileMenuOpen()) {
+              <nz-icon nzType="menu-unfold" nzTheme="outline" />
+            } @else {
+              <nz-icon nzType="menu-fold" nzTheme="outline" />
+            }
+
+          </button>
+        </div>
+
+
+        <div class="header-logo">
+          <img src="../assets/logo-sidebar.png" alt="logo" />
+        </div>
       </div>
     </div>
 
@@ -26,9 +31,8 @@
     </div>
   </nz-header>
 
-  <!-- ====== MAIN LAYOUT ====== -->
   <nz-layout class="inner-content">
-    <!-- Sidebar (solo visible en desktop) -->
+    <!-- Desktop menu -->
     <nz-sider
       class="menu-sidebar"
       nzWidth="20vw"
@@ -37,27 +41,22 @@
       [nzCollapsedWidth]="0"
       [nzCollapsed]="false"
       [nzTrigger]="null"
-      role="navigation"
     >
-      <app-menu [isMobileMenuOpen]="isMobileMenuOpen" />
+      <app-menu [isMobileMenuOpen]="isMobileMenuOpen"/>
     </nz-sider>
 
-    <!-- Drawer (solo visible en mobile) -->
     <nz-drawer
       [nzClosable]="true"
       [nzVisible]="isMobileMenuOpen()"
       nzPlacement="left"
       nzTitle="Menú"
-      role="navigation"
       (nzOnClose)="close()"
     >
       <ng-container *nzDrawerContent>
-        <!-- Render único del menú -->
-        <app-menu [isMobileMenuOpen]="isMobileMenuOpen" />
+        <app-menu [isMobileMenuOpen]="isMobileMenuOpen"/>
       </ng-container>
     </nz-drawer>
 
-    <!-- Router outlet -->
     <nz-content class="router-content">
       <router-outlet></router-outlet>
     </nz-content>

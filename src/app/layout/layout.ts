@@ -32,8 +32,4 @@ export class Layout {
     this.isMobileMenuOpen.set(false);
   }
 
-  toggleMobileMenu() {
-    this.isMobileMenuOpen.set(!this.isMobileMenuOpen());
-  }
-
 }
