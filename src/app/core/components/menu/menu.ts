@@ -25,7 +25,7 @@ export class Menu implements OnInit {
 
   categories = this.categoryService.categories;
   isLoadingCategories = this.categoryService.isLoading;
-  selectedCategory = signal<Category | null>(null);
+  selectedCategory = this.productService.selectedCategory;
   @Input() isMobileMenuOpen!: WritableSignal<boolean>;
 
   readonly menuItems: MenuItem[] = MENU_ITEMS;
