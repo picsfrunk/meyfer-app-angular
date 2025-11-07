@@ -60,23 +60,32 @@ export class Products implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(params => {
-      this.page.set(params['page'] ? +params['page'] : 1);
-      this.searchTerm.set(params['search'] || '');
+      const pageParam = params['page'] ? +params['page'] : 1;
+      const searchParam = params['search'] || '';
+      const categoryIdParam = params['category_id'] !== undefined && params['category_id'] !== null
+        ? Number(params['category_id'])
+        : null;
 
-      this.loadProducts(this.page(), this.searchTerm());
+      this.page.set(pageParam);
+      this.searchTerm.set(searchParam);
+
+      if (categoryIdParam !== null) {
+        this.productsService.selectedCategory.set({
+          category_id: categoryIdParam,
+          category_name: categoryIdParam === 0 ? 'Todos' : '',
+          product_count: 0
+        });
+      } else {
+        this.productsService.selectedCategory.set({
+          category_id: 0,
+          category_name: 'Todos',
+          product_count: 0
+        });
+      }
+
+      this.loadProducts(this.page(), this.searchTerm(), categoryIdParam);
     });
 
-    this.searchTerms.pipe(
-      debounceTime(this.DEBOUNCE_SEARCH_TIME),
-      distinctUntilChanged(),
-      takeUntil(this.destroy$)
-    ).subscribe(term => {
-      this.router.navigate([], {
-        relativeTo: this.route,
-        queryParams: { search: term || null, page: 1 },
-        queryParamsHandling: 'merge'
-      });
-    });
   }
 
   ngOnDestroy(): void {
@@ -96,9 +105,8 @@ export class Products implements OnInit, OnDestroy {
       queryParamsHandling: 'merge'
     });  }
 
-  loadProducts(page?: number, search?: string) {
-
-    this.productsService.getPaginatedProducts(page, this.limit(), search).subscribe({
+  loadProducts(page?: number, search?: string, categoryId?: number | null) {
+    this.productsService.getPaginatedProducts(page, this.limit(), search || '', categoryId).subscribe({
       next: (res) => {
         this.listOfProducts = res.products;
         this.total = res.total;
