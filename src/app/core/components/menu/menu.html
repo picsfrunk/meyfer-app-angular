@@ -1,14 +1,25 @@
 <ul nz-menu nzMode="inline" [nzInlineCollapsed]="false">
   @for (item of menuItems; track item.title) {
-    @if (item.subMenuType) {
-      <li nz-submenu [nzTitle]="item.title" [nzIcon]="item.icon" [nzOpen]="true">
-        <ul>
-          @if (item.subMenuType === 'categories') {
-            <nz-spin [nzSpinning]="isLoadingCategories()" class="categories-spin">
+    @if (item.subMenuType === 'categories') {
+      <!-- Ítem principal -->
+      <li
+        nz-menu-item
+        [class.active]="showCategories()"
+        (click)="toggleCategories()"
+      >
+        <span nz-icon [nzType]="item.icon"></span>
+        <span>{{ item.title }}</span>
+      </li>
+
+      <!-- Bloque de categorías -->
+      @if (showCategories()) {
+        <div class="categories-container">
+          <nz-spin [nzSpinning]="isLoadingCategories()" class="categories-spin">
+            <ul class="category-list">
               @for (cat of fullCategories(); track cat.category_name) {
                 <li
                   nz-menu-item
-                  [nzSelected]="selectedCategory()?.category_name === cat.category_name"
+                  [nzSelected]="selectedCategory()?.category_id === cat.category_id"
                   (click)="onCategorySelected(cat)"
                 >
                   <div class="category-item">
@@ -17,17 +28,10 @@
                   </div>
                 </li>
               }
-            </nz-spin>
-          } @else if (item.subMenuType === 'default' && item.children) {
-            @for (child of item.children; track child.title) {
-              <li nz-menu-item [routerLink]="child.link" [nzDisabled]="child.disabled">
-                <span nz-icon [nzType]="child.icon"></span>
-                <span>{{ child.title }}</span>
-              </li>
-            }
-          }
-        </ul>
-      </li>
+            </ul>
+          </nz-spin>
+        </div>
+      }
     } @else {
       <li nz-menu-item [routerLink]="item.link" [nzDisabled]="item.disabled">
         <span nz-icon [nzType]="item.icon"></span>

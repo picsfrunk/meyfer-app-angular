@@ -34,13 +34,16 @@ export class Menu implements OnInit, OnDestroy {
 
   readonly menuItems: MenuItem[] = MENU_ITEMS;
 
-  // Convertir el signal a observable en el campo de clase
   private categories$ = toObservable(this.categories);
+
+  showCategories = signal(true);
+  toggleCategories() {
+    this.showCategories.update(v => !v);
+  }
 
   ngOnInit(): void {
     this.categoryService.fetchCategories();
 
-    // Ahora usar el observable creado en el campo
     this.categories$
       .pipe(
         filter(cats => cats.length > 0),
