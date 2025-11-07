@@ -36,7 +36,8 @@ export class Menu implements OnInit, OnDestroy {
 
   private categories$ = toObservable(this.categories);
 
-  showCategories = signal(true);
+  showCategories = signal<boolean>(true);
+
   toggleCategories() {
     this.showCategories.update(v => !v);
   }

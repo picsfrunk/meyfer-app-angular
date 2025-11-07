@@ -1,22 +1,28 @@
 <ul nz-menu nzMode="inline" [nzInlineCollapsed]="false">
   @for (item of menuItems; track item.title) {
     @if (item.subMenuType === 'categories') {
-      <!-- Ítem principal -->
+      <!-- Ítem principal: Catálogo -->
       <li
         nz-menu-item
-        [class.active]="showCategories()"
+        class="expandable"
         (click)="toggleCategories()"
       >
         <span nz-icon [nzType]="item.icon"></span>
-        <span>{{ item.title }}</span>
+        <span class="menu-title">{{ item.title }}</span>
+        <span
+          nz-icon
+          nzType="down"
+          class="expand-icon"
+          [class.expanded]="showCategories()"
+        ></span>
       </li>
 
-      <!-- Bloque de categorías -->
+      <!-- Bloque de categorías desplegable -->
       @if (showCategories()) {
         <div class="categories-container">
           <nz-spin [nzSpinning]="isLoadingCategories()" class="categories-spin">
             <ul class="category-list">
-              @for (cat of fullCategories(); track cat.category_name) {
+              @for (cat of fullCategories(); track cat.category_id) {
                 <li
                   nz-menu-item
                   [nzSelected]="selectedCategory()?.category_id === cat.category_id"
