@@ -12,13 +12,13 @@ export const MENU_ITEMS: MenuItem[] = [
     children : [
       {
       title: 'Por Rubros',
-      icon: 'shop',
+      icon: 'bars',
       subMenuType: 'categories',
       link: '/products'
       },
       {
         title: 'Por Marcas',
-        icon: 'shop',
+        icon: 'tags',
         subMenuType: 'brands',
         link: '/products'
       },

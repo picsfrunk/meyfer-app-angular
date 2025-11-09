@@ -5,7 +5,6 @@ import {toObservable} from '@angular/core/rxjs-interop';
 import {NzIconModule} from 'ng-zorro-antd/icon';
 import {NzMenuModule} from 'ng-zorro-antd/menu';
 import {NzSpinComponent} from 'ng-zorro-antd/spin';
-import {CategoryService} from '../../services/category.service';
 import {MENU_ITEMS} from './menu-items';
 import {MenuItem} from '../../models/menu-item.model';
 import {Category} from '../../models/category.model';
@@ -21,14 +20,13 @@ import {takeUntil, filter, switchMap} from 'rxjs/operators';
   styleUrls: ['./menu.scss'],
 })
 export class Menu implements OnInit, OnDestroy {
-  private categoryService = inject(CategoryService);
   private productService = inject(ProductsService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private destroy$ = new Subject<void>();
 
-  categories = this.categoryService.categories;
-  isLoadingCategories = this.categoryService.isLoading;
+  categories = this.productService.categories;
+  isLoadingCategories = this.productService.isLoading;
   selectedCategory = this.productService.selectedCategory;
   @Input() isMobileMenuOpen!: WritableSignal<boolean>;
 
@@ -43,7 +41,7 @@ export class Menu implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.categoryService.fetchCategories();
+    this.productService.fetchCategories();
 
     this.categories$
       .pipe(

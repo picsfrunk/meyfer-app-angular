@@ -1,10 +1,10 @@
 import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import {finalize, map} from 'rxjs/operators';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { PaginatedProducts } from '../models/product.model';
-import { Category } from '../models/category.model';
+import {Category, CategoryResponse} from '../models/category.model';
 
 @Injectable({ providedIn: 'root' })
 export class ProductsService {
@@ -13,6 +13,10 @@ export class ProductsService {
 
   readonly isLoadingMany: WritableSignal<boolean> = signal(false);
   readonly selectedCategory: WritableSignal<Category | null> = signal(null);
+  readonly isLoading = signal<boolean>(false);
+
+  readonly categories = signal<Category[]>([]);
+  readonly totalProducts = signal<number>(0);
 
   /**
    * Obtiene productos paginados.
@@ -47,4 +51,23 @@ export class ProductsService {
       .get<PaginatedProducts>(`${this.apiUrl}/products/scraped`, { params })
       .pipe(finalize(() => this.isLoadingMany.set(false)));
   }
+
+  fetchCategories(): void {
+    this.isLoading.set(true);
+
+    this.http.get<CategoryResponse>(`${this.apiUrl}/categories`)
+      .pipe(
+        map(res => {
+          this.totalProducts.set(res.totalProducts);
+          return res.categories;
+        }),
+        finalize(() => this.isLoading.set(false))
+      )
+      .subscribe({
+        next: (categories) => this.categories.set(categories),
+        error: (err) => console.error('Error loading categories', err)
+      });
+  }
+
+
 }
