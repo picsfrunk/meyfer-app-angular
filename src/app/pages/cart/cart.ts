@@ -30,11 +30,11 @@ export class Cart {
     this.cartService.add(product);
   }
 
-  decrement(productId: number): void {
+  decrement(productId: string): void {
     this.cartService.decrement(productId);
   }
 
-  remove(productId: number): void {
+  remove(productId: string): void {
     this.cartService.remove(productId);
   }
 
