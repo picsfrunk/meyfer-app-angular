@@ -5,6 +5,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { PaginatedProducts } from '../models/product.model';
 import {Category, CategoryResponse} from '../models/category.model';
+import {Brand} from '../models/brand.model';
 
 @Injectable({ providedIn: 'root' })
 export class ProductsService {
@@ -83,15 +84,18 @@ export class ProductsService {
   fetchBrands(): void {
     this.isLoadingBrands.set(true);
 
-    this.http.get<string[]>(`${this.apiUrl}/products/brands`)
+    console.log("Fetching... brands actuales: ", this.brands())
+    this.http.get<Brand[]>(`${this.apiUrl}/products/brands`)
       .pipe(
+        map((brandObjects: Brand[]) => {
+          return brandObjects
+            .map(brand => brand.name)
+            .sort();
+        }),
         finalize(() => this.isLoadingBrands.set(false))
       )
       .subscribe({
-        next: (brands) => {
-          const sortedBrands = brands.sort();
-          this.brands.set(sortedBrands);
-        },
+        next: (brands) => this.brands.set(brands),
         error: (err) => console.error('Error loading brands', err)
       });
   }
