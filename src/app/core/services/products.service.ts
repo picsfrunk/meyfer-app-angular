@@ -18,15 +18,18 @@ export class ProductsService {
   readonly categories = signal<Category[]>([]);
   readonly totalProducts = signal<number>(0);
 
+  readonly brands = signal<string[]>([]);
+  readonly isLoadingBrands = signal<boolean>(false);
+
   /**
    * Obtiene productos paginados.
-   * Si se pasa categoryId, se usará ese valor; si no, se usará selectedCategory() si existe.
    */
   getPaginatedProducts(
     page: number = 1,
     limit: number = 20,
     search: string = '',
-    categoryId?: number | null
+    categoryId?: number | null,
+    brand?: string | null
   ): Observable<PaginatedProducts> {
     this.isLoadingMany.set(true);
 
@@ -45,6 +48,10 @@ export class ProductsService {
 
     if (catIdToUse !== null && typeof catIdToUse !== 'undefined') {
       params = params.set('category_id', String(catIdToUse));
+    }
+
+    if (brand && brand.trim() !== '') {
+      params = params.set('brand', brand.trim());
     }
 
     return this.http
@@ -66,6 +73,26 @@ export class ProductsService {
       .subscribe({
         next: (categories) => this.categories.set(categories),
         error: (err) => console.error('Error loading categories', err)
+      });
+  }
+
+  /**
+   * Obtiene la lista única de marcas (Brands) disponibles.
+   * Asume un endpoint en el backend como /api/products/brands
+   */
+  fetchBrands(): void {
+    this.isLoadingBrands.set(true);
+
+    this.http.get<string[]>(`${this.apiUrl}/products/brands`)
+      .pipe(
+        finalize(() => this.isLoadingBrands.set(false))
+      )
+      .subscribe({
+        next: (brands) => {
+          const sortedBrands = brands.sort();
+          this.brands.set(sortedBrands);
+        },
+        error: (err) => console.error('Error loading brands', err)
       });
   }
 
