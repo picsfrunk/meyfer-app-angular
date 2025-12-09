@@ -55,6 +55,7 @@ export class ProductsService {
       params = params.set('brand', brand.trim());
     }
 
+    console.log(params);
     return this.http
       .get<PaginatedProducts>(`${this.apiUrl}/products/scraped`, { params })
       .pipe(finalize(() => this.isLoadingMany.set(false)));

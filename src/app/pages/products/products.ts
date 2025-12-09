@@ -49,6 +49,7 @@ export class Products implements OnInit, OnDestroy {
 
   private readonly DEBOUNCE_SEARCH_TIME = 1000 ;
   searchTerm = signal('');
+  brandFilter = signal<string | null>(null);
   private searchTerms = new Subject<string>();
   private readonly destroy$ = new Subject<void>();
   page = signal(1);
@@ -65,9 +66,11 @@ export class Products implements OnInit, OnDestroy {
       const categoryIdParam = params['category_id'] !== undefined && params['category_id'] !== null
         ? Number(params['category_id'])
         : null;
+      const brandParam = params['brand'] || null;
 
       this.page.set(pageParam);
       this.searchTerm.set(searchParam);
+      this.brandFilter.set(brandParam);
 
       if (categoryIdParam !== null) {
         this.productsService.selectedCategory.set({
@@ -83,7 +86,7 @@ export class Products implements OnInit, OnDestroy {
         });
       }
 
-      this.loadProducts(this.page(), this.searchTerm(), categoryIdParam);
+      this.loadProducts(this.page(), this.searchTerm(), categoryIdParam, this.brandFilter());
     });
 
   }
@@ -105,8 +108,8 @@ export class Products implements OnInit, OnDestroy {
       queryParamsHandling: 'merge'
     });  }
 
-  loadProducts(page?: number, search?: string, categoryId?: number | null) {
-    this.productsService.getPaginatedProducts(page, this.limit(), search || '', categoryId).subscribe({
+  loadProducts(page?: number, search?: string, categoryId?: number | null, brand?: string | null) {
+    this.productsService.getPaginatedProducts(page, this.limit(), search || '', categoryId, brand).subscribe({
       next: (res) => {
         this.listOfProducts = res.products;
         this.total = res.total;
