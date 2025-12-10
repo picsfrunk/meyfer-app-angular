@@ -1,4 +1,4 @@
-import { inject, Injectable, signal, WritableSignal } from '@angular/core';
+import {computed, inject, Injectable, signal, WritableSignal} from '@angular/core';
 import { Observable } from 'rxjs';
 import {finalize, map} from 'rxjs/operators';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -19,8 +19,14 @@ export class ProductsService {
   readonly categories = signal<Category[]>([]);
   readonly totalProducts = signal<number>(0);
 
-  readonly brands = signal<string[]>([]);
+  readonly brandsObjects = signal<Brand[]>([]);
   readonly isLoadingBrands = signal<boolean>(false);
+
+  readonly brandsNames = computed(() => {
+    return this.brandsObjects()
+      .map(brand => brand.name)
+      .sort();
+  });
 
   /**
    * Obtiene productos paginados.
@@ -55,7 +61,7 @@ export class ProductsService {
       params = params.set('brand', brand.trim());
     }
 
-    console.log(params);
+    // console.log(params);
     return this.http
       .get<PaginatedProducts>(`${this.apiUrl}/products/scraped`, { params })
       .pipe(finalize(() => this.isLoadingMany.set(false)));
@@ -80,23 +86,19 @@ export class ProductsService {
 
   /**
    * Obtiene la lista única de marcas (Brands) disponibles.
-   * Asume un endpoint en el backend como /api/products/brands
+   * Almacena los objetos Brand[] y deriva la lista de nombres.
    */
   fetchBrands(): void {
     this.isLoadingBrands.set(true);
 
-    console.log("Fetching... brands actuales: ", this.brands())
     this.http.get<Brand[]>(`${this.apiUrl}/products/brands`)
       .pipe(
-        map((brandObjects: Brand[]) => {
-          return brandObjects
-            .map(brand => brand.name)
-            .sort();
-        }),
         finalize(() => this.isLoadingBrands.set(false))
       )
       .subscribe({
-        next: (brands) => this.brands.set(brands),
+        next: (brandObjects) => {
+          this.brandsObjects.set(brandObjects);
+        },
         error: (err) => console.error('Error loading brands', err)
       });
   }
