@@ -9,8 +9,9 @@ import {MENU_ITEMS} from './menu-items';
 import {MenuItem} from '../../models/menu-item.model';
 import {Category} from '../../models/category.model';
 import {ProductsService} from '../../services/products.service';
-import {Subject} from 'rxjs';
-import {takeUntil, filter, switchMap} from 'rxjs/operators';
+import {Subject, combineLatest} from 'rxjs'; // ✨ Importar combineLatest para el refactor
+import {takeUntil, filter, switchMap, startWith} from 'rxjs/operators';
+import {Brand} from '../../models/brand.model';
 
 @Component({
   selector: 'app-menu',
@@ -25,14 +26,22 @@ export class Menu implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);
   private destroy$ = new Subject<void>();
 
+  // Señales de Categoría
   categories = this.productService.categories;
   isLoadingCategories = this.productService.isLoading;
   selectedCategory = this.productService.selectedCategory;
+
+  // Señales de Marca (brandsObjects renombrado a brands para mantener tu estructura)
+  brands = this.productService.brandsObjects;
+  isLoadingBrands = this.productService.isLoadingBrands;
+  readonly selectedBrand: WritableSignal<string | null> = signal(null);
+
   @Input() isMobileMenuOpen!: WritableSignal<boolean>;
 
   readonly menuItems: MenuItem[] = MENU_ITEMS;
 
   private categories$ = toObservable(this.categories);
+  private brands$ = toObservable(this.brands); // Observable de objetos Brand[]
 
   showCategories = signal<boolean>(true);
 
@@ -42,15 +51,21 @@ export class Menu implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.productService.fetchCategories();
+    this.productService.fetchBrands();
 
-    this.categories$
+    combineLatest([
+      this.categories$.pipe(filter(cats => cats.length > 0)),
+      this.brands$.pipe(filter(brands => brands.length > 0)),
+      this.route.queryParams.pipe(startWith(this.route.snapshot.queryParams)) // Usar startWith para leer params al inicio
+    ])
       .pipe(
-        filter(cats => cats.length > 0),
-        switchMap(() => this.route.queryParams),
         takeUntil(this.destroy$)
       )
-      .subscribe(params => {
+      .subscribe(([categories, brands, params]) => {
+        // En este punto, 'categories' y 'brands' tienen datos
+        // y 'params' contiene los queryParams actuales.
         this.syncCategoryFromParams(params);
+        this.syncBrandFromParams(params);
       });
   }
 
@@ -58,6 +73,8 @@ export class Menu implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
+
+  // --- Lógica de Sincronización de Parámetros ---
 
   private syncCategoryFromParams(params: any): void {
     const categoryId = params['category_id'];
@@ -79,13 +96,31 @@ export class Menu implements OnInit, OnDestroy {
     }
   }
 
+  private syncBrandFromParams(params: any): void {
+    const brandName = params['brand'] || null;
+
+    if (brandName !== this.selectedBrand()) {
+
+      if (brandName) {
+        const foundBrand = this.brands().find(b => b.name === brandName);
+        this.selectedBrand.set(foundBrand ? brandName : null);
+      } else {
+        this.selectedBrand.set(null);
+      }
+    }
+  }
+
+
+  // --- Manejadores de Eventos ---
+
   onCategorySelected = (category: Category) => {
     this.productService.selectedCategory.set(category);
 
     const queryParams: any = {
       category_id: category.category_id === 0 ? null : category.category_id,
       page: 1,
-      search: null
+      search: null,
+      brand: null
     };
 
     this.router.navigate(['/products'], {
@@ -96,12 +131,44 @@ export class Menu implements OnInit, OnDestroy {
     this.isMobileMenuOpen?.set(false);
   };
 
+  onBrandSelected = (brandName: string | null) => {
+    const newBrand = this.selectedBrand() === brandName ? null : brandName;
+
+    this.selectedBrand.set(newBrand);
+
+    const queryParams: any = {
+      brand: newBrand,
+      page: 1,
+    };
+
+    this.router.navigate(['/products'], {
+      queryParams,
+      queryParamsHandling: 'merge'
+    });
+
+    this.isMobileMenuOpen?.set(false);
+  };
+
+  // --- Computed Properties ---
+
   fullCategories = computed(() => {
     const allCategory: Category = {
       category_id: 0,
       category_name: 'Todos',
-      product_count: this.categories().reduce((sum, cat) => sum + cat.product_count, 0)
+      product_count: this.categories().reduce(
+        (sum, cat) => sum + cat.product_count, 0)
     };
     return [allCategory, ...this.categories()];
   });
+
+  fullBrands = computed(() => {
+    const allBrand: Brand = {
+      id: 0,
+      name: 'Todas las Marcas',
+      slug: 'todas',
+      products: this.brands().reduce(
+        (sum, brand) => sum + brand.products, 0)
+    };
+    return [allBrand, ...this.brands()];
+  })
 }

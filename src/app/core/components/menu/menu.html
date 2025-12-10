@@ -1,11 +1,9 @@
 <ul nz-menu nzMode="inline" [nzInlineCollapsed]="false">
   @for (item of menuItems; track item.title) {
-    <!-- Ítem con submenú -->
     @if (item.children?.length) {
       <li nz-submenu [nzTitle]="item.title" [nzIcon]="item.icon" [nzOpen]="true">
         <ul>
           @for (child of item.children; track child.title) {
-            <!-- Submenú de Categorías -->
             @if (child.subMenuType === 'categories') {
               <li nz-submenu [nzTitle]="child.title" [nzIcon]="child.icon" [nzOpen]="true">
                 <ul>
@@ -26,26 +24,53 @@
                 </ul>
               </li>
             } @else if (child.subMenuType === 'brands') {
-              <!-- Submenú de Marcas -->
               <li nz-submenu [nzTitle]="child.title" [nzIcon]="child.icon" [nzOpen]="false">
                 <ul>
-                  <li nz-menu-item [nzDisabled]="true">
-                    <span class="text-gray-400">Próximamente</span>
-                  </li>
+                  <nz-spin [nzSpinning]="isLoadingBrands()" class="brands-spin">
+
+                    @for (brand of fullBrands(); track brand.id) {
+
+                      @if (brand.id === 0) {
+                        <li
+                          nz-menu-item
+                          [nzSelected]="selectedBrand() === null"
+                          (click)="onBrandSelected(null)"
+                        >
+                          <div class="brand-item">
+                            <span class="brand-name">{{ brand.name }}</span>
+                          </div>
+                        </li>
+                      } @else {
+                        <li
+                          nz-menu-item
+                          [nzSelected]="selectedBrand() === brand.name"
+                          (click)="onBrandSelected(brand.name)"
+                        >
+                          <div class="brand-item">
+                            <span class="brand-name">{{ brand.name }}</span>
+                            <span class="product-count">{{ brand.products }}</span>
+
+                            @if (selectedBrand() === brand.name) {
+                              <span nz-icon nzType="check" nzTheme="outline" class="ml-auto text-green-500"></span>
+                            }
+                          </div>
+                        </li>
+                      }
+
+                    }
+                  </nz-spin>
                 </ul>
               </li>
             } @else {
-              <!-- Submenú genérico (si en el futuro hay más) -->
               <li nz-menu-item [routerLink]="child.link" [nzDisabled]="child.disabled">
-                <span nz-icon [nzType]="child.icon"></span>
-                <span>{{ child.title }}</span>
+                <span nz-icon [nzType]="item.icon"></span>
+                <span>{{ item.title }}</span>
               </li>
             }
           }
         </ul>
       </li>
     } @else {
-      <!-- Ítem sin submenú -->
       <li nz-menu-item [routerLink]="item.link" [nzDisabled]="item.disabled">
         <span nz-icon [nzType]="item.icon"></span>
         <span>{{ item.title }}</span>
