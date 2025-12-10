@@ -4,6 +4,7 @@
 
 .menu-sidebar {
   position: fixed;
+  overflow-y: auto;
   z-index: 100;
   box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
   background-color: white;
@@ -26,9 +27,8 @@
   align-items: center;
   justify-content: space-between;
   background: #35608e;
+  padding: 1em 1em 2em;
   //height: 56px;
-  padding: 1em;
-  padding-bottom: 2em;
 
   .header-left {
     display: flex;
