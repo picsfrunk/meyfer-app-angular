@@ -56,14 +56,13 @@ export class Menu implements OnInit, OnDestroy {
 
     combineLatest([
       this.categories$.pipe(filter(cats => cats.length > 0)),
-      // Solo sincronizamos una vez que las marcas tengan datos
       this.brands$.pipe(filter(brands => brands.length > 0)),
       this.route.queryParams.pipe(startWith(this.route.snapshot.queryParams))
     ])
       .pipe(
         takeUntil(this.destroy$)
       )
-      .subscribe(([categories, brands, params]) => {
+      .subscribe(([params]) => {
         this.syncCategoryFromParams(params);
         this.syncBrandFromParams(params);
       });
@@ -161,10 +160,6 @@ export class Menu implements OnInit, OnDestroy {
   });
 
   fullBrands = computed(() => {
-    // ✨ CORRECCIÓN CLAVE:
-    // 1. Usar this.brands() para obtener el valor del signal.
-    // 2. Usar Array.isArray() para verificar si es un array válido.
-    // 3. Si no es un array, se usa [] (array vacío) para evitar el error de `reduce is not a function`.
     const currentBrands = this.brands();
 
     const brandsArray: Brand[] = Array.isArray(currentBrands) ? currentBrands : [];
