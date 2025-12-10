@@ -9,8 +9,8 @@ import {MENU_ITEMS} from './menu-items';
 import {MenuItem} from '../../models/menu-item.model';
 import {Category} from '../../models/category.model';
 import {ProductsService} from '../../services/products.service';
-import {Subject, combineLatest} from 'rxjs'; // ✨ Importar combineLatest para el refactor
-import {takeUntil, filter, switchMap, startWith} from 'rxjs/operators';
+import {Subject, combineLatest} from 'rxjs';
+import {takeUntil, filter, startWith} from 'rxjs/operators';
 import {Brand} from '../../models/brand.model';
 
 @Component({
@@ -31,7 +31,7 @@ export class Menu implements OnInit, OnDestroy {
   isLoadingCategories = this.productService.isLoading;
   selectedCategory = this.productService.selectedCategory;
 
-  // Señales de Marca (brandsObjects renombrado a brands para mantener tu estructura)
+  // Señales de Marca
   brands = this.productService.brandsObjects;
   isLoadingBrands = this.productService.isLoadingBrands;
   readonly selectedBrand: WritableSignal<string | null> = signal(null);
@@ -41,7 +41,7 @@ export class Menu implements OnInit, OnDestroy {
   readonly menuItems: MenuItem[] = MENU_ITEMS;
 
   private categories$ = toObservable(this.categories);
-  private brands$ = toObservable(this.brands); // Observable de objetos Brand[]
+  private brands$ = toObservable(this.brands);
 
   showCategories = signal<boolean>(true);
 
@@ -52,18 +52,18 @@ export class Menu implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.productService.fetchCategories();
     this.productService.fetchBrands();
+    console.log(this.brands());
 
     combineLatest([
       this.categories$.pipe(filter(cats => cats.length > 0)),
+      // Solo sincronizamos una vez que las marcas tengan datos
       this.brands$.pipe(filter(brands => brands.length > 0)),
-      this.route.queryParams.pipe(startWith(this.route.snapshot.queryParams)) // Usar startWith para leer params al inicio
+      this.route.queryParams.pipe(startWith(this.route.snapshot.queryParams))
     ])
       .pipe(
         takeUntil(this.destroy$)
       )
       .subscribe(([categories, brands, params]) => {
-        // En este punto, 'categories' y 'brands' tienen datos
-        // y 'params' contiene los queryParams actuales.
         this.syncCategoryFromParams(params);
         this.syncBrandFromParams(params);
       });
@@ -78,7 +78,6 @@ export class Menu implements OnInit, OnDestroy {
 
   private syncCategoryFromParams(params: any): void {
     const categoryId = params['category_id'];
-    console.log(`[menu]: category_id=${categoryId}`);
     let targetCategoryId: number;
 
     if (categoryId === undefined || categoryId === null || categoryId === '') {
@@ -162,13 +161,26 @@ export class Menu implements OnInit, OnDestroy {
   });
 
   fullBrands = computed(() => {
+    // ✨ CORRECCIÓN CLAVE:
+    // 1. Usar this.brands() para obtener el valor del signal.
+    // 2. Usar Array.isArray() para verificar si es un array válido.
+    // 3. Si no es un array, se usa [] (array vacío) para evitar el error de `reduce is not a function`.
+    const currentBrands = this.brands();
+
+    const brandsArray: Brand[] = Array.isArray(currentBrands) ? currentBrands : [];
+
+    const totalProducts = brandsArray.reduce(
+      (sum, brand) => sum + (brand.products || 0),
+      0
+    );
+
     const allBrand: Brand = {
       id: 0,
       name: 'Todas las Marcas',
       slug: 'todas',
-      products: this.brands().reduce(
-        (sum, brand) => sum + brand.products, 0)
+      products: totalProducts
     };
-    return [allBrand, ...this.brands()];
+
+    return [allBrand, ...brandsArray];
   })
 }

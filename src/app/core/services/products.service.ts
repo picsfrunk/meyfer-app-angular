@@ -5,7 +5,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { PaginatedProducts } from '../models/product.model';
 import {Category, CategoryResponse} from '../models/category.model';
-import {Brand} from '../models/brand.model';
+import {Brand, BrandsApiResponse} from '../models/brand.model';
 
 @Injectable({ providedIn: 'root' })
 export class ProductsService {
@@ -91,13 +91,13 @@ export class ProductsService {
   fetchBrands(): void {
     this.isLoadingBrands.set(true);
 
-    this.http.get<Brand[]>(`${this.apiUrl}/products/brands`)
+    this.http.get<BrandsApiResponse>(`${this.apiUrl}/products/brands`)
       .pipe(
         finalize(() => this.isLoadingBrands.set(false))
       )
       .subscribe({
         next: (brandObjects) => {
-          this.brandsObjects.set(brandObjects);
+          this.brandsObjects.set(brandObjects.data);
         },
         error: (err) => console.error('Error loading brands', err)
       });
