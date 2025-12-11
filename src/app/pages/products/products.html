@@ -5,26 +5,25 @@
         type="text"
         nz-input
         placeholder="Buscar productos..."
-        [value]="searchTerm()"
-        (input)="onSearchInput($event)"
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="onSearchInput($event)"
       />
     </nz-input-group>
 
     <ng-template #suffixIconButton>
-        @if (searchTerm()) {
-          <button nz-button nzType="primary" nzSearch>
-            <nz-icon
-              nzType="close-circle"
-              nzTheme="fill"
-              (click)="clearSearch()"
-              class="clear-icon"
-              />
-          </button>
-        } @else {
-          <button nz-button nzType="default">
-            <nz-icon nzType="search"/>
-          </button>
-        }
+      @if (searchTerm()) {
+        <button nz-button nzType="primary" nzSearch (click)="clearSearch()">
+          <nz-icon
+            nzType="close-circle"
+            nzTheme="fill"
+            class="clear-icon"
+          />
+        </button>
+      } @else {
+        <button nz-button nzType="default">
+          <nz-icon nzType="search"/>
+        </button>
+      }
     </ng-template>
   </div>
 

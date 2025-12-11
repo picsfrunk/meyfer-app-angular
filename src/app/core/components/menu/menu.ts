@@ -52,7 +52,6 @@ export class Menu implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.productService.fetchCategories();
     this.productService.fetchBrands();
-    console.log(this.brands());
 
     combineLatest([
       this.categories$.pipe(filter(cats => cats.length > 0)),
