@@ -1,6 +1,10 @@
-import {Component, OnInit, inject, signal, effect, ViewChild, OnDestroy} from '@angular/core';
-import {CommonModule, NgOptimizedImage, ViewportScroller} from '@angular/common';
+import {Component, OnInit, inject, signal, ViewChild, OnDestroy} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import {debounceTime, distinctUntilChanged, Subject, takeUntil} from 'rxjs';
+
+// Importaciones de Ng Zorro
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -8,13 +12,14 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzSpinComponent } from 'ng-zorro-antd/spin';
 import { NzMessageService } from 'ng-zorro-antd/message';
+
+// Modelos y Servicios
 import { ProductsService } from '../../core/services/products.service';
 import { CartService } from '../../core/services/cart.service';
 import { Product } from '../../core/models/product.model';
-import { ActivatedRoute, Router } from '@angular/router';
 import {ProductInfo} from '../../core/components/product/product-info';
 import {NzImageDirective} from 'ng-zorro-antd/image';
-import {debounceTime, distinctUntilChanged, Subject, takeUntil} from 'rxjs';
+
 
 @Component({
   selector: 'app-product-list',
@@ -48,18 +53,46 @@ export class Products implements OnInit, OnDestroy {
   isLoading = this.productsService.isLoadingMany;
 
   private readonly DEBOUNCE_SEARCH_TIME = 1000 ;
-  searchTerm = signal('');
+
+  // Estado UI
+  searchTerm = signal(''); // Signal que mantiene el valor del input y se sincroniza con la URL
   brandFilter = signal<string | null>(null);
-  private searchTerms = new Subject<string>();
-  private readonly destroy$ = new Subject<void>();
   page = signal(1);
   limit = signal(12);
+
+  // Mecanismo Reactivo
+  private searchTerms = new Subject<string>(); // Subject para aplicar debounce
+
+  // Destructor
+  private readonly destroy$ = new Subject<void>();
 
   total = 0;
   private quantities = new Map<number, number>();
 
 
+  constructor() {
+    // 1. CONEXIÓN DE BÚSQUEDA (Manejo de Debounce y Navegación)
+    this.searchTerms
+      .pipe(
+        // Espera de 1 segundo
+        debounceTime(this.DEBOUNCE_SEARCH_TIME),
+        // No dispara si el término no cambió
+        distinctUntilChanged(),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(term => {
+        // Al final del debounce, actualiza los queryParams (y resetea la página)
+        this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: { search: term || null, page: 1 },
+          queryParamsHandling: 'merge'
+        });
+      });
+  }
+
+
   ngOnInit(): void {
+    // 2. CONEXIÓN DE URL (Manejo de Query Params y Carga de Datos)
     this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(params => {
       const pageParam = params['page'] ? +params['page'] : 1;
       const searchParam = params['search'] || '';
@@ -68,36 +101,34 @@ export class Products implements OnInit, OnDestroy {
         : null;
       const brandParam = params['brand'] || null;
 
+      // Sincronizar Signals desde la URL (Source of Truth)
       this.page.set(pageParam);
       this.searchTerm.set(searchParam);
       this.brandFilter.set(brandParam);
 
-      if (categoryIdParam !== null) {
-        this.productsService.selectedCategory.set({
-          category_id: categoryIdParam,
-          category_name: categoryIdParam === 0 ? 'Todos' : '',
-          product_count: 0
-        });
-      } else {
-        this.productsService.selectedCategory.set({
-          category_id: 0,
-          category_name: 'Todos',
-          product_count: 0
-        });
-      }
+      // Sincronizar Categoría
+      const category = {
+        category_id: categoryIdParam !== null ? categoryIdParam : 0,
+        category_name: categoryIdParam === 0 ? 'Todos' : '',
+        product_count: 0
+      };
+      this.productsService.selectedCategory.set(category);
 
-      this.loadProducts(this.page(), this.searchTerm(), categoryIdParam, this.brandFilter());
+      // Cargar productos con los parámetros de la URL
+      this.loadProducts(this.page(), this.searchTerm(), category.category_id, this.brandFilter());
     });
-
   }
+
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
 
-  onSearchInput(event: Event): void {
-    const value = (event.target as HTMLInputElement).value;
+  // 3. HANDLER DEL INPUT
+  // Usaremos el enlace bidireccional [(ngModel)] en el HTML
+  // Este método ahora solo se encarga de empujar el valor al Subject.
+  onSearchInput(value: string): void {
     this.searchTerms.next(value);
   }
 
@@ -106,7 +137,8 @@ export class Products implements OnInit, OnDestroy {
       relativeTo: this.route,
       queryParams: { search: null, page: 1 },
       queryParamsHandling: 'merge'
-    });  }
+    });
+  }
 
   loadProducts(page?: number, search?: string, categoryId?: number | null, brand?: string | null) {
     this.productsService.getPaginatedProducts(page, this.limit(), search || '', categoryId, brand).subscribe({
