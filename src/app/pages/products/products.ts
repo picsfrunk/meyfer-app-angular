@@ -11,7 +11,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzSpinComponent } from 'ng-zorro-antd/spin';
-import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzMessageService } from 'ng-zorro-antd/message'; // Servicio de mensajes/toast
 
 // Modelos y Servicios
 import { ProductsService } from '../../core/services/products.service';
@@ -55,13 +55,13 @@ export class Products implements OnInit, OnDestroy {
   private readonly DEBOUNCE_SEARCH_TIME = 1000 ;
 
   // Estado UI
-  searchTerm = signal(''); // Signal que mantiene el valor del input y se sincroniza con la URL
+  searchTerm = signal('');
   brandFilter = signal<string | null>(null);
   page = signal(1);
   limit = signal(12);
 
   // Mecanismo Reactivo
-  private searchTerms = new Subject<string>(); // Subject para aplicar debounce
+  private searchTerms = new Subject<string>();
 
   // Destructor
   private readonly destroy$ = new Subject<void>();
@@ -74,14 +74,11 @@ export class Products implements OnInit, OnDestroy {
     // 1. CONEXIÓN DE BÚSQUEDA (Manejo de Debounce y Navegación)
     this.searchTerms
       .pipe(
-        // Espera de 1 segundo
         debounceTime(this.DEBOUNCE_SEARCH_TIME),
-        // No dispara si el término no cambió
         distinctUntilChanged(),
         takeUntil(this.destroy$)
       )
       .subscribe(term => {
-        // Al final del debounce, actualiza los queryParams (y resetea la página)
         this.router.navigate([], {
           relativeTo: this.route,
           queryParams: { search: term || null, page: 1 },
@@ -125,9 +122,6 @@ export class Products implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  // 3. HANDLER DEL INPUT
-  // Usaremos el enlace bidireccional [(ngModel)] en el HTML
-  // Este método ahora solo se encarga de empujar el valor al Subject.
   onSearchInput(value: string): void {
     this.searchTerms.next(value);
   }
@@ -149,7 +143,14 @@ export class Products implements OnInit, OnDestroy {
         this.displayProducts = this.listOfProducts;
       },
       error: (err) => {
+        // ✨ CORRECCIÓN: Mostrar toast de error de conexión
+        this.message.error('No se pudo conectar con el servidor para cargar los productos. Por favor, inténtelo más tarde.');
         console.error('Error loading products', err);
+
+        // Opcional: limpiar la lista de productos si la carga falla
+        this.listOfProducts = [];
+        this.displayProducts = [];
+        this.total = 0;
       }
     });
   }
