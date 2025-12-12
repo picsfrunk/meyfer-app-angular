@@ -24,7 +24,7 @@
                 </ul>
               </li>
             } @else if (child.subMenuType === 'brands') {
-              <li nz-submenu [nzTitle]="child.title" [nzIcon]="child.icon" [nzOpen]="false">
+              <li nz-submenu [nzTitle]="child.title" [nzIcon]="child.icon" [nzOpen]="true">
                 <ul>
                   <nz-spin [nzSpinning]="isLoadingBrands()" class="brands-spin">
 
