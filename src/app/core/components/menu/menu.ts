@@ -108,7 +108,7 @@ export class Menu implements OnInit, OnDestroy {
   }
 
 
-  // --- Manejadores de Eventos ---
+// --- Manejadores de Eventos ---
 
   onCategorySelected = (category: Category) => {
     this.productService.selectedCategory.set(category);
@@ -116,13 +116,12 @@ export class Menu implements OnInit, OnDestroy {
     const queryParams: any = {
       category_id: category.category_id === 0 ? null : category.category_id,
       page: 1,
-      search: null,
-      brand: null
+      brand: null,
+      search: null
     };
 
     this.router.navigate(['/products'], {
       queryParams,
-      queryParamsHandling: 'merge'
     });
 
     this.isMobileMenuOpen?.set(false);
@@ -136,11 +135,12 @@ export class Menu implements OnInit, OnDestroy {
     const queryParams: any = {
       brand: newBrand,
       page: 1,
+      category_id: null,
+      search: null
     };
 
     this.router.navigate(['/products'], {
       queryParams,
-      queryParamsHandling: 'merge'
     });
 
     this.isMobileMenuOpen?.set(false);
