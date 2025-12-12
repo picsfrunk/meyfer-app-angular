@@ -85,68 +85,85 @@ import { NzImageDirective } from 'ng-zorro-antd/image';
     </nz-card>
   `,
   styles: [`
-    /* Estilos copiados de la tarjeta original (asumiendo que estaban en products.scss o similar) */
     .product-card {
-      width: 100%;
-      margin-bottom: 20px;
-      overflow: hidden; /* Importante para la imagen */
-    }
-
-    .product-image-container {
-      width: 100%;
-      height: 150px; /* Altura fija para la imagen */
+      border-radius: 12px;
       overflow: hidden;
       display: flex;
-      justify-content: center;
-      align-items: center;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 0.5rem;
+
+      .product-title {
+        font-size: 1em;
+        font-weight: 500;
+        text-align: center;
+        //margin: 0.5rem 0;
+        cursor: pointer;
+
+        span {
+          display: -webkit-box;
+          -webkit-line-clamp: 2; /* máximo 2 líneas */
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+      }
+
+      .product-image-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 200px;
+        margin-bottom: 0.5rem;
+      }
+
+      .product-image {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+      }
+
+      .product-image-container:hover .product-image {
+        transform: scale(1.05);
+      }
+
+      .price-container {
+        text-align: center;
+        margin: 0.5rem 0;
+
+        .price {
+          font-size: 1.2rem;
+          font-weight: bold;
+          color: rgba(138, 15, 15, 0.82);
+        }
+      }
+
+      .quantity-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        margin: 0.75rem 0;
+
+        .quantity {
+          font-size: 1.2rem;
+          font-weight: 500;
+          min-width: 32px;
+          text-align: center;
+        }
+      }
+
+      .add-to-cart-container {
+        margin-top: 0.5rem;
+
+        button {
+          font-size: 0.95rem;
+          font-weight: 500;
+        }
+      }
     }
 
-    .product-image {
-      width: 100%;
-      height: 100%;
-      object-fit: contain; /* Asegura que la imagen se ajuste sin recortarse */
-    }
 
-    /* Estilos del contenido de la tarjeta */
-    .product-title {
-      font-weight: bold;
-      cursor: pointer;
-      min-height: 40px;
-      display: flex;
-      align-items: center;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: normal;
-      margin-bottom: 8px;
-    }
-
-    .price-container {
-      margin-bottom: 10px;
-    }
-
-    .price {
-      font-size: 1.2rem;
-      color: #fa541c; /* Color de énfasis */
-      font-weight: 600;
-    }
-
-    .quantity-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-
-    .quantity {
-      width: 30px;
-      text-align: center;
-      font-weight: bold;
-    }
-
-    .add-to-cart-container button {
-      margin-top: 10px;
-    }
   `]
 })
 export class ProductCardComponent {
