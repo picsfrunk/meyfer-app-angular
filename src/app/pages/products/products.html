@@ -20,14 +20,26 @@
           />
         </button>
       } @else {
-        <button nz-button nzType="default">
-          <nz-icon nzType="search"/>
-        </button>
-      }
+      <button nz-button nzType="default">
+        <nz-icon nzType="search"/>
+      </button>
+    }
     </ng-template>
   </div>
 
   <nz-spin [nzSpinning]="isLoading()">
+    @if (!isLoading() && displayProducts.length === 0) {
+      <div class="no-results">
+        <h3>
+          <nz-icon nzType="frown" nzTheme="outline" />
+          No se encontraron resultados para los filtros aplicados.
+        </h3>
+        @if (searchTerm()) {
+          <p>Intenta buscando otro término o <a (click)="clearSearch()" style="cursor: pointer;">limpia la búsqueda</a>.</p>
+        }
+      </div>
+    }
+
     <div class="product-grid">
       @for (product of displayProducts; track product.product_id) {
         <nz-card
@@ -97,14 +109,16 @@
     </div>
   </nz-spin>
 
-  <div class="pagination-container">
-    <nz-pagination
-      [nzPageIndex]="page()"
-      [nzPageSize]="limit()"
-      [nzTotal]="total"
-      (nzPageIndexChange)="onPageIndexChange($event)"
-    ></nz-pagination>
-  </div>
+  @if (!isLoading() && displayProducts.length > 0) {
+    <div class="pagination-container">
+      <nz-pagination
+        [nzPageIndex]="page()"
+        [nzPageSize]="limit()"
+        [nzTotal]="total"
+        (nzPageIndexChange)="onPageIndexChange($event)"
+      ></nz-pagination>
+    </div>
+  }
 </div>
 
 <app-product-info
