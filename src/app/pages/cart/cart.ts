@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { CommonModule, CurrencyPipe } from '@angular/common'; // Agrega CommonModule
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { CartService } from '../../core/services/cart.service';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzListModule } from 'ng-zorro-antd/list';
@@ -31,19 +31,62 @@ export class Cart {
   }
 
   decrement(productId: string): void {
-    this.cartService.decrement(productId);
+    const currentItem = this.cartService.items().find(item => item.productCartItem.product_id === productId);
+
+    if (!currentItem) {
+      return;
+    }
+
+    if (currentItem.qty === 1) {
+      this.confirmRemove(productId, currentItem.productCartItem.display_name);
+    } else {
+      this.cartService.decrement(productId);
+    }
+  }
+
+  confirmRemove(productId: string, productName?: string): void {
+    this.modalService.confirm({
+      nzTitle: '¿Está seguro de eliminar este artículo?',
+      nzContent: `"${productName || 'El artículo'}" será eliminado completamente del carrito.`,
+      nzOkText: 'Sí, Eliminar',
+      nzOkType: 'primary',
+      nzCancelText: 'No, Cancelar',
+      nzOnOk: () => {
+        this.cartService.remove(productId);
+      }
+    });
   }
 
   remove(productId: string): void {
-    this.cartService.remove(productId);
+    const currentItem = this.cartService.items().find(item => item.productCartItem.product_id === productId);
+    if (currentItem) {
+      this.confirmRemove(productId, currentItem.productCartItem.display_name);
+    } else {
+      this.cartService.remove(productId);
+    }
+  }
+
+  confirmClear(): void {
+    this.modalService.confirm({
+      nzTitle: '¿Está seguro de vaciar el carrito?',
+      nzContent: 'Todos los artículos serán eliminados permanentemente.',
+      nzOkText: 'Sí, Vaciar',
+      nzOkType: 'primary',
+      nzCancelText: 'No, Cancelar',
+      nzOnOk: () => {
+        this.cartService.clear();
+      }
+    });
   }
 
   clear(): void {
-    this.cartService.clear();
+    if (this.cartService.count() > 0) {
+      this.confirmClear();
+    }
   }
 
   goToCheckout(): void {
-    const modalRef = this.modalService.create({
+    this.modalService.create({
       nzContent: OrderConfirm,
       nzWidth: 800,
       nzFooter: null
