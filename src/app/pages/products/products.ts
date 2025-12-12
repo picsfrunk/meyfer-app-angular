@@ -17,8 +17,8 @@ import { NzMessageService } from 'ng-zorro-antd/message'; // Servicio de mensaje
 import { ProductsService } from '../../core/services/products.service';
 import { CartService } from '../../core/services/cart.service';
 import { Product } from '../../core/models/product.model';
-import {ProductInfo} from '../../core/components/product/product-info';
-import {NzImageDirective} from 'ng-zorro-antd/image';
+import { ProductInfo } from '../../core/components/product/product-info';
+import { ProductCardComponent } from '../../shared/product-card';
 
 
 @Component({
@@ -34,7 +34,7 @@ import {NzImageDirective} from 'ng-zorro-antd/image';
     NzCardModule,
     NzSpinComponent,
     ProductInfo,
-    NzImageDirective,
+    ProductCardComponent,
   ],
   templateUrl: './products.html',
   styleUrls: ['./products.scss']
