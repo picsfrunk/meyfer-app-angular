@@ -11,6 +11,7 @@ export interface Product {
   image_url: string;
   final_price: number;
   product_type: string;
+  priceUpdatedAt: string;
 }
 
 
