@@ -66,6 +66,9 @@ import { NzDividerComponent } from 'ng-zorro-antd/divider';
                             <nz-descriptions-item nzTitle="Código">
                               {{ p.product_id }}
                             </nz-descriptions-item>
+                            <nz-descriptions-item nzTitle="Precio Actualizado">
+                              {{ p.priceUpdatedAt | date:'dd/MM/yy' }}
+                            </nz-descriptions-item>
                           </nz-descriptions>
                       </nz-col>
                   </nz-row>
