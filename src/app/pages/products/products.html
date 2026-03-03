@@ -1,4 +1,33 @@
 <div class="product-list-container">
+
+  <div class="search-bar">
+    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+      <input
+        type="text"
+        nz-input
+        placeholder="Buscar productos..."
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="onSearchInput($event)"
+      />
+    </nz-input-group>
+
+    <ng-template #suffixIconButton>
+      @if (searchTerm()) {
+        <button nz-button nzType="primary" nzSearch (click)="clearSearch()">
+          <nz-icon
+            nzType="close-circle"
+            nzTheme="fill"
+            class="clear-icon"
+          />
+        </button>
+      } @else {
+        <button nz-button nzType="default">
+          <nz-icon nzType="search"/>
+        </button>
+      }
+    </ng-template>
+  </div>
+
   <nz-spin [nzSpinning]="isLoading()">
     @if (!isLoading() && displayProducts.length === 0) {
       <div class="no-results">
