@@ -27,6 +27,14 @@
   </nz-spin>
 
   @if (!isLoading() && displayProducts.length > 0) {
+    <div class="pagination-container">
+      <nz-pagination
+        [nzPageIndex]="page()"
+        [nzPageSize]="limit()"
+        [nzTotal]="total"
+        (nzPageIndexChange)="onPageIndexChange($event)"
+      ></nz-pagination>
+    </div>
   }
 </div>
 
