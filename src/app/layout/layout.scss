@@ -1,48 +1,99 @@
-/* layout.scss — usa variables CSS definidas en styles.scss para ambos temas */
+/* ── BASE (tema claro — idéntico al original) ── */
+:host {
+  display: block;
+}
+
+.menu-sidebar {
+  position: fixed;
+  overflow-y: auto;
+  z-index: 100;
+  box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
+  background-color: white;
+  min-width: 20vw;
+  height: 100vh;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
 
 .app-header {
+  width: 100%;
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 0 16px;
-  background-color: var(--warm-bg-raised) !important;
-  border-bottom: 1px solid var(--warm-border) !important;
-  height: 64px;
+  background: #35608e;
+  padding: 1em 1em 2em;
 
   .header-left {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 1rem;
   }
 
-  .header-logo img {
-    height: 36px;
-  }
-
-  /* Botón de hamburguesa */
   .menu-toggle-btn {
-    color: var(--warm-text, #000) !important;
-    font-size: 18px;
+    display: none;
+    @media (max-width: 768px) {
+      display: inline-flex;
+      font-size: 32px;
+      color: #fff;
+    }
   }
-}
 
-/* ── Header icons: toggle + carrito alineados ── */
-.header-icons {
-  display: flex;
-  align-items: center;
-  gap: 16px;
+  .header-logo {
+    padding-top: 1em;
+    img {
+      height: 64px;
+    }
+  }
+
+  .header-icons {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 2em;
+    padding-right: 1rem;
+  }
 }
 
 .inner-content {
-  background-color: var(--warm-bg-base) !important;
-}
-
-.menu-sidebar {
-  background-color: var(--warm-bg-surface) !important;
+  margin-top: 56px;
+  background: #fff;
+  height: 100%;
 }
 
 .router-content {
-  background-color: var(--warm-bg-base) !important;
-  padding: 24px;
-  min-height: calc(100vh - 64px);
+  margin-left: 20vw;
+  padding: 1rem;
+
+  @media (max-width: 768px) {
+    margin-left: 0;
+  }
+}
+
+/* ── OVERRIDES TEMA OSCURO ── */
+:host-context(body.theme-dark) {
+
+  .menu-sidebar {
+    background-color: #352b26 !important;
+    box-shadow: 2px 0 6px rgba(0, 0, 0, 0.5);
+  }
+
+  .app-header {
+    background: #3e322c !important;
+    border-bottom: 1px solid #4a3b34;
+  }
+
+  .inner-content {
+    background: #2d2520 !important;
+  }
+
+  .router-content {
+    background: #2d2520 !important;
+  }
 }
