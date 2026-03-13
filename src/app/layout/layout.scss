@@ -1,10 +1,13 @@
+/* layout.scss — usa variables CSS definidas en styles.scss para ambos temas */
+
 .app-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 16px;
   background-color: var(--warm-bg-raised) !important;
-  border-bottom: 1px solid var(--warm-border);
+  border-bottom: 1px solid var(--warm-border) !important;
+  height: 64px;
 
   .header-left {
     display: flex;
@@ -15,6 +18,19 @@
   .header-logo img {
     height: 36px;
   }
+
+  /* Botón de hamburguesa */
+  .menu-toggle-btn {
+    color: var(--warm-text, #000) !important;
+    font-size: 18px;
+  }
+}
+
+/* ── Header icons: toggle + carrito alineados ── */
+.header-icons {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
 .inner-content {

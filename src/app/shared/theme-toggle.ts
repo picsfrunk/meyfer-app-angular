@@ -10,18 +10,13 @@ import { ThemeService } from '../core/services/theme.service';
   imports: [NzSwitchModule, NzIconModule, FormsModule],
   template: `
     <div class="theme-toggle">
-      <nz-icon nzType="sun" nzTheme="outline" class="toggle-icon" />
+      <nz-icon nzType="sun" nzTheme="outline" class="toggle-icon sun" />
       <nz-switch
         [ngModel]="isDark()"
         (ngModelChange)="themeService.toggle()"
-        [nzCheckedChildren]="moonIcon"
-        [nzUnCheckedChildren]="sunIcon"
-        nzSize="small"
+        nzSize="default"
       />
-      <nz-icon nzType="moon" nzTheme="outline" class="toggle-icon" />
-
-      <ng-template #moonIcon><nz-icon nzType="moon" /></ng-template>
-      <ng-template #sunIcon><nz-icon nzType="sun" /></ng-template>
+      <nz-icon nzType="moon" nzTheme="outline" class="toggle-icon moon" />
     </div>
   `,
   styles: [`
@@ -30,10 +25,18 @@ import { ThemeService } from '../core/services/theme.service';
       align-items: center;
       gap: 8px;
     }
+
     .toggle-icon {
-      font-size: 14px;
-      color: var(--toggle-icon-color, #e8d8cc);
+      font-size: 16px;
+      color: var(--toggle-icon-color, #333);
+      transition: opacity 0.2s;
     }
+
+    /* Resalta el icono activo */
+    :host-context(body.theme-light) .toggle-icon.sun  { opacity: 1; }
+    :host-context(body.theme-light) .toggle-icon.moon { opacity: 0.35; }
+    :host-context(body.theme-dark)  .toggle-icon.moon { opacity: 1; }
+    :host-context(body.theme-dark)  .toggle-icon.sun  { opacity: 0.35; }
   `]
 })
 export class ThemeToggle {

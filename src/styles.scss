@@ -1,11 +1,8 @@
-/* ── Dark theme CSS de ng-zorro (base) ── */
-@import "ng-zorro-antd/ng-zorro-antd.dark.css";
+/* ─────────────────────────────────────────────────────
+   ng-zorro se carga dinámicamente por ThemeService.
+───────────────────────────────────────────────────── */
 
-/* ────────────────────────────────────────────
-   TOKENS DE TEMA
-   ThemeService agrega .theme-dark o .theme-light al <body>
-──────────────────────────────────────────── */
-
+/* ══ TEMA OSCURO ══ */
 body.theme-dark {
   --warm-bg-base:      #2d2520;
   --warm-bg-surface:   #352b26;
@@ -15,87 +12,67 @@ body.theme-dark {
   --warm-text-muted:   #a89080;
   --warm-price:        #e05c5c;
   --toggle-icon-color: #e8d8cc;
-}
 
-body.theme-light {
-  --warm-bg-base:      #f5f0eb;
-  --warm-bg-surface:   #ede5dc;
-  --warm-bg-raised:    #e0d5c8;
-  --warm-border:       #c8b8a8;
-  --warm-text:         #2d1f15;
-  --warm-text-muted:   #7a6055;
-  --warm-price:        #b03030;
-  --toggle-icon-color: #2d1f15;
-}
+  background-color: var(--warm-bg-base);
 
-/* ── Reset base ── */
-html, body {
-  min-height: 100vh;
-  background-color: var(--warm-bg-base) !important;
-}
+  nz-layout, .ant-layout,
+  .ant-layout-content            { background-color: var(--warm-bg-base)    !important; }
+  nz-sider, .ant-layout-sider,
+  .ant-layout-sider-children     { background-color: var(--warm-bg-surface) !important; }
+  .ant-layout-header             { background-color: var(--warm-bg-raised)  !important;
+                                   border-bottom: 1px solid var(--warm-border) !important; }
+  .ant-drawer-content,
+  .ant-drawer-body               { background-color: var(--warm-bg-surface) !important; }
 
-/* ── Layout ng-zorro ── */
-nz-layout,
-.ant-layout,
-.ant-layout-content {
-  background-color: var(--warm-bg-base) !important;
-}
-
-nz-sider,
-.ant-layout-sider,
-.ant-layout-sider-children {
-  background-color: var(--warm-bg-surface) !important;
-}
-
-.ant-layout-header {
-  background-color: var(--warm-bg-raised) !important;
-  border-bottom: 1px solid var(--warm-border);
-}
-
-/* ── Drawer ── */
-.ant-drawer-content,
-.ant-drawer-body {
-  background-color: var(--warm-bg-surface) !important;
-}
-
-/* ── Menú ── */
-.ant-menu,
-.ant-menu-dark {
-  background-color: transparent !important;
-}
-
-/* ── Overrides para tema claro (ng-zorro dark CSS necesita correcciones) ── */
-body.theme-light {
+  .ant-menu, .ant-menu-dark      { background-color: transparent !important; }
   .ant-menu-item,
-  .ant-menu-submenu-title {
-    color: var(--warm-text) !important;
-    .ant-menu-title-content { color: var(--warm-text) !important; }
-    .anticon { color: var(--warm-text-muted) !important; }
+  .ant-menu-submenu-title        { color: var(--warm-text) !important;
+    .ant-menu-title-content      { color: var(--warm-text) !important; }
+    .anticon                     { color: var(--warm-text-muted) !important; }
   }
-
   .ant-menu-item:hover,
-  .ant-menu-submenu-title:hover {
-    background-color: var(--warm-border) !important;
-  }
+  .ant-menu-submenu-title:hover  { background-color: var(--warm-bg-raised) !important; }
+  .ant-menu-item-selected        { background-color: var(--warm-border) !important;
+                                   color: #fff !important; }
+  .ant-menu-submenu-arrow::before,
+  .ant-menu-submenu-arrow::after { background-color: var(--warm-text-muted) !important; }
 
-  .ant-menu-item-selected {
-    background-color: var(--warm-bg-raised) !important;
-    color: var(--warm-text) !important;
-  }
+  .ant-card                      { background-color: var(--warm-bg-surface) !important;
+                                   border-color: var(--warm-border) !important; }
+  .ant-card-body                 { background-color: var(--warm-bg-surface) !important; }
 
-  /* Cards en modo claro */
-  .ant-card {
-    background-color: var(--warm-bg-surface) !important;
-    border-color: var(--warm-border) !important;
-  }
+  .ant-input, .ant-input-affix-wrapper {
+                                   background-color: var(--warm-bg-raised) !important;
+                                   border-color: var(--warm-border) !important;
+                                   color: var(--warm-text) !important; }
 
-  .ant-card-body {
-    background-color: var(--warm-bg-surface) !important;
-  }
+  .ant-pagination-item a,
+  .ant-pagination-prev button,
+  .ant-pagination-next button    { color: var(--warm-text) !important; }
+  .ant-pagination-item-active    { border-color: var(--warm-text-muted) !important;
+    a                            { color: var(--warm-text) !important; } }
+
+  .price                         { color: var(--warm-price) !important; }
+}
+
+/* ══ TEMA CLARO ══
+   Mismas variables, valores del ng-zorro default.
+   layout.scss las consume igual en ambos temas. */
+body.theme-light {
+  --warm-bg-base:      #ffffff;
+  --warm-bg-surface:   #ffffff;
+  --warm-bg-raised:    #ffffff;
+  --warm-border:       #f0f0f0;
+  --warm-text:         #000000;
+  --warm-text-muted:   #595959;
+  --warm-price:        rgba(138, 15, 15, 0.82);
+  --toggle-icon-color: #333333;
+
+  .price { color: var(--warm-price) !important; }
 }
 
 /* ── Utilidades globales ── */
 .large-icon {
   font-size: 32px;
-  color: var(--warm-text);
+  color: var(--warm-text, #ffffff);
 }
