@@ -15,7 +15,7 @@ import {
   LockOutline,
   SettingOutline,
   TagsOutline,
-  BarsOutline, MoonFill, SunFill
+  BarsOutline
 } from '@ant-design/icons-angular/icons';
 
 export const icons = [
@@ -36,6 +36,4 @@ export const icons = [
   SettingOutline,
   TagsOutline,
   BarsOutline,
-  MoonFill,
-  SunFill
 ];
