@@ -1,23 +1,42 @@
-import { Component, Input } from '@angular/core';
-import { NzButtonModule } from 'ng-zorro-antd/button';
+import { Component, inject, computed } from '@angular/core';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { Signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { ThemeService } from '../core/services/theme.service';
 
 @Component({
   selector: 'app-theme-toggle',
   standalone: true,
-  imports: [NzButtonModule, NzIconModule],
+  imports: [NzSwitchModule, NzIconModule, FormsModule],
   template: `
-    <button nz-button nzType="text" (click)="toggleTheme()">
-      @if (isDarkMode()) {
-        <nz-icon class="large-icon" nzType="sun" nzTheme="outline" />
-      } @else {
-        <nz-icon class="large-icon" nzType="moon" nzTheme="outline" />
-      }
-    </button>
-  `
+    <div class="theme-toggle">
+      <nz-icon nzType="sun" nzTheme="outline" class="toggle-icon" />
+      <nz-switch
+        [ngModel]="isDark()"
+        (ngModelChange)="themeService.toggle()"
+        [nzCheckedChildren]="moonIcon"
+        [nzUnCheckedChildren]="sunIcon"
+        nzSize="small"
+      />
+      <nz-icon nzType="moon" nzTheme="outline" class="toggle-icon" />
+
+      <ng-template #moonIcon><nz-icon nzType="moon" /></ng-template>
+      <ng-template #sunIcon><nz-icon nzType="sun" /></ng-template>
+    </div>
+  `,
+  styles: [`
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .toggle-icon {
+      font-size: 14px;
+      color: var(--toggle-icon-color, #e8d8cc);
+    }
+  `]
 })
 export class ThemeToggle {
-  @Input() isDarkMode!: Signal<boolean>;
-  @Input() toggleTheme!: () => void;
+  themeService = inject(ThemeService);
+  isDark = computed(() => this.themeService.theme() === 'dark');
 }

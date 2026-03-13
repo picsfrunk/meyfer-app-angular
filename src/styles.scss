@@ -1,23 +1,101 @@
+/* ── Dark theme CSS de ng-zorro (base) ── */
 @import "ng-zorro-antd/ng-zorro-antd.dark.css";
-@import "ng-zorro-antd/ng-zorro-antd.css";
 
-:root {
+/* ────────────────────────────────────────────
+   TOKENS DE TEMA
+   ThemeService agrega .theme-dark o .theme-light al <body>
+──────────────────────────────────────────── */
+
+body.theme-dark {
+  --warm-bg-base:      #2d2520;
+  --warm-bg-surface:   #352b26;
+  --warm-bg-raised:    #3e322c;
+  --warm-border:       #4a3b34;
+  --warm-text:         #e8d8cc;
+  --warm-text-muted:   #a89080;
+  --warm-price:        #e05c5c;
+  --toggle-icon-color: #e8d8cc;
 }
 
+body.theme-light {
+  --warm-bg-base:      #f5f0eb;
+  --warm-bg-surface:   #ede5dc;
+  --warm-bg-raised:    #e0d5c8;
+  --warm-border:       #c8b8a8;
+  --warm-text:         #2d1f15;
+  --warm-text-muted:   #7a6055;
+  --warm-price:        #b03030;
+  --toggle-icon-color: #2d1f15;
+}
 
+/* ── Reset base ── */
+html, body {
+  min-height: 100vh;
+  background-color: var(--warm-bg-base) !important;
+}
+
+/* ── Layout ng-zorro ── */
+nz-layout,
+.ant-layout,
+.ant-layout-content {
+  background-color: var(--warm-bg-base) !important;
+}
+
+nz-sider,
+.ant-layout-sider,
+.ant-layout-sider-children {
+  background-color: var(--warm-bg-surface) !important;
+}
+
+.ant-layout-header {
+  background-color: var(--warm-bg-raised) !important;
+  border-bottom: 1px solid var(--warm-border);
+}
+
+/* ── Drawer ── */
+.ant-drawer-content,
+.ant-drawer-body {
+  background-color: var(--warm-bg-surface) !important;
+}
+
+/* ── Menú ── */
+.ant-menu,
+.ant-menu-dark {
+  background-color: transparent !important;
+}
+
+/* ── Overrides para tema claro (ng-zorro dark CSS necesita correcciones) ── */
+body.theme-light {
+  .ant-menu-item,
+  .ant-menu-submenu-title {
+    color: var(--warm-text) !important;
+    .ant-menu-title-content { color: var(--warm-text) !important; }
+    .anticon { color: var(--warm-text-muted) !important; }
+  }
+
+  .ant-menu-item:hover,
+  .ant-menu-submenu-title:hover {
+    background-color: var(--warm-border) !important;
+  }
+
+  .ant-menu-item-selected {
+    background-color: var(--warm-bg-raised) !important;
+    color: var(--warm-text) !important;
+  }
+
+  /* Cards en modo claro */
+  .ant-card {
+    background-color: var(--warm-bg-surface) !important;
+    border-color: var(--warm-border) !important;
+  }
+
+  .ant-card-body {
+    background-color: var(--warm-bg-surface) !important;
+  }
+}
+
+/* ── Utilidades globales ── */
 .large-icon {
   font-size: 32px;
-  color: white;
-}
-
-.light {
-  .ant-layout > * {
-    background-color: #a2b4c6;
-  }
-}
-
-.dark {
-  .ant-layout > * {
-    background-color: #000000;
-  }
+  color: var(--warm-text);
 }

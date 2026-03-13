@@ -1,64 +1,125 @@
+/* ── Variables locales (heredadas del :root de styles.scss) ── */
+$warm-bg-base:    #2d2520;
+$warm-bg-surface: #352b26;
+$warm-bg-raised:  #3e322c;
+$warm-border:     #4a3b34;
+$warm-text:       #e8d8cc;
+$warm-text-muted: #a89080;
+$warm-selected:   #4a3b34;
+
+/* ── Contenedor del menú ── */
 :host {
   display: block;
+  height: 100%;
 }
 
-.ant-menu-inline {
-  border-right: none;
-  background: #fff;
-  padding: 0.5rem 0;
+/* ── Reset completo del nz-menu ── */
+ul[nz-menu] {
+  background-color: transparent !important;
+  border-inline-end: none !important;
 }
 
-li.ant-menu-item {
-  display: flex;
-  align-items: center;
-  padding: 0.75rem 1rem !important;
-  border-radius: 6px;
-  transition: background 0.2s ease;
+/* Items de menú — texto claro */
+::ng-deep {
 
-  &:hover {
-    background: #f5f7fa;
+  /* Fondo y texto base de todos los items */
+  .ant-menu-dark,
+  .ant-menu-dark .ant-menu-sub,
+  .ant-menu-inline,
+  .ant-menu-inline .ant-menu-sub {
+    background-color: transparent !important;
+  }
+
+  .ant-menu-item,
+  .ant-menu-submenu-title {
+    color: $warm-text !important;
+
+    .ant-menu-title-content {
+      color: $warm-text !important;
+    }
+
+    .anticon {
+      color: $warm-text-muted !important;
+    }
+  }
+
+  /* Hover */
+  .ant-menu-item:hover,
+  .ant-menu-submenu-title:hover {
+    background-color: $warm-bg-raised !important;
+    color: #ffffff !important;
+
+    .anticon {
+      color: #ffffff !important;
+    }
+  }
+
+  /* Item seleccionado */
+  .ant-menu-item-selected {
+    background-color: $warm-selected !important;
+    color: #ffffff !important;
+    border-radius: 6px;
+
+    .ant-menu-title-content {
+      color: #ffffff !important;
+    }
+  }
+
+  /* Flecha del submenu */
+  .ant-menu-submenu-arrow {
+    color: $warm-text-muted !important;
+
+    &::before,
+    &::after {
+      background-color: $warm-text-muted !important;
+    }
   }
 }
 
+/* ── Category item (rubro + contador) ── */
 .category-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-}
-
-.category-name {
-  margin-right: auto;
-  text-transform: capitalize;
-  font-weight: 500;
-  color: #1f1f1f;
-}
-
-.product-count {
-  font-size: 0.85rem;
-  font-weight: 600;
-  padding: 0 6px;
-  border-radius: 12px;
-  background: #f0f2f5;
-  color: #555;
-}
-
-.ant-menu-item-selected {
-  font-weight: 600;
-  background: #e6f4ff !important;
 
   .category-name {
-    color: #1677ff;
+    color: $warm-text;
+    font-size: 0.9rem;
   }
 
   .product-count {
-    background: #1677ff;
-    color: #fff;
+    font-size: 0.75rem;
+    color: $warm-text-muted;
+    background-color: $warm-bg-raised;
+    border: 1px solid $warm-border;
+    border-radius: 10px;
+    padding: 0 6px;
+    min-width: 28px;
+    text-align: center;
+    line-height: 1.6;
   }
 }
 
-.categories-spin, .brands-spin {
-  display: block;
-  padding: 1rem;
+/* ── Brand item ── */
+.brand-item {
+  display: flex;
+  align-items: center;
   width: 100%;
+
+  .brand-name {
+    color: $warm-text;
+    font-size: 0.9rem;
+  }
+}
+
+/* ── Spin loader ── */
+.categories-spin,
+.brands-spin {
+  display: block;
+  width: 100%;
+
+  ::ng-deep .ant-spin-dot-item {
+    background-color: $warm-text-muted;
+  }
 }

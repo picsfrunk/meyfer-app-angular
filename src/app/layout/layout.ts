@@ -1,14 +1,16 @@
-import {Component, signal} from '@angular/core';
-import {CartBadge} from '../shared/cart-badge';
-import {NzContentComponent, NzHeaderComponent, NzLayoutComponent, NzSiderComponent} from 'ng-zorro-antd/layout';
-import {RouterOutlet} from '@angular/router';
-import {Menu} from '../core/components/menu/menu';
-import {NzDrawerModule} from 'ng-zorro-antd/drawer';
-import {NzIconDirective} from 'ng-zorro-antd/icon';
-import {NzButtonComponent} from 'ng-zorro-antd/button';
+import { Component, signal } from '@angular/core';
+import { CartBadge } from '../shared/cart-badge';
+import { NzContentComponent, NzHeaderComponent, NzLayoutComponent, NzSiderComponent } from 'ng-zorro-antd/layout';
+import { RouterOutlet } from '@angular/router';
+import { Menu } from '../core/components/menu/menu';
+import { NzDrawerModule } from 'ng-zorro-antd/drawer';
+import { NzIconDirective } from 'ng-zorro-antd/icon';
+import { NzButtonComponent } from 'ng-zorro-antd/button';
+import { ThemeToggle } from '../shared/theme-toggle';   // ← nuevo
 
 @Component({
   selector: 'app-layout',
+  standalone: true,
   imports: [
     CartBadge,
     NzContentComponent,
@@ -19,10 +21,10 @@ import {NzButtonComponent} from 'ng-zorro-antd/button';
     Menu,
     NzDrawerModule,
     NzIconDirective,
-    NzButtonComponent
+    NzButtonComponent,
+    ThemeToggle,   // ← nuevo
   ],
   templateUrl: './layout.html',
-  standalone: true,
   styleUrl: './layout.scss'
 })
 export class Layout {
@@ -35,5 +37,4 @@ export class Layout {
   toggleMobileMenu() {
     this.isMobileMenuOpen.set(!this.isMobileMenuOpen());
   }
-
 }
