@@ -35,5 +35,5 @@ export const icons = [
   LockOutline,
   SettingOutline,
   TagsOutline,
-  BarsOutline
+  BarsOutline,
 ];

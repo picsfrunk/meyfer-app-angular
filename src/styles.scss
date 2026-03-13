@@ -1,23 +1,85 @@
-@import "ng-zorro-antd/ng-zorro-antd.dark.css";
-@import "ng-zorro-antd/ng-zorro-antd.css";
+/* ng-zorro se carga dinámicamente por ThemeService (ver theme.service.ts)
+   NO importar acá — angular.json tampoco debe tenerlo en "styles" */
 
-:root {
-}
-
-
+/* ── Utilidades globales (igual que el original) ── */
 .large-icon {
   font-size: 32px;
   color: white;
 }
 
+/* ── Clases legacy (se mantienen por si se usan en algún lado) ── */
 .light {
-  .ant-layout > * {
-    background-color: #a2b4c6;
-  }
+  .ant-layout > * { background-color: #a2b4c6; }
+}
+.dark {
+  .ant-layout > * { background-color: #000000; }
 }
 
-.dark {
-  .ant-layout > * {
-    background-color: #000000;
+/* ════════════════════════════════════════════
+   TEMA OSCURO — overrides sobre ng-zorro.dark
+   Solo activos cuando ThemeService agrega
+   la clase theme-dark al <body>
+════════════════════════════════════════════ */
+body.theme-dark {
+
+  /* Fondos de layout */
+  nz-layout, .ant-layout,
+  .ant-layout-content              { background-color: #2d2520 !important; }
+  nz-sider, .ant-layout-sider,
+  .ant-layout-sider-children       { background-color: #352b26 !important; }
+  .ant-drawer-content,
+  .ant-drawer-body                 { background-color: #352b26 !important; }
+
+  /* Menú */
+  .ant-menu, .ant-menu-dark        { background-color: transparent !important; }
+  .ant-menu-item,
+  .ant-menu-submenu-title          { color: #e8d8cc !important;
+    .ant-menu-title-content        { color: #e8d8cc !important; }
+    .anticon                       { color: #a89080 !important; }
   }
+  .ant-menu-item:hover,
+  .ant-menu-submenu-title:hover    { background-color: #3e322c !important; }
+  .ant-menu-item-selected          { background-color: #4a3b34 !important;
+    color: #fff !important; }
+  .ant-menu-submenu-arrow::before,
+  .ant-menu-submenu-arrow::after   { background-color: #a89080 !important; }
+
+  /* Cards de productos */
+  .ant-card                        { background-color: #352b26 !important;
+    border-color: #4a3b34 !important; }
+  .ant-card-body                   { background-color: #352b26 !important; }
+
+  /* Texto dentro de cards */
+  .product-title span,
+  .quantity                        { color: #e8d8cc !important; }
+  .price                           { color: #e05c5c !important; }
+
+  /* Botones +/- */
+  .ant-btn-default                 { background-color: #4a3b34 !important;
+    border-color: #6b5248 !important;
+    color: #e8d8cc !important; }
+
+  /* Barra de búsqueda */
+  .ant-input,
+  .ant-input-affix-wrapper         { background-color: #3e322c !important;
+    border-color: #4a3b34 !important;
+    color: #e8d8cc !important;
+    input                          { background-color: transparent !important;
+      color: #e8d8cc !important; }
+  }
+  .ant-input::placeholder,
+  .ant-input-affix-wrapper input::placeholder { color: #a89080 !important; }
+
+  /* Paginación */
+  .ant-pagination-item             { background-color: #352b26 !important;
+    border-color: #4a3b34 !important;
+    a                              { color: #e8d8cc !important; }
+  }
+  .ant-pagination-item-active      { border-color: #e8d8cc !important;
+    a                              { color: #e8d8cc !important; }
+  }
+  .ant-pagination-prev .ant-pagination-item-link,
+  .ant-pagination-next .ant-pagination-item-link { color: #e8d8cc !important;
+    background-color: #352b26 !important;
+    border-color: #4a3b34 !important; }
 }

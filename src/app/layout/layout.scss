@@ -1,3 +1,4 @@
+/* ── BASE (tema claro — idéntico al original) ── */
 :host {
   display: block;
 }
@@ -28,7 +29,6 @@
   justify-content: space-between;
   background: #35608e;
   padding: 1em 1em 2em;
-  //height: 56px;
 
   .header-left {
     display: flex;
@@ -45,17 +45,17 @@
     }
   }
 
-    .header-logo {
-      padding-top: 1em;
-      img {
-        height: 64px;
-      }
-
+  .header-logo {
+    padding-top: 1em;
+    img {
+      height: 64px;
+    }
   }
 
   .header-icons {
     display: flex;
     align-items: center;
+    gap: 16px;
     margin-top: 2em;
     padding-right: 1rem;
   }
@@ -73,5 +73,27 @@
 
   @media (max-width: 768px) {
     margin-left: 0;
+  }
+}
+
+/* ── OVERRIDES TEMA OSCURO ── */
+:host-context(body.theme-dark) {
+
+  .menu-sidebar {
+    background-color: #352b26 !important;
+    box-shadow: 2px 0 6px rgba(0, 0, 0, 0.5);
+  }
+
+  .app-header {
+    background: #3e322c !important;
+    border-bottom: 1px solid #4a3b34;
+  }
+
+  .inner-content {
+    background: #2d2520 !important;
+  }
+
+  .router-content {
+    background: #2d2520 !important;
   }
 }

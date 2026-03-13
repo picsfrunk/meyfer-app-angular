@@ -22,13 +22,13 @@
     </div>
 
     <div class="header-icons">
+      <app-theme-toggle />   <!-- ← nuevo -->
       <app-cart-badge />
     </div>
   </nz-header>
 
   <!-- ====== MAIN LAYOUT ====== -->
   <nz-layout class="inner-content">
-    <!-- Sidebar (solo visible en desktop) -->
     <nz-sider
       class="menu-sidebar"
       nzWidth="20vw"
@@ -42,7 +42,6 @@
       <app-menu [isMobileMenuOpen]="isMobileMenuOpen" />
     </nz-sider>
 
-    <!-- Drawer (solo visible en mobile) -->
     <nz-drawer
       [nzClosable]="true"
       [nzVisible]="isMobileMenuOpen()"
@@ -52,12 +51,10 @@
       (nzOnClose)="close()"
     >
       <ng-container *nzDrawerContent>
-        <!-- Render único del menú -->
         <app-menu [isMobileMenuOpen]="isMobileMenuOpen" />
       </ng-container>
     </nz-drawer>
 
-    <!-- Router outlet -->
     <nz-content class="router-content">
       <router-outlet></router-outlet>
     </nz-content>

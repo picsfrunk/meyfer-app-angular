@@ -2,7 +2,6 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { Product } from '../core/models/product.model';
 
-// Importaciones de Ng Zorro
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -97,12 +96,11 @@ import { NzImageDirective } from 'ng-zorro-antd/image';
         font-size: 1em;
         font-weight: 500;
         text-align: center;
-        //margin: 0.5rem 0;
         cursor: pointer;
 
         span {
           display: -webkit-box;
-          -webkit-line-clamp: 2; /* máximo 2 líneas */
+          -webkit-line-clamp: 2;
           -webkit-box-orient: vertical;
           overflow: hidden;
         }
@@ -162,34 +160,19 @@ import { NzImageDirective } from 'ng-zorro-antd/image';
         }
       }
     }
-
-
   `]
 })
 export class ProductCardComponent {
-  // Entradas (Datos)
   @Input({ required: true }) product!: Product;
   @Input({ required: true }) quantity: number = 0;
 
-  // Salidas (Eventos)
-  @Output() openInfo = new EventEmitter<Product>();
+  @Output() openInfo    = new EventEmitter<Product>();
   @Output() increaseQty = new EventEmitter<Product>();
   @Output() decreaseQty = new EventEmitter<Product>();
-  @Output() addToCart = new EventEmitter<Product>();
+  @Output() addToCart   = new EventEmitter<Product>();
 
-  onOpenInfo() {
-    this.openInfo.emit(this.product);
-  }
-
-  onIncreaseQuantity() {
-    this.increaseQty.emit(this.product);
-  }
-
-  onDecreaseQuantity() {
-    this.decreaseQty.emit(this.product);
-  }
-
-  onAddToCart() {
-    this.addToCart.emit(this.product);
-  }
+  onOpenInfo()         { this.openInfo.emit(this.product); }
+  onIncreaseQuantity() { this.increaseQty.emit(this.product); }
+  onDecreaseQuantity() { this.decreaseQty.emit(this.product); }
+  onAddToCart()        { this.addToCart.emit(this.product); }
 }
