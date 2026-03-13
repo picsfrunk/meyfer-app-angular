@@ -5,7 +5,6 @@ import { Product } from '../core/models/product.model';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzImageDirective } from 'ng-zorro-antd/image';
 
 @Component({
   selector: 'app-product-card',
@@ -16,7 +15,6 @@ import { NzImageDirective } from 'ng-zorro-antd/image';
     NzCardModule,
     NzIconModule,
     NzButtonModule,
-    NzImageDirective
   ],
   template: `
     <nz-card
@@ -71,10 +69,10 @@ import { NzImageDirective } from 'ng-zorro-antd/image';
       </div>
 
       <ng-template #coverTemplate>
-        <div class="product-image-container">
+        <!-- Click en imagen abre el producto, no el preview de ng-zorro -->
+        <div class="product-image-container" (click)="onOpenInfo()">
           <img
-            nz-image
-            [nzSrc]="product.image_url || 'assets/no-image.png'"
+            [src]="product.image_url || 'assets/no-image.png'"
             [alt]="product.display_name"
             class="product-image"
             loading="lazy"
@@ -112,6 +110,7 @@ import { NzImageDirective } from 'ng-zorro-antd/image';
         align-items: center;
         height: 200px;
         margin-bottom: 0.5rem;
+        cursor: pointer;  /* indica que es clickeable */
       }
 
       .product-image {
