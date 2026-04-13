@@ -2,55 +2,24 @@
   <nz-card class="order-card" nzTitle="Confirmación del Pedido">
     <form nz-form [formGroup]="orderForm" (ngSubmit)="submitForm()">
 
-      <!-- DATOS DEL CLIENTE -->
       <section class="form-section">
         <h4 nz-typography>Datos del Cliente</h4>
         <nz-divider></nz-divider>
 
         <div class="form-grid">
           <nz-form-item>
-            <nz-form-label nzRequired nzFor="cliente">Cliente</nz-form-label>
-            <nz-form-control nzErrorTip="Ingrese el nombre del cliente">
-              <input nz-input formControlName="cliente" id="cliente" />
-            </nz-form-control>
-          </nz-form-item>
-
-          <nz-form-item>
-            <nz-form-label nzFor="razonSocial">Razón Social</nz-form-label>
-            <nz-form-control>
-              <input nz-input formControlName="razonSocial" id="razonSocial" />
-            </nz-form-control>
-          </nz-form-item>
-
-          <nz-form-item>
-            <nz-form-label nzFor="cuit">CUIT</nz-form-label>
-            <nz-form-control>
-              <input nz-input formControlName="cuit" id="cuit" placeholder="20-12345678-9" />
-            </nz-form-control>
-          </nz-form-item>
-
-          <nz-form-item>
-            <nz-form-label nzFor="telefono1">Teléfono</nz-form-label>
-            <nz-form-control>
-              <input nz-input formControlName="telefono1" id="telefono1" placeholder="+54..." />
-            </nz-form-control>
-          </nz-form-item>
-
-          <nz-form-item>
-            <nz-form-label nzRequired   nzFor="email">Email</nz-form-label>
-            <nz-form-control>
-              <input nz-input formControlName="email" id="email" type="email" placeholder="ejemplo@mail.com" />
+            <nz-form-label nzRequired nzFor="customerCode">Código de Cliente</nz-form-label>
+            <nz-form-control nzErrorTip="Ingrese el código de cliente (6 caracteres)">
+              <input nz-input formControlName="customerCode" id="customerCode" placeholder="Ej: FE78X3" maxlength="6" />
             </nz-form-control>
           </nz-form-item>
         </div>
       </section>
 
-      <!-- DIRECCIÓN DE ENTREGA (IMPORTANTE: formGroupName restaurado) -->
       <section class="form-section">
         <h4 nz-typography>Dirección de Entrega</h4>
         <nz-divider></nz-divider>
 
-        <!-- <<< aquí aplicamos formGroupName para que Angular encuentre los controles anidados -->
         <div formGroupName="direccion" class="form-grid">
           <nz-form-item>
             <nz-form-label nzFor="calle">Calle</nz-form-label>
@@ -103,19 +72,11 @@
         </div>
       </section>
 
-      <!-- CONTACTO -->
       <section class="form-section">
-        <h4 nz-typography>Contacto y Horarios</h4>
+        <h4 nz-typography>Información Adicional</h4>
         <nz-divider></nz-divider>
 
         <div class="form-grid">
-          <nz-form-item>
-            <nz-form-label nzRequired nzFor="contacto">Contacto</nz-form-label>
-            <nz-form-control nzErrorTip="Ingrese el contacto">
-              <input nz-input formControlName="contacto" id="contacto" />
-            </nz-form-control>
-          </nz-form-item>
-
           <nz-form-item>
             <nz-form-label nzFor="horarios">Horarios</nz-form-label>
             <nz-form-control>
@@ -132,7 +93,6 @@
         </div>
       </section>
 
-      <!-- RESUMEN -->
       <section class="form-section resumen">
         <h4 nz-typography>Resumen del Pedido</h4>
         <nz-divider></nz-divider>
