@@ -5,10 +5,20 @@ import { Observable } from 'rxjs';
 import {environment} from '../../../environments/environment';
 
 export interface OrderPayload {
-  customerInfo: any;   // Podés tiparlo mejor según tu form
+  customerInfo: {
+    customerCode: string;
+  };
+  deliveryAddress: {
+    calle?:       string;
+    numero?:      string;
+    piso?:        string;
+    timbre?:      string;
+    entreCalles?: string;
+    localidad?:   string;
+    partido?:     string;
+  };
   cartItems: any[];
-  total: number;
-  totalItems: number;
+  extraCharge?: number;
 }
 
 export interface OrderResponse {
@@ -30,12 +40,17 @@ export class OrderService {
   /**
    * Construye el payload completo del pedido desde el formulario
    */
-  buildOrderPayload(customerInfo: any): OrderPayload {
+  buildOrderPayload(formValue: any): OrderPayload {
+    const { direccion, customerCode } = formValue;
+    const cartItems = this.cartService.items().map(item => ({
+      productCartItem: { product_id: String(item.productCartItem.product_id) },
+      qty: item.qty,
+      priceAtPurchase: item.productCartItem.final_price ?? 0
+    }));
     return {
-      customerInfo,
-      cartItems: this.cartService.items(),
-      total: this.cartService.total(),
-      totalItems: this.cartService.count()
+      customerInfo:    { customerCode },
+      deliveryAddress: direccion ?? {},
+      cartItems
     };
   }
 

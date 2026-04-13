@@ -9,37 +9,9 @@
 
         <div class="form-grid">
           <nz-form-item>
-            <nz-form-label nzRequired nzFor="cliente">Cliente</nz-form-label>
-            <nz-form-control nzErrorTip="Ingrese el nombre del cliente">
-              <input nz-input formControlName="cliente" id="cliente" />
-            </nz-form-control>
-          </nz-form-item>
-
-          <nz-form-item>
-            <nz-form-label nzFor="razonSocial">Razón Social</nz-form-label>
-            <nz-form-control>
-              <input nz-input formControlName="razonSocial" id="razonSocial" />
-            </nz-form-control>
-          </nz-form-item>
-
-          <nz-form-item>
-            <nz-form-label nzFor="cuit">CUIT</nz-form-label>
-            <nz-form-control>
-              <input nz-input formControlName="cuit" id="cuit" placeholder="20-12345678-9" />
-            </nz-form-control>
-          </nz-form-item>
-
-          <nz-form-item>
-            <nz-form-label nzFor="telefono1">Teléfono</nz-form-label>
-            <nz-form-control>
-              <input nz-input formControlName="telefono1" id="telefono1" placeholder="+54..." />
-            </nz-form-control>
-          </nz-form-item>
-
-          <nz-form-item>
-            <nz-form-label nzRequired   nzFor="email">Email</nz-form-label>
-            <nz-form-control>
-              <input nz-input formControlName="email" id="email" type="email" placeholder="ejemplo@mail.com" />
+            <nz-form-label nzRequired nzFor="customerCode">Código de Cliente</nz-form-label>
+            <nz-form-control nzErrorTip="Ingresá tu código de cliente (6 caracteres)">
+              <input nz-input formControlName="customerCode" id="customerCode" placeholder="Ej: FE78X3" maxlength="6" />
             </nz-form-control>
           </nz-form-item>
         </div>
@@ -109,13 +81,6 @@
         <nz-divider></nz-divider>
 
         <div class="form-grid">
-          <nz-form-item>
-            <nz-form-label nzRequired nzFor="contacto">Contacto</nz-form-label>
-            <nz-form-control nzErrorTip="Ingrese el contacto">
-              <input nz-input formControlName="contacto" id="contacto" />
-            </nz-form-control>
-          </nz-form-item>
-
           <nz-form-item>
             <nz-form-label nzFor="horarios">Horarios</nz-form-label>
             <nz-form-control>
