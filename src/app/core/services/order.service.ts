@@ -8,14 +8,19 @@ export interface OrderPayload {
   customerInfo: {
     customerCode: string;
   };
-  deliveryAddress: {
-    calle?:       string;
-    numero?:      string;
-    piso?:        string;
-    timbre?:      string;
-    entreCalles?: string;
-    localidad?:   string;
-    partido?:     string;
+  delivery: {
+    address: {
+      calle?:       string;
+      numero?:      string;
+      piso?:        string;
+      timbre?:      string;
+      entreCalles?: string;
+      localidad?:   string;
+      partido?:     string;
+    };
+    contactName?: string;
+    contactPhone?: string;
+    schedule?: string;
   };
   cartItems:    any[];
   extraCharge?: number;
@@ -39,14 +44,23 @@ export class OrderService {
 
   /** Construye el payload completo del pedido desde el formulario */
   buildOrderPayload(formValue: any): OrderPayload {
-    const { direccion, customerCode } = formValue;
+    const { direccion, customerCode, horarios } = formValue;
+
     return {
-      customerInfo:    { customerCode },
-      deliveryAddress: direccion ?? {},
+      customerInfo: { customerCode },
+
+      // ✅ NUEVO FORMATO
+      delivery: {
+        address: direccion ?? {},
+        contactName: '',        // por ahora vacío (backend usa fallback del cliente)
+        contactPhone: '',       // idem
+        schedule: horarios || ''
+      },
+
       cartItems: this.cartService.items().map(item => ({
-        productCartItem:  { product_id: item.productCartItem?.product_id },
-        qty:              item.qty,
-        priceAtPurchase:  item.productCartItem?.final_price ?? 0
+        productCartItem: { product_id: item.productCartItem?.product_id },
+        qty: item.qty,
+        priceAtPurchase: item.productCartItem?.final_price ?? 0
       }))
     };
   }
