@@ -8,6 +8,7 @@ export interface OrderPayload {
   customerInfo: {
     customerCode: string;
   };
+  customerNote: string;
   delivery: {
     address: {
       calle?:       string;
@@ -18,11 +19,9 @@ export interface OrderPayload {
       localidad?:   string;
       partido?:     string;
     };
-    contactName?: string;
-    contactPhone?: string;
     schedule?: string;
   };
-  cartItems:    any[];
+  cartItems: OrderCartItem[];
   extraCharge?: number;
 }
 
@@ -30,6 +29,19 @@ export interface OrderResponse {
   orderId: string;
   status: string;
   message: string;
+}
+
+interface OrderCartItem {
+  productCartItem: { product_id: string };
+  qty: number;
+  priceAtPurchase: number;
+}
+
+interface OrderFormValue {
+  customerCode?: string;
+  direccion?: OrderPayload['delivery']['address'];
+  horarios?: string;
+  notas?: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -43,26 +55,39 @@ export class OrderService {
   constructor() {}
 
   /** Construye el payload completo del pedido desde el formulario */
-  buildOrderPayload(formValue: any): OrderPayload {
-    const { direccion, customerCode, horarios } = formValue;
+  buildOrderPayload(formValue: OrderFormValue): OrderPayload {
+    const { direccion, customerCode, horarios, notas } = formValue;
 
     return {
-      customerInfo: { customerCode },
+      customerInfo: { customerCode: this.normalizeText(customerCode).toUpperCase() },
+      customerNote: this.normalizeText(notas),
 
-      // ✅ NUEVO FORMATO
       delivery: {
-        address: direccion ?? {},
-        contactName: '',        // por ahora vacío (backend usa fallback del cliente)
-        contactPhone: '',       // idem
-        schedule: horarios || ''
+        address: this.compactAddress(direccion),
+        schedule: this.normalizeText(horarios)
       },
 
       cartItems: this.cartService.items().map(item => ({
-        productCartItem: { product_id: item.productCartItem?.product_id },
+        productCartItem: { product_id: item.productCartItem.product_id },
         qty: item.qty,
-        priceAtPurchase: item.productCartItem?.final_price ?? 0
+        priceAtPurchase: item.productCartItem.final_price ?? 0
       }))
     };
+  }
+
+  private compactAddress(address: OrderFormValue['direccion'] = {}): OrderPayload['delivery']['address'] {
+    return Object.entries(address).reduce<OrderPayload['delivery']['address']>((acc, [key, value]) => {
+      const normalizedValue = this.normalizeText(value);
+      if (normalizedValue) {
+        acc[key as keyof OrderPayload['delivery']['address']] = normalizedValue;
+      }
+
+      return acc;
+    }, {});
+  }
+
+  private normalizeText(value: unknown): string {
+    return typeof value === 'string' ? value.trim() : '';
   }
 
   /**
