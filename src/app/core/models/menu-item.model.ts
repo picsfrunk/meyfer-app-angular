@@ -4,5 +4,5 @@ export interface MenuItem {
   link?: string;
   children?: MenuItem[];
   disabled?: boolean;
-  subMenuType?: 'categories' | 'default';
+  subMenuType?: 'brands' | 'categories' | 'default';
 }

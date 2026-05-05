@@ -1,20 +1,25 @@
-import {Component, OnInit, inject, signal, effect, ViewChild, OnDestroy} from '@angular/core';
-import {CommonModule, NgOptimizedImage, ViewportScroller} from '@angular/common';
+import {Component, OnInit, inject, signal, ViewChild, OnDestroy} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import {debounceTime, distinctUntilChanged, Subject, takeUntil} from 'rxjs';
+
+// Importaciones de Ng Zorro
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzSpinComponent } from 'ng-zorro-antd/spin';
-import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzMessageService } from 'ng-zorro-antd/message'; // Servicio de mensajes/toast
+
+// Modelos y Servicios
 import { ProductsService } from '../../core/services/products.service';
 import { CartService } from '../../core/services/cart.service';
 import { Product } from '../../core/models/product.model';
-import { ActivatedRoute, Router } from '@angular/router';
-import {ProductInfo} from '../../core/components/product/product-info';
-import {NzImageDirective} from 'ng-zorro-antd/image';
-import {debounceTime, distinctUntilChanged, Subject, takeUntil} from 'rxjs';
+import { ProductInfo } from '../../core/components/product/product-info';
+import { ProductCardComponent } from '../../shared/product-card';
+
 
 @Component({
   selector: 'app-product-list',
@@ -29,7 +34,7 @@ import {debounceTime, distinctUntilChanged, Subject, takeUntil} from 'rxjs';
     NzCardModule,
     NzSpinComponent,
     ProductInfo,
-    NzImageDirective,
+    ProductCardComponent,
   ],
   templateUrl: './products.html',
   styleUrls: ['./products.scss']
@@ -48,44 +53,76 @@ export class Products implements OnInit, OnDestroy {
   isLoading = this.productsService.isLoadingMany;
 
   private readonly DEBOUNCE_SEARCH_TIME = 1000 ;
+
+  // Estado UI
   searchTerm = signal('');
-  private searchTerms = new Subject<string>();
-  private readonly destroy$ = new Subject<void>();
+  brandFilter = signal<string | null>(null);
   page = signal(1);
   limit = signal(12);
+
+  // Mecanismo Reactivo
+  private searchTerms = new Subject<string>();
+
+  // Destructor
+  private readonly destroy$ = new Subject<void>();
 
   total = 0;
   private quantities = new Map<number, number>();
 
 
-  ngOnInit(): void {
-    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(params => {
-      this.page.set(params['page'] ? +params['page'] : 1);
-      this.searchTerm.set(params['search'] || '');
-
-      this.loadProducts(this.page(), this.searchTerm());
-    });
-
-    this.searchTerms.pipe(
-      debounceTime(this.DEBOUNCE_SEARCH_TIME),
-      distinctUntilChanged(),
-      takeUntil(this.destroy$)
-    ).subscribe(term => {
-      this.router.navigate([], {
-        relativeTo: this.route,
-        queryParams: { search: term || null, page: 1 },
-        queryParamsHandling: 'merge'
+  constructor() {
+    // 1. CONEXIÓN DE BÚSQUEDA (Manejo de Debounce y Navegación)
+    this.searchTerms
+      .pipe(
+        debounceTime(this.DEBOUNCE_SEARCH_TIME),
+        distinctUntilChanged(),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(term => {
+        this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: { search: term || null, page: 1 },
+          queryParamsHandling: 'merge'
+        });
       });
+  }
+
+
+  ngOnInit(): void {
+    // 2. CONEXIÓN DE URL (Manejo de Query Params y Carga de Datos)
+    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(params => {
+      const pageParam = params['page'] ? +params['page'] : 1;
+      const searchParam = params['search'] || '';
+      const categoryIdParam = params['category_id'] !== undefined && params['category_id'] !== null
+        ? Number(params['category_id'])
+        : null;
+      const brandParam = params['brand'] || null;
+
+      // Sincronizar Signals desde la URL (Source of Truth)
+      this.page.set(pageParam);
+      this.searchTerm.set(searchParam);
+      this.brandFilter.set(brandParam);
+
+      // Sincronizar Categoría
+      const category = {
+        category_id: categoryIdParam !== null ? categoryIdParam : 0,
+        category_name: categoryIdParam === 0 ? 'Todos' : '',
+        product_count: 0
+      };
+      this.productsService.selectedCategory.set(category);
+
+      // Cargar productos con los parámetros de la URL
+      this.loadProducts(this.page(), this.searchTerm(), category.category_id, this.brandFilter());
     });
   }
+
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
 
-  onSearchInput(event: Event): void {
-    const value = (event.target as HTMLInputElement).value;
+  onSearchInput(value: string): void {
     this.searchTerms.next(value);
   }
 
@@ -94,11 +131,11 @@ export class Products implements OnInit, OnDestroy {
       relativeTo: this.route,
       queryParams: { search: null, page: 1 },
       queryParamsHandling: 'merge'
-    });  }
+    });
+  }
 
-  loadProducts(page?: number, search?: string) {
-
-    this.productsService.getPaginatedProducts(page, this.limit(), search).subscribe({
+  loadProducts(page?: number, search?: string, categoryId?: number | null, brand?: string | null) {
+    this.productsService.getPaginatedProducts(page, this.limit(), search || '', categoryId, brand).subscribe({
       next: (res) => {
         this.listOfProducts = res.products;
         this.total = res.total;
@@ -106,7 +143,14 @@ export class Products implements OnInit, OnDestroy {
         this.displayProducts = this.listOfProducts;
       },
       error: (err) => {
+        // ✨ CORRECCIÓN: Mostrar toast de error de conexión
+        this.message.error('No se pudo conectar con el servidor para cargar los productos. Por favor, inténtelo más tarde.');
         console.error('Error loading products', err);
+
+        // Opcional: limpiar la lista de productos si la carga falla
+        this.listOfProducts = [];
+        this.displayProducts = [];
+        this.total = 0;
       }
     });
   }

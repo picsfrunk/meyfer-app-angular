@@ -2,7 +2,7 @@ export interface Product {
   _id: {
     $oid: string;
   };
-  product_id: number;
+  product_id: string;
   base_unit_name: string;
   brand: string;
   category_id: number;
@@ -11,6 +11,7 @@ export interface Product {
   image_url: string;
   final_price: number;
   product_type: string;
+  priceUpdatedAt: string;
 }
 
 

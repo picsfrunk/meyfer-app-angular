@@ -32,7 +32,7 @@ export class CartService {
     this._items.set(items);
   }
 
-  decrement(productId: number, qty = 1): void {
+  decrement(productId: string, qty = 1): void {
     const items = [...this._items()];
     const i = items.findIndex(ci => ci.productCartItem.product_id === productId);
     if (i >= 0) {
@@ -42,7 +42,7 @@ export class CartService {
     }
   }
 
-  remove(productId: number): void {
+  remove(productId: string): void {
     this._items.set(this._items().filter(ci => ci.productCartItem.product_id !== productId));
   }
 

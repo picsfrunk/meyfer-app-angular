@@ -1,10 +1,11 @@
-import {inject, Injectable, signal, WritableSignal} from '@angular/core';
-import {Observable, tap} from 'rxjs';
-import { finalize } from "rxjs/operators";
+import {computed, inject, Injectable, signal, WritableSignal} from '@angular/core';
+import { Observable } from 'rxjs';
+import {finalize, map} from 'rxjs/operators';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { PaginatedProducts, Product } from '../models/product.model';
-import {Category} from '../models/category.model';
+import { PaginatedProducts } from '../models/product.model';
+import {Category, CategoryResponse} from '../models/category.model';
+import {Brand, BrandsApiResponse} from '../models/brand.model';
 
 @Injectable({ providedIn: 'root' })
 export class ProductsService {
@@ -13,22 +14,94 @@ export class ProductsService {
 
   readonly isLoadingMany: WritableSignal<boolean> = signal(false);
   readonly selectedCategory: WritableSignal<Category | null> = signal(null);
+  readonly isLoading = signal<boolean>(false);
 
-  getPaginatedProducts(page: number = 1, limit: number = 20, search: string = ''): Observable<PaginatedProducts> {
+  readonly categories = signal<Category[]>([]);
+  readonly totalProducts = signal<number>(0);
+
+  readonly brandsObjects = signal<Brand[]>([]);
+  readonly isLoadingBrands = signal<boolean>(false);
+
+  readonly brandsNames = computed(() => {
+    return this.brandsObjects()
+      .map(brand => brand.name)
+      .sort();
+  });
+
+  /**
+   * Obtiene productos paginados.
+   */
+  getPaginatedProducts(
+    page: number = 1,
+    limit: number = 20,
+    search: string = '',
+    categoryId?: number | null,
+    brand?: string | null
+  ): Observable<PaginatedProducts> {
     this.isLoadingMany.set(true);
 
-    let params = new HttpParams()
-      .set('page', page.toString() )
-      .set('limit', limit.toString() )
-      .set('search', search );
+    const catIdToUse =
+      typeof categoryId !== 'undefined'
+        ? categoryId
+        : this.selectedCategory() ? this.selectedCategory()!.category_id : null;
 
-    if ( this.selectedCategory() ) {
-      params = params.set('category_id', this.selectedCategory()!.category_id);
+    let params = new HttpParams()
+      .set('page', String(page))
+      .set('limit', String(limit));
+
+    if (search && search.trim() !== '') {
+      params = params.set('search', search.trim());
     }
 
-    return this.http.get<PaginatedProducts>(`${this.apiUrl}/products/scraped`, { params: params }).pipe(
-      finalize(() => this.isLoadingMany.set(false))
-    );
+    if (catIdToUse !== null && typeof catIdToUse !== 'undefined') {
+      params = params.set('category_id', String(catIdToUse));
+    }
+
+    if (brand && brand.trim() !== '') {
+      params = params.set('brand', brand.trim());
+    }
+
+    // console.log(params);
+    return this.http
+      .get<PaginatedProducts>(`${this.apiUrl}/products/scraped`, { params })
+      .pipe(finalize(() => this.isLoadingMany.set(false)));
   }
+
+  fetchCategories(): void {
+    this.isLoading.set(true);
+
+    this.http.get<CategoryResponse>(`${this.apiUrl}/categories`)
+      .pipe(
+        map(res => {
+          this.totalProducts.set(res.totalProducts);
+          return res.categories;
+        }),
+        finalize(() => this.isLoading.set(false))
+      )
+      .subscribe({
+        next: (categories) => this.categories.set(categories),
+        error: (err) => console.error('Error loading categories', err)
+      });
+  }
+
+  /**
+   * Obtiene la lista única de marcas (Brands) disponibles.
+   * Almacena los objetos Brand[] y deriva la lista de nombres.
+   */
+  fetchBrands(): void {
+    this.isLoadingBrands.set(true);
+
+    this.http.get<BrandsApiResponse>(`${this.apiUrl}/products/brands`)
+      .pipe(
+        finalize(() => this.isLoadingBrands.set(false))
+      )
+      .subscribe({
+        next: (brandObjects) => {
+          this.brandsObjects.set(brandObjects.data);
+        },
+        error: (err) => console.error('Error loading brands', err)
+      });
+  }
+
 
 }

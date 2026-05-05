@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CartService } from '../../core/services/cart.service';
@@ -7,12 +7,11 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Subscription } from 'rxjs';
 import { NzDividerComponent } from 'ng-zorro-antd/divider';
 import { NzCardComponent } from 'ng-zorro-antd/card';
 import { NzTagComponent } from 'ng-zorro-antd/tag';
 import { NzTypographyComponent } from 'ng-zorro-antd/typography';
-import {OrderService} from '../../core/services/order.service';
+import { OrderService } from '../../core/services/order.service';
 
 @Component({
   selector: 'app-order-confirm',
@@ -39,7 +38,6 @@ export class OrderConfirm {
   private messageService = inject(NzMessageService);
   private modalService = inject(NzModalService);
 
-
   orderForm!: FormGroup;
   isFormLoading = false;
 
@@ -51,14 +49,9 @@ export class OrderConfirm {
     this.checkCartStatus();
   }
 
-
   private initializeForm(): void {
     this.orderForm = this.fb.group({
-      cliente: ['', [Validators.required]],
-      razonSocial: [''],
-      cuit: [''],
-      telefono1: [''],
-      email: ['', [Validators.required]],
+      customerCode: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]],
       direccion: this.fb.group({
         calle: [''],
         numero: [''],
@@ -68,12 +61,10 @@ export class OrderConfirm {
         localidad: [''],
         partido: ['']
       }),
-      contacto: ['', [Validators.required]],
       horarios: [''],
       notas: ['']
     });
   }
-
 
   private checkCartStatus(): void {
     if (this.cartCount() === 0) {
@@ -85,16 +76,7 @@ export class OrderConfirm {
     if (this.orderForm.valid) {
       this.isFormLoading = true;
 
-      // const orderData = {
-      //   customerInfo: this.orderForm.value,
-      //   cartItems: this.cartService.items(),
-      //   total: this.cartTotal(),
-      //   totalItems: this.cartCount()
-      // };
-
       const payload = this.orderService.buildOrderPayload(this.orderForm.value);
-
-      this.isFormLoading = true;
 
       this.orderService.submitOrder(payload).subscribe({
         next: (res) => {
@@ -104,8 +86,15 @@ export class OrderConfirm {
           this.modalService.closeAll();
         },
         error: (err) => {
-          console.error('Error enviando pedido:', err);
-          this.messageService.error('Ocurrió un error al enviar el pedido.', err);
+          const code = err.error?.code;
+          if (code === 'CUSTOMER_NOT_FOUND' || code === 'MISSING_CUSTOMER_CODE') {
+            this.messageService.error(
+              'Código de cliente no válido. Verificá el código con tu proveedor.',
+              { nzDuration: 6000 }
+            );
+          } else {
+            this.messageService.error('Ocurrió un error al enviar el pedido. Intentá nuevamente.');
+          }
           this.isFormLoading = false;
         }
       });
@@ -125,3 +114,4 @@ export class OrderConfirm {
     }
   }
 }
+
